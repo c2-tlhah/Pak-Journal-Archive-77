@@ -1,0 +1,1001 @@
+[INFO] 2025-11-24 14:20:49,878 - ============================================================
+[INFO] 2025-11-24 14:20:49,878 - Initializing Transcript Generation Backend...
+[INFO] 2025-11-24 14:20:49,878 - Timestamp: 2025-11-24T14:20:49.878310
+[INFO] 2025-11-24 14:20:49,878 - ============================================================
+[INFO] 2025-11-24 14:20:49,878 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:20:49,878 - This may take a few moments on first run...
+[ERROR] 2025-11-24 14:20:49,878 - ✗ Failed to load Whisper model: module 'whisper' has no attribute 'load_model'
+[ERROR] 2025-11-24 14:20:49,878 - Failed to start backend: module 'whisper' has no attribute 'load_model'
+Traceback (most recent call last):
+  File "/home/tlha/Desktop/Pak News Journal Archive/backend/app.py", line 390, in <module>
+    initialize_model()
+  File "/home/tlha/Desktop/Pak News Journal Archive/backend/utils/transcriber.py", line 45, in initialize_model
+    raise e
+  File "/home/tlha/Desktop/Pak News Journal Archive/backend/utils/transcriber.py", line 30, in initialize_model
+    model = whisper.load_model(model_name)
+            ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'whisper' has no attribute 'load_model'
+[INFO] 2025-11-24 14:24:14,304 - ============================================================
+[INFO] 2025-11-24 14:24:14,304 - Initializing Transcript Generation Backend...
+[INFO] 2025-11-24 14:24:14,305 - Timestamp: 2025-11-24T14:24:14.305038
+[INFO] 2025-11-24 14:24:14,305 - ============================================================
+[INFO] 2025-11-24 14:24:14,305 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:24:14,305 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:24:42,865 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:24:42,865 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:24:42,866 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:24:42,866 - Backend ready to accept requests
+[INFO] 2025-11-24 14:24:42,866 - ============================================================
+[INFO] 2025-11-24 14:24:42,878 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.54.6.212:5000
+[INFO] 2025-11-24 14:24:42,878 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 14:24:42,879 -  * Restarting with stat
+[INFO] 2025-11-24 14:24:45,662 - ============================================================
+[INFO] 2025-11-24 14:24:45,662 - Initializing Transcript Generation Backend...
+[INFO] 2025-11-24 14:24:45,662 - Timestamp: 2025-11-24T14:24:45.662570
+[INFO] 2025-11-24 14:24:45,662 - ============================================================
+[INFO] 2025-11-24 14:24:45,662 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:24:45,662 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:24:46,456 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:24:46,456 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:24:46,456 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:24:46,456 - Backend ready to accept requests
+[INFO] 2025-11-24 14:24:46,456 - ============================================================
+[WARNING] 2025-11-24 14:24:46,463 -  * Debugger is active!
+[INFO] 2025-11-24 14:24:46,470 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:25:09,385 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] File uploaded: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4 (9.79 MB)
+[INFO] 2025-11-24 14:25:09,386 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Processing started for file: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4
+[INFO] 2025-11-24 14:25:09,386 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Transcription thread started
+[INFO] 2025-11-24 14:25:09,387 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] File size: 9.79 MB
+[INFO] 2025-11-24 14:25:09,389 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Starting audio processing pipeline...
+[INFO] 2025-11-24 14:25:09,389 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 14:25:09,389 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Starting transcription pipeline
+[INFO] 2025-11-24 14:25:09,389 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Input file: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4.mp4
+[INFO] 2025-11-24 14:25:09,389 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 14:25:09,390 - ============================================================
+[INFO] 2025-11-24 14:25:09,390 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 14:25:09,390 - Input: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4.mp4
+[INFO] 2025-11-24 14:25:09,390 - ============================================================
+[INFO] 2025-11-24 14:25:09,390 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 14:25:09,390 - Extracting audio from 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4.mp4...
+[INFO] 2025-11-24 14:25:09,397 - 127.0.0.1 - - [24/Nov/2025 14:25:09] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:10,296 - ✓ Audio extracted: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4_raw.wav
+[INFO] 2025-11-24 14:25:10,296 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 14:25:10,296 - Starting noise reduction for 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4_raw.wav...
+[INFO] 2025-11-24 14:25:10,311 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 14:25:10,354 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 14:25:11,610 - 127.0.0.1 - - [24/Nov/2025 14:25:11] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:13,412 - ✓ Noise reduction completed: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4_clean.wav
+[INFO] 2025-11-24 14:25:13,413 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 14:25:13,413 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 14:25:13,439 - ✓ Audio normalized: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4_final.wav
+[INFO] 2025-11-24 14:25:13,439 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 14:25:13,441 - ============================================================
+[INFO] 2025-11-24 14:25:13,442 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 14:25:13,442 - Duration: 158.8s
+[INFO] 2025-11-24 14:25:13,442 - Output: 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4_final.wav
+[INFO] 2025-11-24 14:25:13,442 - ============================================================
+[INFO] 2025-11-24 14:25:13,442 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 14:25:13,442 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4]   Duration: 158.8s
+[INFO] 2025-11-24 14:25:13,443 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4]   Sample rate: 16000Hz
+[INFO] 2025-11-24 14:25:13,443 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4]   Noise reduction: True
+[INFO] 2025-11-24 14:25:13,443 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Phase 2: Whisper transcription
+[INFO] 2025-11-24 14:25:13,443 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Language: Urdu (ur)
+[INFO] 2025-11-24 14:25:13,443 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Model: tiny
+[INFO] 2025-11-24 14:25:13,512 - 127.0.0.1 - - [24/Nov/2025 14:25:13] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:15,532 - 127.0.0.1 - - [24/Nov/2025 14:25:15] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:17,519 - 127.0.0.1 - - [24/Nov/2025 14:25:17] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:19,523 - 127.0.0.1 - - [24/Nov/2025 14:25:19] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:21,518 - 127.0.0.1 - - [24/Nov/2025 14:25:21] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:23,553 - 127.0.0.1 - - [24/Nov/2025 14:25:23] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:25,596 - 127.0.0.1 - - [24/Nov/2025 14:25:25] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:27,519 - 127.0.0.1 - - [24/Nov/2025 14:25:27] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:29,514 - 127.0.0.1 - - [24/Nov/2025 14:25:29] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:31,514 - 127.0.0.1 - - [24/Nov/2025 14:25:31] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:33,562 - 127.0.0.1 - - [24/Nov/2025 14:25:33] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:35,514 - 127.0.0.1 - - [24/Nov/2025 14:25:35] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:37,515 - 127.0.0.1 - - [24/Nov/2025 14:25:37] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:39,614 - 127.0.0.1 - - [24/Nov/2025 14:25:39] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] ✓ Transcription completed successfully
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Detected language: ur
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Text length: 2366 characters
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Number of segments: 16
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Transcription completed, processing results...
+[INFO] 2025-11-24 14:25:39,898 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Processing completed successfully in 30.51s
+[INFO] 2025-11-24 14:25:39,899 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Transcript length: 2366 characters
+[INFO] 2025-11-24 14:25:39,901 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Cleaned up uploaded file: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4
+[INFO] 2025-11-24 14:25:39,906 - [Job 55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4] Cleaned up processed audio directory
+[INFO] 2025-11-24 14:25:41,508 - 127.0.0.1 - - [24/Nov/2025 14:25:41] "GET /api/status/55c7c6ce-eb05-494f-bb17-dd9b5cf78cf4 HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:24,450 - ============================================================
+[INFO] 2025-11-24 14:26:24,450 - Initializing Transcript Generation Backend...
+[INFO] 2025-11-24 14:26:24,451 - Timestamp: 2025-11-24T14:26:24.450989
+[INFO] 2025-11-24 14:26:24,451 - ============================================================
+[INFO] 2025-11-24 14:26:24,451 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:26:24,451 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:26:25,265 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:26:25,265 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:26:25,265 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:26:25,265 - Backend ready to accept requests
+[INFO] 2025-11-24 14:26:25,265 - ============================================================
+[INFO] 2025-11-24 14:26:25,277 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.54.6.212:5000
+[INFO] 2025-11-24 14:26:25,277 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 14:26:25,278 -  * Restarting with stat
+[INFO] 2025-11-24 14:26:27,811 - ============================================================
+[INFO] 2025-11-24 14:26:27,811 - Initializing Transcript Generation Backend...
+[INFO] 2025-11-24 14:26:27,811 - Timestamp: 2025-11-24T14:26:27.811492
+[INFO] 2025-11-24 14:26:27,811 - ============================================================
+[INFO] 2025-11-24 14:26:27,811 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:26:27,811 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:26:28,860 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:26:28,860 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:26:28,860 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:26:28,860 - Backend ready to accept requests
+[INFO] 2025-11-24 14:26:28,860 - ============================================================
+[WARNING] 2025-11-24 14:26:28,870 -  * Debugger is active!
+[INFO] 2025-11-24 14:26:28,873 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:26:44,087 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] File uploaded: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4 (9.79 MB)
+[INFO] 2025-11-24 14:26:44,087 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Processing started for file: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4
+[INFO] 2025-11-24 14:26:44,088 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Transcription thread started
+[INFO] 2025-11-24 14:26:44,088 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] File size: 9.79 MB
+[INFO] 2025-11-24 14:26:44,089 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Starting audio processing pipeline...
+[INFO] 2025-11-24 14:26:44,089 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 14:26:44,089 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Starting transcription pipeline
+[INFO] 2025-11-24 14:26:44,089 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Input file: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c.mp4
+[INFO] 2025-11-24 14:26:44,089 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 14:26:44,090 - ============================================================
+[INFO] 2025-11-24 14:26:44,090 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 14:26:44,090 - Input: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c.mp4
+[INFO] 2025-11-24 14:26:44,090 - ============================================================
+[INFO] 2025-11-24 14:26:44,090 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 14:26:44,090 - Extracting audio from 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c.mp4...
+[INFO] 2025-11-24 14:26:44,093 - 127.0.0.1 - - [24/Nov/2025 14:26:44] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:45,227 - ✓ Audio extracted: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c_raw.wav
+[INFO] 2025-11-24 14:26:45,227 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 14:26:45,227 - Starting noise reduction for 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c_raw.wav...
+[INFO] 2025-11-24 14:26:45,237 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 14:26:45,275 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 14:26:46,167 - 127.0.0.1 - - [24/Nov/2025 14:26:46] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:47,527 - ✓ Noise reduction completed: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c_clean.wav
+[INFO] 2025-11-24 14:26:47,527 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 14:26:47,527 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 14:26:47,552 - ✓ Audio normalized: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c_final.wav
+[INFO] 2025-11-24 14:26:47,552 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 14:26:47,554 - ============================================================
+[INFO] 2025-11-24 14:26:47,554 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 14:26:47,554 - Duration: 158.8s
+[INFO] 2025-11-24 14:26:47,554 - Output: 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c_final.wav
+[INFO] 2025-11-24 14:26:47,554 - ============================================================
+[INFO] 2025-11-24 14:26:47,554 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 14:26:47,554 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c]   Duration: 158.8s
+[INFO] 2025-11-24 14:26:47,555 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c]   Sample rate: 16000Hz
+[INFO] 2025-11-24 14:26:47,555 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c]   Noise reduction: True
+[INFO] 2025-11-24 14:26:47,555 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Phase 2: Whisper transcription
+[INFO] 2025-11-24 14:26:47,555 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Language: Urdu (ur)
+[INFO] 2025-11-24 14:26:47,555 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Model: tiny
+[INFO] 2025-11-24 14:26:48,179 - 127.0.0.1 - - [24/Nov/2025 14:26:48] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:50,167 - 127.0.0.1 - - [24/Nov/2025 14:26:50] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:52,160 - 127.0.0.1 - - [24/Nov/2025 14:26:52] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:54,161 - 127.0.0.1 - - [24/Nov/2025 14:26:54] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:56,190 - 127.0.0.1 - - [24/Nov/2025 14:26:56] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:26:58,174 - 127.0.0.1 - - [24/Nov/2025 14:26:58] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:00,313 - 127.0.0.1 - - [24/Nov/2025 14:27:00] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:02,161 - 127.0.0.1 - - [24/Nov/2025 14:27:02] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:04,164 - 127.0.0.1 - - [24/Nov/2025 14:27:04] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:06,154 - 127.0.0.1 - - [24/Nov/2025 14:27:06] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:08,157 - 127.0.0.1 - - [24/Nov/2025 14:27:08] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:10,164 - 127.0.0.1 - - [24/Nov/2025 14:27:10] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:12,157 - 127.0.0.1 - - [24/Nov/2025 14:27:12] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:27:12,240 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] ✓ Transcription completed successfully
+[INFO] 2025-11-24 14:27:12,240 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Detected language: ur
+[INFO] 2025-11-24 14:27:12,241 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Text length: 2366 characters
+[INFO] 2025-11-24 14:27:12,241 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Number of segments: 16
+[INFO] 2025-11-24 14:27:12,241 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Transcription completed, processing results...
+[INFO] 2025-11-24 14:27:12,241 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Processing completed successfully in 28.15s
+[INFO] 2025-11-24 14:27:12,242 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Transcript length: 2366 characters
+[INFO] 2025-11-24 14:27:12,245 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Cleaned up uploaded file: Viral Images of PAF and IAF Officers at Dubai Airshow Spark Debate - BBC URDU.mp4
+[INFO] 2025-11-24 14:27:12,252 - [Job 399b1e8f-1708-4d51-bc82-07bfc7f8ac9c] Cleaned up processed audio directory
+[INFO] 2025-11-24 14:27:14,160 - 127.0.0.1 - - [24/Nov/2025 14:27:14] "GET /api/status/399b1e8f-1708-4d51-bc82-07bfc7f8ac9c HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:53:08,070 - ============================================================
+[INFO] 2025-11-24 14:53:08,070 - Initializing Backend Services...
+[INFO] 2025-11-24 14:53:08,070 - Timestamp: 2025-11-24T14:53:08.070784
+[INFO] 2025-11-24 14:53:08,070 - ============================================================
+[INFO] 2025-11-24 14:53:08,071 - Initializing database connection pool...
+[INFO] 2025-11-24 14:53:08,094 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:53:08,095 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:53:08,095 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:53:08,095 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:53:08,095 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:53:08,972 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:53:08,973 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:53:08,973 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:53:08,973 - Backend ready to accept requests
+[INFO] 2025-11-24 14:53:08,973 - ============================================================
+[INFO] 2025-11-24 14:53:08,980 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 14:53:08,980 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 14:53:08,981 -  * Restarting with stat
+[INFO] 2025-11-24 14:53:11,566 - ============================================================
+[INFO] 2025-11-24 14:53:11,566 - Initializing Backend Services...
+[INFO] 2025-11-24 14:53:11,566 - Timestamp: 2025-11-24T14:53:11.566491
+[INFO] 2025-11-24 14:53:11,566 - ============================================================
+[INFO] 2025-11-24 14:53:11,566 - Initializing database connection pool...
+[INFO] 2025-11-24 14:53:11,582 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:53:11,583 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:53:11,583 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:53:11,583 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:53:11,583 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:53:12,421 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:53:12,421 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:53:12,421 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:53:12,421 - Backend ready to accept requests
+[INFO] 2025-11-24 14:53:12,421 - ============================================================
+[WARNING] 2025-11-24 14:53:12,425 -  * Debugger is active!
+[INFO] 2025-11-24 14:53:12,428 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:53:42,761 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:53:43,009 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:54:02,344 - ============================================================
+[INFO] 2025-11-24 14:54:02,344 - Initializing Backend Services...
+[INFO] 2025-11-24 14:54:02,344 - Timestamp: 2025-11-24T14:54:02.344496
+[INFO] 2025-11-24 14:54:02,344 - ============================================================
+[INFO] 2025-11-24 14:54:02,344 - Initializing database connection pool...
+[INFO] 2025-11-24 14:54:02,362 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:54:02,363 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:54:02,363 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:54:02,364 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:54:02,364 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:54:03,299 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:54:03,299 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:54:03,299 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:54:03,299 - Backend ready to accept requests
+[INFO] 2025-11-24 14:54:03,299 - ============================================================
+[INFO] 2025-11-24 14:54:03,307 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 14:54:03,307 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 14:54:03,307 -  * Restarting with stat
+[INFO] 2025-11-24 14:54:06,230 - ============================================================
+[INFO] 2025-11-24 14:54:06,230 - Initializing Backend Services...
+[INFO] 2025-11-24 14:54:06,230 - Timestamp: 2025-11-24T14:54:06.230662
+[INFO] 2025-11-24 14:54:06,230 - ============================================================
+[INFO] 2025-11-24 14:54:06,230 - Initializing database connection pool...
+[INFO] 2025-11-24 14:54:06,248 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:54:06,249 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:54:06,249 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:54:06,250 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:54:06,250 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:54:07,176 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:54:07,176 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:54:07,176 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:54:07,176 - Backend ready to accept requests
+[INFO] 2025-11-24 14:54:07,176 - ============================================================
+[WARNING] 2025-11-24 14:54:07,180 -  * Debugger is active!
+[INFO] 2025-11-24 14:54:07,183 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:54:30,009 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:54:30,258 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:54:34,899 - ============================================================
+[INFO] 2025-11-24 14:54:34,899 - Initializing Backend Services...
+[INFO] 2025-11-24 14:54:34,899 - Timestamp: 2025-11-24T14:54:34.899966
+[INFO] 2025-11-24 14:54:34,900 - ============================================================
+[INFO] 2025-11-24 14:54:34,900 - Initializing database connection pool...
+[INFO] 2025-11-24 14:54:34,916 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:54:34,917 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:54:34,917 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:54:34,917 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:54:34,918 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:54:35,826 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:54:35,826 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:54:35,826 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:54:35,826 - Backend ready to accept requests
+[INFO] 2025-11-24 14:54:35,827 - ============================================================
+[INFO] 2025-11-24 14:54:35,833 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 14:54:35,833 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 14:54:35,834 -  * Restarting with stat
+[INFO] 2025-11-24 14:54:38,388 - ============================================================
+[INFO] 2025-11-24 14:54:38,389 - Initializing Backend Services...
+[INFO] 2025-11-24 14:54:38,389 - Timestamp: 2025-11-24T14:54:38.389223
+[INFO] 2025-11-24 14:54:38,389 - ============================================================
+[INFO] 2025-11-24 14:54:38,389 - Initializing database connection pool...
+[INFO] 2025-11-24 14:54:38,409 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:54:38,409 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:54:38,410 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:54:38,410 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:54:38,410 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:54:39,256 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:54:39,256 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:54:39,256 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:54:39,257 - Backend ready to accept requests
+[INFO] 2025-11-24 14:54:39,257 - ============================================================
+[WARNING] 2025-11-24 14:54:39,262 -  * Debugger is active!
+[INFO] 2025-11-24 14:54:39,264 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:54:52,558 - ✓ User created: testuser (test@example.com)
+[INFO] 2025-11-24 14:54:52,562 - ✓ New user registered: testuser (test@example.com)
+[INFO] 2025-11-24 14:54:52,563 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "[35m[1mPOST /api/auth/signup HTTP/1.1[0m" 201 -
+[INFO] 2025-11-24 14:54:52,566 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "[31m[1mPOST /api/auth/signup HTTP/1.1[0m" 409 -
+[WARNING] 2025-11-24 14:54:52,840 - ✗ Authentication failed: Invalid password (test@example.com)
+[INFO] 2025-11-24 14:54:52,841 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+[INFO] 2025-11-24 14:54:52,844 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "GET /api/auth/verify HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:54:52,848 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "GET /api/auth/me HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:54:52,851 - 127.0.0.1 - - [24/Nov/2025 14:54:52] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+[WARNING] 2025-11-24 14:54:53,143 - ✗ Authentication failed: Invalid password (admin@pakjournal77.com)
+[INFO] 2025-11-24 14:54:53,143 - 127.0.0.1 - - [24/Nov/2025 14:54:53] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+[INFO] 2025-11-24 14:55:32,730 - ✓ Updated last login for user: cf5f8864-c38c-49d7-a6f7-c42dd9a03040
+[INFO] 2025-11-24 14:55:32,734 - ✓ User authenticated: admin@pakjournal77.com
+[INFO] 2025-11-24 14:55:32,734 - ✓ User logged in: admin@pakjournal77.com
+[INFO] 2025-11-24 14:55:32,735 - 127.0.0.1 - - [24/Nov/2025 14:55:32] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:55:57,422 - ✓ User created: editor1 (editor@pakjournal.com)
+[INFO] 2025-11-24 14:55:57,426 - ✓ New user registered: editor1 (editor@pakjournal.com)
+[INFO] 2025-11-24 14:55:57,426 - 127.0.0.1 - - [24/Nov/2025 14:55:57] "[35m[1mPOST /api/auth/signup HTTP/1.1[0m" 201 -
+[INFO] 2025-11-24 14:55:57,714 - ✓ Updated last login for user: 86dc911d-49f0-477e-98c6-7a3487925dad
+[INFO] 2025-11-24 14:55:57,718 - ✓ User authenticated: editor@pakjournal.com
+[INFO] 2025-11-24 14:55:57,718 - ✓ User logged in: editor@pakjournal.com
+[INFO] 2025-11-24 14:55:57,718 - 127.0.0.1 - - [24/Nov/2025 14:55:57] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:55:57,998 - ✓ Updated last login for user: cf5f8864-c38c-49d7-a6f7-c42dd9a03040
+[INFO] 2025-11-24 14:55:58,002 - ✓ User authenticated: admin@pakjournal77.com
+[INFO] 2025-11-24 14:55:58,002 - ✓ User logged in: admin@pakjournal77.com
+[INFO] 2025-11-24 14:55:58,002 - 127.0.0.1 - - [24/Nov/2025 14:55:58] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:55:58,006 - 127.0.0.1 - - [24/Nov/2025 14:55:58] "GET /api/auth/me HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:55:58,011 - 127.0.0.1 - - [24/Nov/2025 14:55:58] "GET /api/auth/verify HTTP/1.1" 200 -
+[WARNING] 2025-11-24 14:55:58,336 - ✗ Authentication failed: Invalid password (admin@pakjournal77.com)
+[INFO] 2025-11-24 14:55:58,336 - 127.0.0.1 - - [24/Nov/2025 14:55:58] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+[INFO] 2025-11-24 14:55:58,338 - 127.0.0.1 - - [24/Nov/2025 14:55:58] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+[INFO] 2025-11-24 14:57:37,609 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/database/video_models.py', reloading
+[INFO] 2025-11-24 14:57:37,611 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:57:38,155 -  * Restarting with stat
+[INFO] 2025-11-24 14:57:40,823 - ============================================================
+[INFO] 2025-11-24 14:57:40,823 - Initializing Backend Services...
+[INFO] 2025-11-24 14:57:40,823 - Timestamp: 2025-11-24T14:57:40.823794
+[INFO] 2025-11-24 14:57:40,823 - ============================================================
+[INFO] 2025-11-24 14:57:40,824 - Initializing database connection pool...
+[INFO] 2025-11-24 14:57:40,841 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:57:40,842 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:57:40,843 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:57:40,843 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:57:40,843 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:57:41,702 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:57:41,702 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:57:41,703 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:57:41,703 - Backend ready to accept requests
+[INFO] 2025-11-24 14:57:41,703 - ============================================================
+[WARNING] 2025-11-24 14:57:41,710 -  * Debugger is active!
+[INFO] 2025-11-24 14:57:41,713 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:58:11,960 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/tests/test_video_db.py', reloading
+[INFO] 2025-11-24 14:58:11,963 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:58:12,478 -  * Restarting with stat
+[INFO] 2025-11-24 14:58:15,343 - ============================================================
+[INFO] 2025-11-24 14:58:15,343 - Initializing Backend Services...
+[INFO] 2025-11-24 14:58:15,343 - Timestamp: 2025-11-24T14:58:15.343580
+[INFO] 2025-11-24 14:58:15,343 - ============================================================
+[INFO] 2025-11-24 14:58:15,343 - Initializing database connection pool...
+[INFO] 2025-11-24 14:58:15,361 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:58:15,362 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:58:15,362 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:58:15,363 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:58:15,363 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:58:16,241 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:58:16,242 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:58:16,242 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:58:16,242 - Backend ready to accept requests
+[INFO] 2025-11-24 14:58:16,242 - ============================================================
+[WARNING] 2025-11-24 14:58:16,247 -  * Debugger is active!
+[INFO] 2025-11-24 14:58:16,250 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:59:46,909 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/tests/test_complete_flow.py', reloading
+[INFO] 2025-11-24 14:59:46,910 - ✓ Database connection pool closed
+[INFO] 2025-11-24 14:59:47,544 -  * Restarting with stat
+[INFO] 2025-11-24 14:59:50,579 - ============================================================
+[INFO] 2025-11-24 14:59:50,579 - Initializing Backend Services...
+[INFO] 2025-11-24 14:59:50,579 - Timestamp: 2025-11-24T14:59:50.579414
+[INFO] 2025-11-24 14:59:50,579 - ============================================================
+[INFO] 2025-11-24 14:59:50,579 - Initializing database connection pool...
+[INFO] 2025-11-24 14:59:50,595 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 14:59:50,596 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 14:59:50,596 - ✓ Database connected successfully
+[INFO] 2025-11-24 14:59:50,596 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 14:59:50,596 - This may take a few moments on first run...
+[INFO] 2025-11-24 14:59:51,430 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 14:59:51,430 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 14:59:51,431 - Whisper model initialized successfully
+[INFO] 2025-11-24 14:59:51,431 - Backend ready to accept requests
+[INFO] 2025-11-24 14:59:51,431 - ============================================================
+[WARNING] 2025-11-24 14:59:51,434 -  * Debugger is active!
+[INFO] 2025-11-24 14:59:51,437 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 14:59:57,221 - ✓ Updated last login for user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 14:59:57,226 - ✓ User authenticated: test@example.com
+[INFO] 2025-11-24 14:59:57,227 - ✓ User logged in: test@example.com
+[INFO] 2025-11-24 14:59:57,228 - 127.0.0.1 - - [24/Nov/2025 14:59:57] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:59:57,301 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] File uploaded: video.mp4 (9.79 MB)
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Processing started for file: video.mp4
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Transcription thread started
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] File size: 9.79 MB
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Starting audio processing pipeline...
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 14:59:57,302 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Starting transcription pipeline
+[INFO] 2025-11-24 14:59:57,303 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Input file: fb9dff01-34be-4be3-a206-2a10c4c43db5.mp4
+[INFO] 2025-11-24 14:59:57,303 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 14:59:57,303 - ============================================================
+[INFO] 2025-11-24 14:59:57,303 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 14:59:57,303 - Input: fb9dff01-34be-4be3-a206-2a10c4c43db5.mp4
+[INFO] 2025-11-24 14:59:57,303 - ============================================================
+[INFO] 2025-11-24 14:59:57,303 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 14:59:57,303 - Extracting audio from fb9dff01-34be-4be3-a206-2a10c4c43db5.mp4...
+[INFO] 2025-11-24 14:59:57,304 - 127.0.0.1 - - [24/Nov/2025 14:59:57] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 14:59:57,962 - ✓ Audio extracted: fb9dff01-34be-4be3-a206-2a10c4c43db5_raw.wav
+[INFO] 2025-11-24 14:59:57,963 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 14:59:57,963 - Starting noise reduction for fb9dff01-34be-4be3-a206-2a10c4c43db5_raw.wav...
+[INFO] 2025-11-24 14:59:57,969 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 14:59:58,001 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 14:59:59,183 - ✓ Noise reduction completed: fb9dff01-34be-4be3-a206-2a10c4c43db5_clean.wav
+[INFO] 2025-11-24 14:59:59,183 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 14:59:59,183 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 14:59:59,204 - ✓ Audio normalized: fb9dff01-34be-4be3-a206-2a10c4c43db5_final.wav
+[INFO] 2025-11-24 14:59:59,204 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 14:59:59,205 - ============================================================
+[INFO] 2025-11-24 14:59:59,205 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 14:59:59,205 - Duration: 158.8s
+[INFO] 2025-11-24 14:59:59,205 - Output: fb9dff01-34be-4be3-a206-2a10c4c43db5_final.wav
+[INFO] 2025-11-24 14:59:59,205 - ============================================================
+[INFO] 2025-11-24 14:59:59,205 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5]   Duration: 158.8s
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5]   Sample rate: 16000Hz
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5]   Noise reduction: True
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Phase 2: Whisper transcription
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Language: Urdu (ur)
+[INFO] 2025-11-24 14:59:59,206 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Model: tiny
+[INFO] 2025-11-24 14:59:59,308 - 127.0.0.1 - - [24/Nov/2025 14:59:59] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:01,310 - 127.0.0.1 - - [24/Nov/2025 15:00:01] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:03,313 - 127.0.0.1 - - [24/Nov/2025 15:00:03] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:05,317 - 127.0.0.1 - - [24/Nov/2025 15:00:05] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:07,336 - 127.0.0.1 - - [24/Nov/2025 15:00:07] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:09,339 - 127.0.0.1 - - [24/Nov/2025 15:00:09] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:11,342 - 127.0.0.1 - - [24/Nov/2025 15:00:11] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:13,232 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] ✓ Transcription completed successfully
+[INFO] 2025-11-24 15:00:13,232 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Detected language: ur
+[INFO] 2025-11-24 15:00:13,233 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Text length: 2366 characters
+[INFO] 2025-11-24 15:00:13,233 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Number of segments: 16
+[INFO] 2025-11-24 15:00:13,233 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Transcription completed, processing results...
+[INFO] 2025-11-24 15:00:13,233 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Processing completed successfully in 15.93s
+[INFO] 2025-11-24 15:00:13,233 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Transcript length: 2366 characters
+[INFO] 2025-11-24 15:00:13,235 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Cleaned up uploaded file: video.mp4
+[INFO] 2025-11-24 15:00:13,239 - [Job fb9dff01-34be-4be3-a206-2a10c4c43db5] Cleaned up processed audio directory
+[INFO] 2025-11-24 15:00:13,346 - 127.0.0.1 - - [24/Nov/2025 15:00:13] "GET /api/status/fb9dff01-34be-4be3-a206-2a10c4c43db5 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:00:39,054 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/app.py', reloading
+[INFO] 2025-11-24 15:00:39,055 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:00:39,682 -  * Restarting with stat
+[INFO] 2025-11-24 15:00:42,807 - ============================================================
+[INFO] 2025-11-24 15:00:42,808 - Initializing Backend Services...
+[INFO] 2025-11-24 15:00:42,808 - Timestamp: 2025-11-24T15:00:42.808140
+[INFO] 2025-11-24 15:00:42,808 - ============================================================
+[INFO] 2025-11-24 15:00:42,808 - Initializing database connection pool...
+[INFO] 2025-11-24 15:00:42,824 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:00:42,825 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:00:42,825 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:00:42,825 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:00:42,825 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:00:43,854 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:00:43,854 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:00:43,854 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:00:43,854 - Backend ready to accept requests
+[INFO] 2025-11-24 15:00:43,854 - ============================================================
+[WARNING] 2025-11-24 15:00:43,858 -  * Debugger is active!
+[INFO] 2025-11-24 15:00:43,860 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:01:12,874 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/app.py', reloading
+[INFO] 2025-11-24 15:01:12,878 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:01:13,556 -  * Restarting with stat
+[INFO] 2025-11-24 15:01:16,582 - ============================================================
+[INFO] 2025-11-24 15:01:16,583 - Initializing Backend Services...
+[INFO] 2025-11-24 15:01:16,583 - Timestamp: 2025-11-24T15:01:16.583169
+[INFO] 2025-11-24 15:01:16,583 - ============================================================
+[INFO] 2025-11-24 15:01:16,583 - Initializing database connection pool...
+[INFO] 2025-11-24 15:01:16,604 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:01:16,605 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:01:16,605 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:01:16,605 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:01:16,605 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:01:17,596 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:01:17,596 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:01:17,596 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:01:17,596 - Backend ready to accept requests
+[INFO] 2025-11-24 15:01:17,596 - ============================================================
+[WARNING] 2025-11-24 15:01:17,603 -  * Debugger is active!
+[INFO] 2025-11-24 15:01:17,606 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:02:01,501 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/app.py', reloading
+[INFO] 2025-11-24 15:02:01,503 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:02:02,013 -  * Restarting with stat
+[INFO] 2025-11-24 15:02:04,737 - ============================================================
+[INFO] 2025-11-24 15:02:04,737 - Initializing Backend Services...
+[INFO] 2025-11-24 15:02:04,737 - Timestamp: 2025-11-24T15:02:04.737553
+[INFO] 2025-11-24 15:02:04,737 - ============================================================
+[INFO] 2025-11-24 15:02:04,737 - Initializing database connection pool...
+[INFO] 2025-11-24 15:02:04,754 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:02:04,755 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:02:04,755 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:02:04,755 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:02:04,755 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:02:05,589 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:02:05,589 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:02:05,590 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:02:05,590 - Backend ready to accept requests
+[INFO] 2025-11-24 15:02:05,590 - ============================================================
+[WARNING] 2025-11-24 15:02:05,593 -  * Debugger is active!
+[INFO] 2025-11-24 15:02:05,596 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:02:28,982 - ============================================================
+[INFO] 2025-11-24 15:02:28,983 - Initializing Backend Services...
+[INFO] 2025-11-24 15:02:28,983 - Timestamp: 2025-11-24T15:02:28.983215
+[INFO] 2025-11-24 15:02:28,983 - ============================================================
+[INFO] 2025-11-24 15:02:28,983 - Initializing database connection pool...
+[INFO] 2025-11-24 15:02:29,000 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:02:29,001 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:02:29,001 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:02:29,001 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:02:29,001 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:02:29,945 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:02:29,945 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:02:29,945 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:02:29,945 - Backend ready to accept requests
+[INFO] 2025-11-24 15:02:29,945 - ============================================================
+[INFO] 2025-11-24 15:02:29,952 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:02:35,712 - ============================================================
+[INFO] 2025-11-24 15:02:35,713 - Initializing Backend Services...
+[INFO] 2025-11-24 15:02:35,713 - Timestamp: 2025-11-24T15:02:35.713218
+[INFO] 2025-11-24 15:02:35,713 - ============================================================
+[INFO] 2025-11-24 15:02:35,713 - Initializing database connection pool...
+[INFO] 2025-11-24 15:02:35,733 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:02:35,734 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:02:35,734 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:02:35,734 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:02:35,735 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:02:36,752 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:02:36,753 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:02:36,753 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:02:36,753 - Backend ready to accept requests
+[INFO] 2025-11-24 15:02:36,753 - ============================================================
+[INFO] 2025-11-24 15:02:36,761 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:03:05,288 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:03:05,537 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:03:49,138 - ============================================================
+[INFO] 2025-11-24 15:03:49,138 - Initializing Backend Services...
+[INFO] 2025-11-24 15:03:49,138 - Timestamp: 2025-11-24T15:03:49.138291
+[INFO] 2025-11-24 15:03:49,138 - ============================================================
+[INFO] 2025-11-24 15:03:49,138 - Initializing database connection pool...
+[INFO] 2025-11-24 15:03:49,161 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:03:49,162 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:03:49,162 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:03:49,162 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:03:49,162 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:03:50,015 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:03:50,016 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:03:50,016 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:03:50,016 - Backend ready to accept requests
+[INFO] 2025-11-24 15:03:50,016 - ============================================================
+[INFO] 2025-11-24 15:03:50,023 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 15:03:50,023 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 15:03:50,024 -  * Restarting with stat
+[INFO] 2025-11-24 15:03:52,942 - ============================================================
+[INFO] 2025-11-24 15:03:52,942 - Initializing Backend Services...
+[INFO] 2025-11-24 15:03:52,942 - Timestamp: 2025-11-24T15:03:52.942743
+[INFO] 2025-11-24 15:03:52,942 - ============================================================
+[INFO] 2025-11-24 15:03:52,942 - Initializing database connection pool...
+[INFO] 2025-11-24 15:03:52,960 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:03:52,961 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:03:52,962 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:03:52,962 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:03:52,962 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:03:53,845 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:03:53,845 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:03:53,845 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:03:53,845 - Backend ready to accept requests
+[INFO] 2025-11-24 15:03:53,845 - ============================================================
+[WARNING] 2025-11-24 15:03:53,852 -  * Debugger is active!
+[INFO] 2025-11-24 15:03:53,854 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:04:33,557 -  * Detected change in '/home/tlha/Desktop/Pak News Journal Archive/backend/app.py', reloading
+[INFO] 2025-11-24 15:04:33,559 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:04:34,073 -  * Restarting with stat
+[INFO] 2025-11-24 15:04:36,766 - ============================================================
+[INFO] 2025-11-24 15:04:36,767 - Initializing Backend Services...
+[INFO] 2025-11-24 15:04:36,767 - Timestamp: 2025-11-24T15:04:36.767157
+[INFO] 2025-11-24 15:04:36,767 - ============================================================
+[INFO] 2025-11-24 15:04:36,767 - Initializing database connection pool...
+[INFO] 2025-11-24 15:04:36,782 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:04:36,782 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:04:36,783 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:04:36,783 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:04:36,783 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:04:37,540 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:04:37,540 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:04:37,540 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:04:37,540 - Backend ready to accept requests
+[INFO] 2025-11-24 15:04:37,541 - ============================================================
+[WARNING] 2025-11-24 15:04:37,544 -  * Debugger is active!
+[INFO] 2025-11-24 15:04:37,546 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:04:41,118 - ✓ Updated last login for user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:04:41,121 - ✓ User authenticated: test@example.com
+[INFO] 2025-11-24 15:04:41,122 - ✓ User logged in: test@example.com
+[INFO] 2025-11-24 15:04:41,123 - 127.0.0.1 - - [24/Nov/2025 15:04:41] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:41,156 - Upload from authenticated user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:04:41,169 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] File uploaded: video.mp4 (9.79 MB)
+[INFO] 2025-11-24 15:04:41,171 - ✓ Video record created: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb (video.mp4)
+[INFO] 2025-11-24 15:04:41,172 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Video record created: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb
+[INFO] 2025-11-24 15:04:41,172 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Processing started for file: video.mp4
+[INFO] 2025-11-24 15:04:41,173 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Transcription thread started
+[INFO] 2025-11-24 15:04:41,173 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] File size: 9.79 MB
+[INFO] 2025-11-24 15:04:41,174 - ✓ Video status updated: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb -> processing
+[INFO] 2025-11-24 15:04:41,175 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Starting audio processing pipeline...
+[INFO] 2025-11-24 15:04:41,175 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 15:04:41,176 - 127.0.0.1 - - [24/Nov/2025 15:04:41] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:41,176 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Starting transcription pipeline
+[INFO] 2025-11-24 15:04:41,176 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Input file: 84d73680-b33b-448c-a9dc-2868460c0237.mp4
+[INFO] 2025-11-24 15:04:41,176 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 15:04:41,176 - ============================================================
+[INFO] 2025-11-24 15:04:41,176 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 15:04:41,176 - Input: 84d73680-b33b-448c-a9dc-2868460c0237.mp4
+[INFO] 2025-11-24 15:04:41,177 - ============================================================
+[INFO] 2025-11-24 15:04:41,177 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 15:04:41,177 - Extracting audio from 84d73680-b33b-448c-a9dc-2868460c0237.mp4...
+[INFO] 2025-11-24 15:04:41,704 - ✓ Audio extracted: 84d73680-b33b-448c-a9dc-2868460c0237_raw.wav
+[INFO] 2025-11-24 15:04:41,704 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 15:04:41,704 - Starting noise reduction for 84d73680-b33b-448c-a9dc-2868460c0237_raw.wav...
+[INFO] 2025-11-24 15:04:41,715 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 15:04:41,744 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 15:04:42,999 - ✓ Noise reduction completed: 84d73680-b33b-448c-a9dc-2868460c0237_clean.wav
+[INFO] 2025-11-24 15:04:43,000 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 15:04:43,000 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 15:04:43,021 - ✓ Audio normalized: 84d73680-b33b-448c-a9dc-2868460c0237_final.wav
+[INFO] 2025-11-24 15:04:43,021 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 15:04:43,022 - ============================================================
+[INFO] 2025-11-24 15:04:43,022 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 15:04:43,022 - Duration: 158.8s
+[INFO] 2025-11-24 15:04:43,022 - Output: 84d73680-b33b-448c-a9dc-2868460c0237_final.wav
+[INFO] 2025-11-24 15:04:43,022 - ============================================================
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237]   Duration: 158.8s
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237]   Sample rate: 16000Hz
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237]   Noise reduction: True
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Phase 2: Whisper transcription
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Language: Urdu (ur)
+[INFO] 2025-11-24 15:04:43,023 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Model: tiny
+[INFO] 2025-11-24 15:04:44,181 - 127.0.0.1 - - [24/Nov/2025 15:04:44] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:47,184 - 127.0.0.1 - - [24/Nov/2025 15:04:47] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:50,187 - 127.0.0.1 - - [24/Nov/2025 15:04:50] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:53,189 - 127.0.0.1 - - [24/Nov/2025 15:04:53] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:04:55,749 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] ✓ Transcription completed successfully
+[INFO] 2025-11-24 15:04:55,750 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Detected language: ur
+[INFO] 2025-11-24 15:04:55,750 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Text length: 2366 characters
+[INFO] 2025-11-24 15:04:55,750 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Number of segments: 16
+[INFO] 2025-11-24 15:04:55,750 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Transcription completed, processing results...
+[INFO] 2025-11-24 15:04:55,751 - ✓ Video status updated: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb -> completed
+[INFO] 2025-11-24 15:04:55,760 - ✓ Transcription saved: f4463d74-4938-4e79-91bb-8558fd797271 (video: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb)
+[INFO] 2025-11-24 15:04:55,761 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Saved to database - Video: 6065bba9-1b1b-4a6e-af80-b4811ceea9fb, Transcription: f4463d74-4938-4e79-91bb-8558fd797271
+[INFO] 2025-11-24 15:04:55,761 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Processing completed successfully in 14.58s
+[INFO] 2025-11-24 15:04:55,761 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Transcript length: 2366 characters
+[INFO] 2025-11-24 15:04:55,762 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Cleaned up uploaded file: video.mp4
+[INFO] 2025-11-24 15:04:55,764 - [Job 84d73680-b33b-448c-a9dc-2868460c0237] Cleaned up processed audio directory
+[INFO] 2025-11-24 15:04:56,193 - 127.0.0.1 - - [24/Nov/2025 15:04:56] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:05:16,781 - 127.0.0.1 - - [24/Nov/2025 15:05:16] "GET /api/status/84d73680-b33b-448c-a9dc-2868460c0237 HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:14:17,115 - ============================================================
+[INFO] 2025-11-24 15:14:17,115 - Initializing Backend Services...
+[INFO] 2025-11-24 15:14:17,116 - Timestamp: 2025-11-24T15:14:17.116137
+[INFO] 2025-11-24 15:14:17,116 - ============================================================
+[INFO] 2025-11-24 15:14:17,116 - Initializing database connection pool...
+[INFO] 2025-11-24 15:14:17,132 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:14:17,133 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:14:17,133 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:14:17,134 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:14:17,134 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:14:17,943 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:14:17,944 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:14:17,944 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:14:17,944 - Backend ready to accept requests
+[INFO] 2025-11-24 15:14:17,944 - ============================================================
+[INFO] 2025-11-24 15:14:17,951 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 15:14:17,951 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 15:14:17,952 -  * Restarting with stat
+[INFO] 2025-11-24 15:14:20,745 - ============================================================
+[INFO] 2025-11-24 15:14:20,745 - Initializing Backend Services...
+[INFO] 2025-11-24 15:14:20,745 - Timestamp: 2025-11-24T15:14:20.745322
+[INFO] 2025-11-24 15:14:20,745 - ============================================================
+[INFO] 2025-11-24 15:14:20,745 - Initializing database connection pool...
+[INFO] 2025-11-24 15:14:20,765 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:14:20,766 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:14:20,766 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:14:20,767 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:14:20,767 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:14:21,658 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:14:21,659 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:14:21,659 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:14:21,659 - Backend ready to accept requests
+[INFO] 2025-11-24 15:14:21,659 - ============================================================
+[WARNING] 2025-11-24 15:14:21,662 -  * Debugger is active!
+[INFO] 2025-11-24 15:14:21,665 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:14:42,666 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:14:42,915 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:14:47,595 - ============================================================
+[INFO] 2025-11-24 15:14:47,595 - Initializing Backend Services...
+[INFO] 2025-11-24 15:14:47,596 - Timestamp: 2025-11-24T15:14:47.595979
+[INFO] 2025-11-24 15:14:47,596 - ============================================================
+[INFO] 2025-11-24 15:14:47,596 - Initializing database connection pool...
+[INFO] 2025-11-24 15:14:47,612 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:14:47,613 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:14:47,614 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:14:47,614 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:14:47,614 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:14:48,478 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:14:48,478 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:14:48,478 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:14:48,478 - Backend ready to accept requests
+[INFO] 2025-11-24 15:14:48,478 - ============================================================
+[INFO] 2025-11-24 15:14:48,484 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 15:14:48,484 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 15:14:48,485 -  * Restarting with stat
+[INFO] 2025-11-24 15:14:50,951 - ============================================================
+[INFO] 2025-11-24 15:14:50,951 - Initializing Backend Services...
+[INFO] 2025-11-24 15:14:50,951 - Timestamp: 2025-11-24T15:14:50.951320
+[INFO] 2025-11-24 15:14:50,951 - ============================================================
+[INFO] 2025-11-24 15:14:50,951 - Initializing database connection pool...
+[INFO] 2025-11-24 15:14:50,968 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:14:50,968 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:14:50,969 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:14:50,969 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:14:50,969 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:14:51,709 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:14:51,709 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:14:51,709 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:14:51,709 - Backend ready to accept requests
+[INFO] 2025-11-24 15:14:51,710 - ============================================================
+[WARNING] 2025-11-24 15:14:51,713 -  * Debugger is active!
+[INFO] 2025-11-24 15:14:51,716 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:14:53,053 - ✓ Updated last login for user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:14:53,057 - ✓ User authenticated: test@example.com
+[INFO] 2025-11-24 15:14:53,057 - ✓ User logged in: test@example.com
+[INFO] 2025-11-24 15:14:53,058 - 127.0.0.1 - - [24/Nov/2025 15:14:53] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:14:53,084 - 127.0.0.1 - - [24/Nov/2025 15:14:53] "[33mPOST /upload HTTP/1.1[0m" 404 -
+[INFO] 2025-11-24 15:15:12,870 - ✓ Updated last login for user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:15:12,874 - ✓ User authenticated: test@example.com
+[INFO] 2025-11-24 15:15:12,875 - ✓ User logged in: test@example.com
+[INFO] 2025-11-24 15:15:12,875 - 127.0.0.1 - - [24/Nov/2025 15:15:12] "POST /api/auth/login HTTP/1.1" 200 -
+[WARNING] 2025-11-24 15:15:12,910 - Upload attempt with no file
+[INFO] 2025-11-24 15:15:12,912 - 127.0.0.1 - - [24/Nov/2025 15:15:12] "[31m[1mPOST /api/transcribe HTTP/1.1[0m" 400 -
+[INFO] 2025-11-24 15:15:34,892 - ✓ Updated last login for user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:15:34,895 - ✓ User authenticated: test@example.com
+[INFO] 2025-11-24 15:15:34,896 - ✓ User logged in: test@example.com
+[INFO] 2025-11-24 15:15:34,896 - 127.0.0.1 - - [24/Nov/2025 15:15:34] "POST /api/auth/login HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:15:34,929 - Upload from authenticated user: f9c481d3-5cbe-4e86-bbf7-2a0aa84ed9dd
+[INFO] 2025-11-24 15:15:34,946 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] File uploaded: video.mp4 (9.79 MB)
+[INFO] 2025-11-24 15:15:34,947 - ✓ Video record created: c59a9863-eeeb-4cc5-a062-d723866444ed (video.mp4)
+[INFO] 2025-11-24 15:15:34,948 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Video record created: c59a9863-eeeb-4cc5-a062-d723866444ed
+[INFO] 2025-11-24 15:15:34,949 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Processing started for file: video.mp4
+[INFO] 2025-11-24 15:15:34,949 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Transcription thread started
+[INFO] 2025-11-24 15:15:34,949 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] File size: 9.79 MB
+[INFO] 2025-11-24 15:15:34,950 - ✓ Video status updated: c59a9863-eeeb-4cc5-a062-d723866444ed -> processing
+[INFO] 2025-11-24 15:15:34,951 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Starting audio processing pipeline...
+[INFO] 2025-11-24 15:15:34,951 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 15:15:34,951 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Starting transcription pipeline
+[INFO] 2025-11-24 15:15:34,951 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Input file: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa.mp4
+[INFO] 2025-11-24 15:15:34,951 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 15:15:34,952 - 127.0.0.1 - - [24/Nov/2025 15:15:34] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:15:34,952 - ============================================================
+[INFO] 2025-11-24 15:15:34,952 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 15:15:34,952 - Input: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa.mp4
+[INFO] 2025-11-24 15:15:34,952 - ============================================================
+[INFO] 2025-11-24 15:15:34,952 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 15:15:34,952 - Extracting audio from 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa.mp4...
+[INFO] 2025-11-24 15:15:35,472 - ✓ Audio extracted: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa_raw.wav
+[INFO] 2025-11-24 15:15:35,472 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 15:15:35,472 - Starting noise reduction for 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa_raw.wav...
+[INFO] 2025-11-24 15:15:35,482 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 15:15:35,510 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 15:15:36,604 - ✓ Noise reduction completed: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa_clean.wav
+[INFO] 2025-11-24 15:15:36,604 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 15:15:36,604 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 15:15:36,623 - ✓ Audio normalized: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa_final.wav
+[INFO] 2025-11-24 15:15:36,623 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 15:15:36,624 - ============================================================
+[INFO] 2025-11-24 15:15:36,624 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 15:15:36,624 - Duration: 158.8s
+[INFO] 2025-11-24 15:15:36,624 - Output: 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa_final.wav
+[INFO] 2025-11-24 15:15:36,624 - ============================================================
+[INFO] 2025-11-24 15:15:36,624 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa]   Duration: 158.8s
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa]   Sample rate: 16000Hz
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa]   Noise reduction: True
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Phase 2: Whisper transcription
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Language: Urdu (ur)
+[INFO] 2025-11-24 15:15:36,625 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Model: tiny
+[INFO] 2025-11-24 15:15:50,152 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] ✓ Transcription completed successfully
+[INFO] 2025-11-24 15:15:50,152 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Detected language: ur
+[INFO] 2025-11-24 15:15:50,152 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Text length: 2366 characters
+[INFO] 2025-11-24 15:15:50,152 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Number of segments: 16
+[INFO] 2025-11-24 15:15:50,152 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Transcription completed, processing results...
+[INFO] 2025-11-24 15:15:50,153 - ✓ Video status updated: c59a9863-eeeb-4cc5-a062-d723866444ed -> completed
+[INFO] 2025-11-24 15:15:50,163 - ✓ Transcription saved: 2441fbd2-21f8-4063-8e2b-b5d63b27d9fd (video: c59a9863-eeeb-4cc5-a062-d723866444ed)
+[INFO] 2025-11-24 15:15:50,164 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Saved to database - Video: c59a9863-eeeb-4cc5-a062-d723866444ed, Transcription: 2441fbd2-21f8-4063-8e2b-b5d63b27d9fd
+[INFO] 2025-11-24 15:15:50,164 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Processing completed successfully in 15.20s
+[INFO] 2025-11-24 15:15:50,164 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Transcript length: 2366 characters
+[INFO] 2025-11-24 15:15:50,166 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Cleaned up uploaded file: video.mp4
+[INFO] 2025-11-24 15:15:50,168 - [Job 33c1c95b-61f5-4f1e-b6ce-7ba709c901fa] Cleaned up processed audio directory
+[INFO] 2025-11-24 15:15:52,059 - 127.0.0.1 - - [24/Nov/2025 15:15:52] "GET /api/status/33c1c95b-61f5-4f1e-b6ce-7ba709c901fa HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:17:14,654 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:17:14,903 - ✓ Database connection pool closed
+[INFO] 2025-11-24 15:22:57,465 - ============================================================
+[INFO] 2025-11-24 15:22:57,465 - Initializing Backend Services...
+[INFO] 2025-11-24 15:22:57,466 - Timestamp: 2025-11-24T15:22:57.465994
+[INFO] 2025-11-24 15:22:57,466 - ============================================================
+[INFO] 2025-11-24 15:22:57,466 - Initializing database connection pool...
+[INFO] 2025-11-24 15:22:57,481 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:22:57,482 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:22:57,483 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:22:57,483 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:22:57,483 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:22:59,334 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:22:59,334 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:22:59,334 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:22:59,334 - Backend ready to accept requests
+[INFO] 2025-11-24 15:22:59,334 - ============================================================
+[INFO] 2025-11-24 15:22:59,344 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 15:22:59,344 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 15:22:59,345 -  * Restarting with stat
+[INFO] 2025-11-24 15:23:02,675 - ============================================================
+[INFO] 2025-11-24 15:23:02,675 - Initializing Backend Services...
+[INFO] 2025-11-24 15:23:02,676 - Timestamp: 2025-11-24T15:23:02.676166
+[INFO] 2025-11-24 15:23:02,676 - ============================================================
+[INFO] 2025-11-24 15:23:02,676 - Initializing database connection pool...
+[INFO] 2025-11-24 15:23:02,719 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:23:02,721 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:23:02,721 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:23:02,722 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:23:02,722 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:23:03,968 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:23:03,969 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:23:03,969 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:23:03,969 - Backend ready to accept requests
+[INFO] 2025-11-24 15:23:03,969 - ============================================================
+[WARNING] 2025-11-24 15:23:03,973 -  * Debugger is active!
+[INFO] 2025-11-24 15:23:03,977 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:23:26,187 - 127.0.0.1 - - [24/Nov/2025 15:23:26] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[WARNING] 2025-11-24 15:23:26,192 - ✗ Authentication failed: User not found (admin@pakjournal.com)
+[INFO] 2025-11-24 15:23:26,193 - 127.0.0.1 - - [24/Nov/2025 15:23:26] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+[INFO] 2025-11-24 15:25:04,993 - ============================================================
+[INFO] 2025-11-24 15:25:04,993 - Initializing Backend Services...
+[INFO] 2025-11-24 15:25:04,993 - Timestamp: 2025-11-24T15:25:04.993517
+[INFO] 2025-11-24 15:25:04,993 - ============================================================
+[INFO] 2025-11-24 15:25:04,993 - Initializing database connection pool...
+[INFO] 2025-11-24 15:25:05,016 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:25:05,017 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:25:05,017 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:25:05,018 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:25:05,018 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:25:06,161 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:25:06,161 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:25:06,161 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:25:06,161 - Backend ready to accept requests
+[INFO] 2025-11-24 15:25:06,161 - ============================================================
+[INFO] 2025-11-24 15:25:06,171 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.10.3:5000
+[INFO] 2025-11-24 15:25:06,171 - [33mPress CTRL+C to quit[0m
+[INFO] 2025-11-24 15:25:06,173 -  * Restarting with stat
+[INFO] 2025-11-24 15:25:10,275 - ============================================================
+[INFO] 2025-11-24 15:25:10,276 - Initializing Backend Services...
+[INFO] 2025-11-24 15:25:10,276 - Timestamp: 2025-11-24T15:25:10.276551
+[INFO] 2025-11-24 15:25:10,276 - ============================================================
+[INFO] 2025-11-24 15:25:10,277 - Initializing database connection pool...
+[INFO] 2025-11-24 15:25:10,364 - ✓ Database connection pool initialized
+[INFO] 2025-11-24 15:25:10,367 - ✓ Database connection successful: PostgreSQL 16.10 (Ubuntu 16.10-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, 64-bit
+[INFO] 2025-11-24 15:25:10,368 - ✓ Database connected successfully
+[INFO] 2025-11-24 15:25:10,368 - Loading Whisper 'tiny' model...
+[INFO] 2025-11-24 15:25:10,368 - This may take a few moments on first run...
+[INFO] 2025-11-24 15:25:12,574 - ✓ Whisper 'tiny' model loaded successfully
+[INFO] 2025-11-24 15:25:12,574 - ✓ Model configured for Urdu language
+[INFO] 2025-11-24 15:25:12,575 - Whisper model initialized successfully
+[INFO] 2025-11-24 15:25:12,575 - Backend ready to accept requests
+[INFO] 2025-11-24 15:25:12,575 - ============================================================
+[WARNING] 2025-11-24 15:25:12,581 -  * Debugger is active!
+[INFO] 2025-11-24 15:25:12,584 -  * Debugger PIN: 741-320-945
+[INFO] 2025-11-24 15:25:27,568 - 127.0.0.1 - - [24/Nov/2025 15:25:27] "OPTIONS /api/auth/signup HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:27,914 - ✓ User created: Talha (talha@gmail.com)
+[INFO] 2025-11-24 15:25:27,926 - ✓ New user registered: Talha (talha@gmail.com)
+[INFO] 2025-11-24 15:25:27,927 - 127.0.0.1 - - [24/Nov/2025 15:25:27] "[35m[1mPOST /api/auth/signup HTTP/1.1[0m" 201 -
+[INFO] 2025-11-24 15:25:43,493 - 127.0.0.1 - - [24/Nov/2025 15:25:43] "OPTIONS /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:43,638 - Upload from authenticated user: a447b394-d27b-49d2-9385-42edc9e62903
+[INFO] 2025-11-24 15:25:43,687 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] File uploaded: video.mp4 (9.79 MB)
+[INFO] 2025-11-24 15:25:43,690 - ✓ Video record created: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0 (video.mp4)
+[INFO] 2025-11-24 15:25:43,696 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Video record created: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0
+[INFO] 2025-11-24 15:25:43,697 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Processing started for file: video.mp4
+[INFO] 2025-11-24 15:25:43,698 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Transcription thread started
+[INFO] 2025-11-24 15:25:43,698 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] File size: 9.79 MB
+[INFO] 2025-11-24 15:25:43,702 - ✓ Video status updated: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0 -> processing
+[INFO] 2025-11-24 15:25:43,705 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Starting audio processing pipeline...
+[INFO] 2025-11-24 15:25:43,706 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Starting Whisper transcription with preprocessed audio...
+[INFO] 2025-11-24 15:25:43,706 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Starting transcription pipeline
+[INFO] 2025-11-24 15:25:43,707 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Input file: 762a1597-e3fb-4da7-91d0-74acd6d7b93a.mp4
+[INFO] 2025-11-24 15:25:43,709 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Phase 1: Audio preprocessing
+[INFO] 2025-11-24 15:25:43,710 - ============================================================
+[INFO] 2025-11-24 15:25:43,711 - 127.0.0.1 - - [24/Nov/2025 15:25:43] "POST /api/transcribe HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:43,712 - AUDIO PROCESSING PIPELINE STARTED
+[INFO] 2025-11-24 15:25:43,714 - Input: 762a1597-e3fb-4da7-91d0-74acd6d7b93a.mp4
+[INFO] 2025-11-24 15:25:43,714 - ============================================================
+[INFO] 2025-11-24 15:25:43,715 - Step 1/4: Extracting audio...
+[INFO] 2025-11-24 15:25:43,715 - Extracting audio from 762a1597-e3fb-4da7-91d0-74acd6d7b93a.mp4...
+[INFO] 2025-11-24 15:25:45,486 - ✓ Audio extracted: 762a1597-e3fb-4da7-91d0-74acd6d7b93a_raw.wav
+[INFO] 2025-11-24 15:25:45,486 - Step 2/4: Reducing noise...
+[INFO] 2025-11-24 15:25:45,487 - Starting noise reduction for 762a1597-e3fb-4da7-91d0-74acd6d7b93a_raw.wav...
+[INFO] 2025-11-24 15:25:45,500 - Applying high-pass filter (100Hz cutoff)...
+[INFO] 2025-11-24 15:25:45,546 - Applying spectral gating noise reduction...
+[INFO] 2025-11-24 15:25:45,875 - 127.0.0.1 - - [24/Nov/2025 15:25:45] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:45,883 - 127.0.0.1 - - [24/Nov/2025 15:25:45] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:47,977 - 127.0.0.1 - - [24/Nov/2025 15:25:47] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:48,910 - ✓ Noise reduction completed: 762a1597-e3fb-4da7-91d0-74acd6d7b93a_clean.wav
+[INFO] 2025-11-24 15:25:48,910 - Step 3/4: Normalizing volume...
+[INFO] 2025-11-24 15:25:48,910 - Normalizing audio to -3.0dBFS...
+[INFO] 2025-11-24 15:25:48,940 - ✓ Audio normalized: 762a1597-e3fb-4da7-91d0-74acd6d7b93a_final.wav
+[INFO] 2025-11-24 15:25:48,941 - Step 4/4: Chunking disabled
+[INFO] 2025-11-24 15:25:48,943 - ============================================================
+[INFO] 2025-11-24 15:25:48,944 - AUDIO PROCESSING COMPLETED
+[INFO] 2025-11-24 15:25:48,944 - Duration: 158.8s
+[INFO] 2025-11-24 15:25:48,945 - Output: 762a1597-e3fb-4da7-91d0-74acd6d7b93a_final.wav
+[INFO] 2025-11-24 15:25:48,945 - ============================================================
+[INFO] 2025-11-24 15:25:48,945 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] ✓ Audio preprocessed successfully
+[INFO] 2025-11-24 15:25:48,946 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a]   Duration: 158.8s
+[INFO] 2025-11-24 15:25:48,946 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a]   Sample rate: 16000Hz
+[INFO] 2025-11-24 15:25:48,946 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a]   Noise reduction: True
+[INFO] 2025-11-24 15:25:48,946 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Phase 2: Whisper transcription
+[INFO] 2025-11-24 15:25:48,946 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Language: Urdu (ur)
+[INFO] 2025-11-24 15:25:48,947 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Model: tiny
+[INFO] 2025-11-24 15:25:49,912 - 127.0.0.1 - - [24/Nov/2025 15:25:49] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:51,998 - 127.0.0.1 - - [24/Nov/2025 15:25:51] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:52,037 - 127.0.0.1 - - [24/Nov/2025 15:25:52] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:53,925 - 127.0.0.1 - - [24/Nov/2025 15:25:53] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:55,912 - 127.0.0.1 - - [24/Nov/2025 15:25:55] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:57,944 - 127.0.0.1 - - [24/Nov/2025 15:25:57] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:57,962 - 127.0.0.1 - - [24/Nov/2025 15:25:57] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:25:59,876 - 127.0.0.1 - - [24/Nov/2025 15:25:59] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:01,907 - 127.0.0.1 - - [24/Nov/2025 15:26:01] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:03,899 - 127.0.0.1 - - [24/Nov/2025 15:26:03] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:03,914 - 127.0.0.1 - - [24/Nov/2025 15:26:03] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:05,899 - 127.0.0.1 - - [24/Nov/2025 15:26:05] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:07,945 - 127.0.0.1 - - [24/Nov/2025 15:26:07] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:09,913 - 127.0.0.1 - - [24/Nov/2025 15:26:09] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:09,919 - 127.0.0.1 - - [24/Nov/2025 15:26:09] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:12,027 - 127.0.0.1 - - [24/Nov/2025 15:26:12] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:13,912 - 127.0.0.1 - - [24/Nov/2025 15:26:13] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:15,952 - 127.0.0.1 - - [24/Nov/2025 15:26:15] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:15,982 - 127.0.0.1 - - [24/Nov/2025 15:26:15] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:17,878 - 127.0.0.1 - - [24/Nov/2025 15:26:17] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:19,873 - 127.0.0.1 - - [24/Nov/2025 15:26:19] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:21,914 - 127.0.0.1 - - [24/Nov/2025 15:26:21] "OPTIONS /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:21,926 - 127.0.0.1 - - [24/Nov/2025 15:26:21] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -
+[INFO] 2025-11-24 15:26:22,761 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] ✓ Transcription completed successfully
+[INFO] 2025-11-24 15:26:22,763 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Detected language: ur
+[INFO] 2025-11-24 15:26:22,763 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Text length: 2366 characters
+[INFO] 2025-11-24 15:26:22,764 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Number of segments: 16
+[INFO] 2025-11-24 15:26:22,764 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Transcription completed, processing results...
+[INFO] 2025-11-24 15:26:22,767 - ✓ Video status updated: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0 -> completed
+[INFO] 2025-11-24 15:26:22,781 - ✓ Transcription saved: bcd3f2fd-7691-437b-afb7-7aefea828b38 (video: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0)
+[INFO] 2025-11-24 15:26:22,783 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Saved to database - Video: 3a1cd7ed-dacd-45e5-a5d3-8b656ef5aeb0, Transcription: bcd3f2fd-7691-437b-afb7-7aefea828b38
+[INFO] 2025-11-24 15:26:22,783 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Processing completed successfully in 39.07s
+[INFO] 2025-11-24 15:26:22,783 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Transcript length: 2366 characters
+[INFO] 2025-11-24 15:26:22,787 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Cleaned up uploaded file: video.mp4
+[INFO] 2025-11-24 15:26:22,792 - [Job 762a1597-e3fb-4da7-91d0-74acd6d7b93a] Cleaned up processed audio directory
+[INFO] 2025-11-24 15:26:24,005 - 127.0.0.1 - - [24/Nov/2025 15:26:24] "GET /api/status/762a1597-e3fb-4da7-91d0-74acd6d7b93a HTTP/1.1" 200 -

@@ -1,0 +1,145 @@
+Based on the ERD image you provided, here is the detailed textual representation of the database schema, including entities, attributes, relationships, and the logic behind them.
+
+### **1. Core User & System Management**
+
+These tables handle user access and the initial tracking of files entering the system.
+
+* **User**
+    * **Description:** Stores registered users who interact with the system.
+    * **Attributes:**
+        * `user_id` (PK, int): Unique identifier for the user.
+        * `name` (string): Full name of the user.
+        * `email` (string): Unique email address.
+        * `password_hash` (string): Encrypted password for authentication.
+        * `role` (string): Permission level (e.g., admin, editor, viewer).
+        * `created_at` (datetime): Timestamp of account creation.
+
+* **Upload**
+    * **Description:** Tracks every file uploaded by users, acting as a parent record for both Videos and Newspapers.
+    * **Attributes:**
+        * `upload_id` (PK, int): Unique identifier for the upload batch/file.
+        * `user_id` (FK, int): Links to the **User** who performed the upload.
+        * `upload_type` (string): Specifies the type (e.g., "video", "newspaper").
+        * `file_path` (string): Storage location of the raw file.
+        * `upload_date` (datetime): When the file was uploaded.
+        * `processed` (boolean): Flag indicating if the system has finished processing the file.
+
+---
+
+### **2. Video Processing Module**
+
+This section handles the metadata, transcription, and visual analysis of video content.
+
+* **Video**
+    * **Description:** Specific metadata for uploaded video files.
+    * **Attributes:**
+        * `video_id` (PK, int): Unique ID for the video.
+        * `upload_id` (FK, int): Links to the parent **Upload** record.
+        * `title` (string): Title of the video.
+        * `language` (string): Primary language spoken in the video.
+        * `duration` (int): Length of the video in seconds.
+
+* **Transcript**
+    * **Description:** Stores the full text derived from the video's audio.
+    * **Attributes:**
+        * `transcript_id` (PK, int): Unique ID for the transcript.
+        * `video_id` (FK, int): Links to the **Video**.
+        * `language` (string): Language of the text.
+        * `created_at` (datetime): When the transcription was generated.
+
+* **Speaker**
+    * **Description:** A registry of unique speakers identified across videos.
+    * **Attributes:**
+        * `speaker_id` (PK, int): Unique ID for a speaker.
+        * `name` (string): Name of the speaker (if known/labeled).
+        * `verified` (boolean): Whether the speaker's identity has been confirmed.
+
+* **SpeakerSegment**
+    * **Description:** Breaks down the transcript by who is speaking and when.
+    * **Attributes:**
+        * `segment_id` (PK, int): Unique ID for the segment.
+        * `transcript_id` (FK, int): Links to the **Transcript**.
+        * `speaker_id` (FK, int): Links to the **Speaker**.
+        * `start_time` (time): When the segment begins.
+        * `end_time` (time): When the segment ends.
+
+* **Frame**
+    * **Description:** Stores keyframes or screenshots extracted from the video for visual analysis.
+    * **Attributes:**
+        * `frame_id` (PK, int): Unique ID for the frame.
+        * `video_id` (FK, int): Links to the **Video**.
+        * `timestamp` (time): The exact time in the video this frame occurred.
+        * `image_path` (string): Storage path for the image file.
+
+---
+
+### **3. Newspaper Processing Module**
+
+This section handles scanned documents and OCR (Optical Character Recognition) text.
+
+* **Newspaper**
+    * **Description:** Metadata for uploaded newspaper or document files.
+    * **Attributes:**
+        * `paper_id` (PK, int): Unique ID for the newspaper.
+        * `upload_id` (FK, int): Links to the parent **Upload** record.
+        * `title` (string): Headline or title of the document.
+        * `source` (string): Publisher or origin (e.g., "New York Times").
+        * `date` (date): Publication date.
+
+* **OCRText**
+    * **Description:** Stores the text extracted from the newspaper images.
+    * **Attributes:**
+        * `ocr_id` (PK, int): Unique ID for the OCR text block.
+        * `paper_id` (FK, int): Links to the **Newspaper**.
+        * `page_number` (int): Which page this text belongs to.
+        * `created_at` (datetime): When the OCR was performed.
+
+---
+
+### **4. Search & Analysis Module (Linking Everything)**
+
+This is the "Brain" of the system. It connects videos and newspapers via shared Topics and Entity Tags, allowing for cross-media searching.
+
+* **SearchQuery**
+    * **Description:** Logs what users are searching for.
+    * **Attributes:**
+        * `query_id` (PK, int): Unique ID for the search.
+        * `user_id` (FK, int): The **User** who searched.
+        * `query_text` (string): The actual text searched.
+        * `created_at` (datetime): Timestamp of the search.
+
+* **SearchResult**
+    * **Description:** Caches or stores the results returned for a query.
+    * **Attributes:**
+        * `result_id` (PK, int): Unique ID for the result.
+        * `query_id` (FK, int): Links to the **SearchQuery**.
+        * `source_type` (string): Whether the result is a "video" or "newspaper".
+        * `source_id` (int): The ID of the specific Video or Newspaper found.
+
+* **Topic**
+    * **Description:** High-level subjects (e.g., "Politics", "Sports", "Economy").
+    * **Attributes:**
+        * `topic_id` (PK, int): Unique ID.
+        * `name` (string): The name of the topic.
+
+* **EntityTag**
+    * **Description:** Specific named entities (e.g., "Joe Biden", "Tesla", "iPhone").
+    * **Attributes:**
+        * `entity_id` (PK, int): Unique ID.
+        * `name` (string): The name of the entity.
+        * `entity_type` (string): Person, Organization, Location, etc.
+
+* **Junction Tables (The Connectors)**
+    * These tables create Many-to-Many relationships, allowing one video/paper to have multiple topics/entities, and vice versa.
+    * **VideoTopic:** Links `Video` <-> `Topic`.
+    * **VideoEntity:** Links `Video` <-> `EntityTag`.
+    * **PaperTopic:** Links `Newspaper` <-> `Topic`.
+    * **PaperEntity:** Links `Newspaper` <-> `EntityTag`.
+
+### **Summary of Relationships**
+
+1.  **One-to-Many:** A **User** performs many **Uploads** and many **SearchQueries**.
+2.  **One-to-One (Polymorphic):** An **Upload** becomes either a **Video** OR a **Newspaper**.
+3.  **One-to-Many:** A **Video** has one **Transcript** (which has many **SpeakerSegments**) and many **Frames**.
+4.  **One-to-Many:** A **Newspaper** has many **OCRText** entries (pages).
+5.  **Many-to-Many:** **Videos** and **Newspapers** are both tagged with multiple **Topics** and **EntityTags** (allowing you to search for "Tesla" and get results from both video news and written papers).
