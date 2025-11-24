@@ -9,9 +9,11 @@ import TranscriptionModule from './components/TranscriptionModule';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
+  const basename = import.meta.env.PROD ? '/Pak-Journal-Archive-77' : '';
+
   return (
     <AuthProvider>
-      <Router>
+      <Router basename={basename}>
         <div className="min-h-screen relative">
           {/* Navbar */}
           <Navbar />
