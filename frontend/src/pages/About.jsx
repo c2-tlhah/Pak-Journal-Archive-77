@@ -79,7 +79,7 @@ const About = () => {
             <div className="w-full lg:w-7/12">
               <div className="fluid-card h-[450px]">
                 <img 
-                  src="/Pak-Journal-Archive-77/caset.jpg" 
+                  src="caset.jpg" 
                   alt="Video Archives and Tapes" 
                   className="w-full h-full object-cover"
                 />
