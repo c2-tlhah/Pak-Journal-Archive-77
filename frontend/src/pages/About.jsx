@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Target, Heart, Database, Zap, Shield, Globe } from 'lucide-react';
 import GoldenBackground from '../components/GoldenBackground';
+import Footer from '../components/Footer';
 
 const About = () => {
   const teamMembers = [
@@ -171,98 +172,41 @@ const About = () => {
           </div>
         </div>
 
-        {/* 4. VALUES - Morphic Gradient Cards */}
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 mb-32">
-          <div className="text-center max-w-2xl mx-auto mb-16 animate-fadeInUp">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our Core Values</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Card 1 - Light Amber Gradient */}
-            <div className="relative overflow-hidden rounded-[2.5rem] p-12 animate-fadeInUp delay-100 group cursor-pointer" style={{
-              background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%)',
-              boxShadow: '0 20px 40px -10px rgba(252, 211, 77, 0.2)'
-            }}>
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm text-amber-800 flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-500">
-                  <Target size={32} strokeWidth={2.5} />
-                </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">Uncompromising Accuracy</h3>
-                <p className="text-slate-700 leading-relaxed text-lg">
-                  Historical accuracy is paramount. We rigorously test our models to ensure every word is transcribed exactly as spoken, preserving the original context and meaning.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2 - Light Blue Gradient */}
-            <div className="relative overflow-hidden rounded-[2.5rem] p-12 animate-fadeInUp delay-200 group cursor-pointer" style={{
-              background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%)',
-              boxShadow: '0 20px 40px -10px rgba(147, 197, 253, 0.2)'
-            }}>
-              <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm text-blue-800 flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-500">
-                  <Globe size={32} strokeWidth={2.5} />
-                </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">Universal Accessibility</h3>
-                <p className="text-slate-700 leading-relaxed text-lg">
-                  Knowledge should be accessible to everyone. We build tools that serve researchers, students, journalists, and the general public.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3 - Light Rainbow Gradient (Full Width) */}
-            <div className="md:col-span-2 relative overflow-hidden rounded-[2.5rem] p-12 animate-fadeInUp delay-300 group cursor-pointer" style={{
-              background: 'linear-gradient(90deg, #fce7f3 0%, #fbcfe8 20%, #fed7aa 40%, #fef3c7 60%, #fef9c3 80%, #fce7f3 100%)',
-              boxShadow: '0 20px 40px -10px rgba(251, 207, 232, 0.2)'
-            }}>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="relative z-10 flex items-start gap-10">
-                <div className="w-20 h-20 rounded-2xl bg-white/50 backdrop-blur-sm text-pink-800 flex items-center justify-center flex-shrink-0 group-hover:rotate-12 transition-transform duration-500">
-                  <Heart size={40} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <h3 className="text-3xl font-bold text-slate-900 mb-4">Respect for Heritage</h3>
-                  <p className="text-slate-700 leading-relaxed text-lg">
-                    We treat every recording with the dignity it deserves. We are custodians of Pakistan's broadcast memory, preserving it for future generations with care and dedication.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4 - Light Green Gradient */}
-            <div className="relative overflow-hidden rounded-[2.5rem] p-12 animate-fadeInUp delay-400 group cursor-pointer" style={{
-              background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%)',
-              boxShadow: '0 20px 40px -10px rgba(110, 231, 183, 0.2)'
-            }}>
-              <div className="absolute top-0 left-0 w-48 h-48 bg-white/30 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm text-green-800 flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-500">
-                  <Shield size={32} strokeWidth={2.5} />
-                </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">Security First</h3>
-                <p className="text-slate-700 leading-relaxed text-lg">
+        {/* 4. CORE VALUES SECTION */}
+        <div className="w-full py-20 mb-32" style={{
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)'
+        }}>
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-amber-100 text-center mb-16 tracking-wide animate-fadeInUp">
+              Core Values
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {/* Security First Card */}
+              <div className="relative pb-12 animate-fadeInUp delay-100">
+                <h3 className="text-2xl font-bold text-amber-300 mb-4 tracking-wider uppercase">Security First</h3>
+                <p className="text-slate-200 text-base leading-relaxed">
                   Your data is encrypted and protected. Files are processed securely and deleted automatically after transcription is complete.
                 </p>
+                <span className="absolute bottom-0 left-0 text-4xl text-amber-400">→</span>
               </div>
-            </div>
 
-            {/* Card 5 - Light Purple Gradient */}
-            <div className="relative overflow-hidden rounded-[2.5rem] p-12 animate-fadeInUp delay-500 group cursor-pointer" style={{
-              background: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 50%, #c4b5fd 100%)',
-              boxShadow: '0 20px 40px -10px rgba(196, 181, 253, 0.2)'
-            }}>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm text-purple-800 flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-500">
-                  <Zap size={32} strokeWidth={2.5} />
-                </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">Innovation Driven</h3>
-                <p className="text-slate-700 leading-relaxed text-lg">
+              {/* Uncompromising Accuracy Card */}
+              <div className="relative pb-12 animate-fadeInUp delay-200">
+                <h3 className="text-2xl font-bold text-amber-300 mb-4 tracking-wider uppercase">Uncompromising Accuracy</h3>
+                <p className="text-slate-200 text-base leading-relaxed">
+                  Historical accuracy is paramount. We rigorously test our models to ensure every word is transcribed exactly as spoken, preserving the original context and meaning.
+                </p>
+                <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-4xl text-amber-400">→</span>
+              </div>
+
+              {/* Innovation Driven Card */}
+              <div className="relative pb-12 animate-fadeInUp delay-300">
+                <h3 className="text-2xl font-bold text-amber-300 mb-4 tracking-wider uppercase">Innovation Driven</h3>
+                <p className="text-slate-200 text-base leading-relaxed">
                   We constantly push boundaries with cutting-edge AI technology, delivering faster and more accurate transcriptions every day.
                 </p>
+                <span className="absolute bottom-0 right-0 text-4xl text-amber-400">→</span>
               </div>
             </div>
           </div>
@@ -292,6 +236,8 @@ const About = () => {
         </div>
 
       </div>
+      
+      <Footer />
     </div>
   );
 };

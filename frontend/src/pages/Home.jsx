@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import GoldenBackground from '../components/GoldenBackground';
+import Footer from '../components/Footer';
 import { Globe, Layers, Zap, Code } from 'lucide-react';
 
 const TechIcon = ({ icon: Icon }) => (
@@ -74,6 +75,7 @@ const Home = () => {
         </div>
       </main>
 
+      <Footer />
     </div>
   );
 };
