@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Radio, FileText, Info, LogIn, UserPlus, User, LogOut } from 'lucide-react';
+import { Radio, FileText, Info, LogIn, User, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react';
 
@@ -71,36 +71,20 @@ const Navbar = () => {
 
               {/* Auth Buttons */}
               {!isAuthenticated ? (
-                <>
-                  <Link to="/login">
-                    <motion.div
-                      className={`px-5 py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 ${
-                        location.pathname === '/login'
-                          ? 'bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-lg shadow-slate-300/50 border border-slate-200'
-                          : 'text-slate-300 hover:text-white bg-slate-800/40 hover:bg-slate-800/60'
-                      }`}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <LogIn className="w-4 h-4" />
-                      Login
-                    </motion.div>
-                  </Link>
-                  <Link to="/signup">
-                    <motion.div
-                      className={`px-5 py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 ${
-                        location.pathname === '/signup'
-                          ? 'bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-lg shadow-slate-300/50 border border-slate-200'
-                          : 'text-slate-300 hover:text-white bg-slate-800/40 hover:bg-slate-800/60'
-                      }`}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <UserPlus className="w-4 h-4" />
-                      Sign Up
-                    </motion.div>
-                  </Link>
-                </>
+                <Link to="/login">
+                  <motion.div
+                    className={`px-5 py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 ${
+                      location.pathname === '/login' || location.pathname === '/signup'
+                        ? 'bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-lg shadow-slate-300/50 border border-slate-200'
+                        : 'text-slate-300 hover:text-white bg-slate-800/40 hover:bg-slate-800/60'
+                    }`}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Access Archive
+                  </motion.div>
+                </Link>
               ) : (
                 <div className="relative">
                   <motion.button
