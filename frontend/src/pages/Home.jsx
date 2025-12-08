@@ -12,19 +12,19 @@ const TechIcon = ({ icon: Icon }) => (
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden text-slate-900 font-sans selection:bg-amber-300 flex flex-col">
+    <div className="relative min-h-[100dvh] w-full overflow-hidden text-slate-900 font-sans selection:bg-amber-300 flex flex-col">
       
       <GoldenBackground />
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 pt-24 md:pt-40 pb-10 flex-grow flex flex-col justify-center pointer-events-none w-full">
+      <main className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 pt-32 md:pt-40 pb-20 flex-grow flex flex-col justify-center pointer-events-none w-full">
         <div className="max-w-2xl pointer-events-auto">
           
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl sm:text-5xl md:text-[5.5rem] font-medium tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05] mb-6 md:mb-8 drop-shadow-sm"
+            className="text-5xl sm:text-6xl md:text-[5.5rem] font-medium tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05] mb-8 md:mb-8 drop-shadow-sm"
           >
             Pak News <br />
             Journal Archive, <br />
@@ -35,7 +35,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-slate-800 max-w-lg leading-relaxed mb-8 md:mb-10 font-normal"
+            className="text-lg sm:text-xl md:text-xl text-slate-800 max-w-lg leading-relaxed mb-10 md:mb-10 font-normal"
           >
             Advanced AI-powered transcription system for Urdu news archives. 
             Convert video content to searchable, editable text with precision.
@@ -45,10 +45,10 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6"
+            className="flex flex-col sm:flex-row items-start space-y-6 sm:space-y-0 sm:space-x-6"
           >
             <Link to="/transcribe" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-8 py-4 bg-slate-900 text-white text-xs font-bold tracking-widest rounded-full hover:bg-black transition-all shadow-2xl flex items-center justify-center group uppercase hover:scale-105 transform">
+              <button className="w-full sm:w-auto px-8 py-5 bg-slate-900 text-white text-sm font-bold tracking-widest rounded-full hover:bg-black transition-all shadow-2xl flex items-center justify-center group uppercase hover:scale-105 transform">
                 Start Transcribing
                 <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -57,7 +57,7 @@ const Home = () => {
             </Link>
             
             <Link to="/about" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-8 py-4 bg-white/20 backdrop-blur-md text-slate-900 text-xs font-bold tracking-widest rounded-full hover:bg-white/30 transition-all shadow-xl border border-white/40 uppercase">
+              <button className="w-full sm:w-auto px-8 py-5 bg-white/20 backdrop-blur-md text-slate-900 text-sm font-bold tracking-widest rounded-full hover:bg-white/30 transition-all shadow-xl border border-white/40 uppercase">
                 Learn More
               </button>
             </Link>
@@ -67,7 +67,7 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8 md:mt-12 text-xs sm:text-sm text-slate-700 font-medium"
+            className="mt-12 md:mt-12 text-sm sm:text-sm text-slate-700 font-medium"
           >
             Powered by OpenAI Whisper • Urdu Language Support • Database Storage
           </motion.p>

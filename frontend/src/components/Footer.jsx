@@ -63,7 +63,7 @@ const Footer = () => {
         }} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-6 md:px-8 md:py-8">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           
@@ -81,7 +81,7 @@ const Footer = () => {
                 whileHover={{ scale: 1.02 }}
               >
                 <img 
-                  src="/logo.png" 
+                  src="/Pak-Journal-Archive-77/logo.png" 
                   alt="PAK NEWS JOURNAL" 
                   className="h-8 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity"
                 />
