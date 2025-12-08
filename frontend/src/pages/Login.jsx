@@ -62,16 +62,42 @@ const Login = () => {
         setLoading(false);
         return;
       }
-      if (formData.username.length < 3) {
-        setError('Username must be at least 3 characters');
+      
+      // Username validation
+      const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+      if (!usernameRegex.test(formData.username)) {
+        setError('Username must be 3-20 characters and contain only letters, numbers, and underscores');
         setLoading(false);
         return;
       }
-      if (formData.password.length < 6) {
-        setError('Password must be at least 6 characters');
+
+      // Password validation
+      if (formData.password.length < 8) {
+        setError('Password must be at least 8 characters');
         setLoading(false);
         return;
       }
+      if (!/[A-Z]/.test(formData.password)) {
+        setError('Password must contain at least one uppercase letter');
+        setLoading(false);
+        return;
+      }
+      if (!/[a-z]/.test(formData.password)) {
+        setError('Password must contain at least one lowercase letter');
+        setLoading(false);
+        return;
+      }
+      if (!/[0-9]/.test(formData.password)) {
+        setError('Password must contain at least one number');
+        setLoading(false);
+        return;
+      }
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(formData.password)) {
+        setError('Password must contain at least one special character');
+        setLoading(false);
+        return;
+      }
+
       // Attempt signup
       const result = await signup(formData.username, formData.email, formData.password);
       if (result.success) {

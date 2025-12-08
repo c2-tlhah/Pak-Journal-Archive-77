@@ -1,6 +1,7 @@
 Flask==3.0.0
 flask-cors==4.0.0
-openai-whisper
+transformers>=4.35.0
+torch>=2.0.0
 ffmpeg-python
 pydub
 noisereduce
@@ -10,3 +11,4 @@ psycopg2-binary==2.9.9
 bcrypt==4.1.2
 PyJWT==2.8.0
 python-dotenv==1.0.0
+accelerate>=0.20.0

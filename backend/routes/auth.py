@@ -4,11 +4,43 @@ Authentication routes for user registration and login
 from flask import Blueprint, request, jsonify
 from functools import wraps
 import logging
+import re
 from database.models import User
 
 logger = logging.getLogger(__name__)
 
 auth_bp = Blueprint('auth', __name__)
+
+def validate_password(password):
+    """
+    Validate password strength
+    - At least 8 characters
+    - At least one uppercase letter
+    - At least one lowercase letter
+    - At least one number
+    - At least one special character
+    """
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long"
+    if not re.search(r"[A-Z]", password):
+        return False, "Password must contain at least one uppercase letter"
+    if not re.search(r"[a-z]", password):
+        return False, "Password must contain at least one lowercase letter"
+    if not re.search(r"\d", password):
+        return False, "Password must contain at least one number"
+    if not re.search(r"[ !@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]", password):
+        return False, "Password must contain at least one special character"
+    return True, ""
+
+def validate_username(username):
+    """
+    Validate username format
+    - 3-20 characters
+    - Alphanumeric and underscores only
+    """
+    if not re.match(r"^[a-zA-Z0-9_]{3,20}$", username):
+        return False, "Username must be 3-20 characters and contain only letters, numbers, and underscores"
+    return True, ""
 
 def token_required(f):
     """Decorator to protect routes with JWT authentication"""
@@ -63,12 +95,14 @@ def signup():
         full_name = data.get('full_name', '').strip()
         
         # Validate username
-        if len(username) < 3 or len(username) > 50:
-            return jsonify({'error': 'Username must be 3-50 characters'}), 400
+        is_valid_username, username_error = validate_username(username)
+        if not is_valid_username:
+            return jsonify({'error': username_error}), 400
         
         # Validate password
-        if len(password) < 6:
-            return jsonify({'error': 'Password must be at least 6 characters'}), 400
+        is_valid_password, password_error = validate_password(password)
+        if not is_valid_password:
+            return jsonify({'error': password_error}), 400
         
         # Check if user already exists
         if User.get_user_by_email(email):
