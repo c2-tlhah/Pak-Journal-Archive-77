@@ -90,11 +90,23 @@ const Navbar = () => {
                 <div className="relative">
                   <motion.button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="px-5 py-2.5 font-semibold bg-slate-800/60 hover:bg-slate-800/80 text-white transition-all duration-300 flex items-center gap-2"
+                    className="px-4 py-2 font-semibold bg-slate-800/60 hover:bg-slate-800/80 text-white transition-all duration-300 flex items-center gap-3 rounded-full pr-6"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <User className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-full bg-slate-700 overflow-hidden border border-slate-600">
+                      {user?.profile_picture ? (
+                        <img 
+                          src={`http://localhost:5000/uploads/${user.profile_picture}`} 
+                          alt={user.username} 
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400">
+                          <User className="w-4 h-4" />
+                        </div>
+                      )}
+                    </div>
                     {user?.username}
                   </motion.button>
 
@@ -112,6 +124,14 @@ const Navbar = () => {
                           <p className="text-white font-semibold truncate">{user?.email}</p>
                           <p className="text-xs text-blue-400 mt-1 uppercase">{user?.role}</p>
                         </div>
+                        <Link 
+                          to="/profile"
+                          className="w-full px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          <User className="w-4 h-4" />
+                          Profile
+                        </Link>
                         <button
                           onClick={() => {
                             logout();
@@ -195,11 +215,31 @@ const Navbar = () => {
                   <div className="space-y-3">
                     <div className="px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-800">
                       <div className="flex items-center gap-3 mb-2">
-                        <User className="w-5 h-5 text-slate-400" />
+                        <div className="w-8 h-8 rounded-full bg-slate-700 overflow-hidden border border-slate-600">
+                          {user?.profile_picture ? (
+                            <img 
+                              src={`http://localhost:5000/uploads/${user.profile_picture}`} 
+                              alt={user.username} 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">
+                              <User className="w-4 h-4" />
+                            </div>
+                          )}
+                        </div>
                         <span className="text-white font-semibold">{user?.username}</span>
                       </div>
-                      <p className="text-xs text-slate-500 pl-8">{user?.email}</p>
+                      <p className="text-xs text-slate-500 pl-11">{user?.email}</p>
                     </div>
+                    <Link 
+                      to="/profile"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-full px-4 py-3 rounded-lg font-semibold text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-3"
+                    >
+                      <User className="w-5 h-5" />
+                      Profile
+                    </Link>
                     <button
                       onClick={() => {
                         logout();

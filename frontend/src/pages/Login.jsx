@@ -14,7 +14,11 @@ const Login = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    full_name: '',
+    birth_date: '',
+    country: '',
+    phone_number: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,7 +29,11 @@ const Login = () => {
     setFormData({
       username: '',
       email: '',
-      password: ''
+      password: '',
+      full_name: '',
+      birth_date: '',
+      country: '',
+      phone_number: ''
     });
   };
 
@@ -99,7 +107,18 @@ const Login = () => {
       }
 
       // Attempt signup
-      const result = await signup(formData.username, formData.email, formData.password);
+      const result = await signup(
+        formData.username, 
+        formData.email, 
+        formData.password, 
+        'user',
+        {
+          full_name: formData.full_name,
+          birth_date: formData.birth_date,
+          country: formData.country,
+          phone_number: formData.phone_number
+        }
+      );
       if (result.success) {
         navigate('/');
       } else {
@@ -194,18 +213,68 @@ const Login = () => {
               
               {/* Username Field (Sign Up Only) */}
               {!isLogin && (
-                <div className="group space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Username</label>
-                  <input 
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="e.g. journalist123"
-                    className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
-                    required={!isLogin}
-                  />
-                </div>
+                <>
+                  <div className="group space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Username</label>
+                    <input 
+                      type="text"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      placeholder="e.g. journalist123"
+                      className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                      required={!isLogin}
+                    />
+                  </div>
+
+                  <div className="group space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Full Name</label>
+                    <input 
+                      type="text"
+                      name="full_name"
+                      value={formData.full_name}
+                      onChange={handleChange}
+                      placeholder="e.g. John Doe"
+                      className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="group space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Birth Date</label>
+                      <input 
+                        type="date"
+                        name="birth_date"
+                        value={formData.birth_date}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                      />
+                    </div>
+                    <div className="group space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Country</label>
+                      <input 
+                        type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        placeholder="e.g. Pakistan"
+                        className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="group space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1 group-focus-within:text-amber-600 transition-colors">Phone Number</label>
+                    <input 
+                      type="tel"
+                      name="phone_number"
+                      value={formData.phone_number}
+                      onChange={handleChange}
+                      placeholder="e.g. +92 300 1234567"
+                      className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:bg-white/80 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                    />
+                  </div>
+                </>
               )}
 
               {/* Email Field */}

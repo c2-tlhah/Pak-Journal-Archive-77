@@ -18,10 +18,10 @@ export const AuthProvider = ({ children }) => {
   // API base URL
   const API_URL = 'http://localhost:5000';
 
-  // Load token from localStorage on mount
+  // Load token from sessionStorage on mount
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
+    const storedToken = sessionStorage.getItem('token');
+    const storedUser = sessionStorage.getItem('user');
     
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         setToken(data.token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
         return { success: true };
       } else {
         return { success: false, error: data.error || 'Login failed' };
@@ -83,14 +83,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Signup function
-  const signup = async (username, email, password, role = 'user') => {
+  const signup = async (username, email, password, role = 'user', additionalData = {}) => {
     try {
       const response = await fetch(`${API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password, role })
+        body: JSON.stringify({ 
+          username, 
+          email, 
+          password, 
+          role,
+          ...additionalData
+        })
       });
 
       const data = await response.json();
@@ -98,8 +104,8 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         setToken(data.token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
         return { success: true };
       } else {
         return { success: false, error: data.error || 'Signup failed' };
@@ -114,8 +120,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
   };
 
   // Get auth header for API calls

@@ -4,8 +4,9 @@ import threading
 import logging
 import time
 import json
+import ffmpeg
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from utils.transcriber import initialize_model, transcribe_video
@@ -17,10 +18,16 @@ from routes.auth import auth_bp, token_required
 load_dotenv()
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 800 * 1024 * 1024  # 800MB max upload size
 CORS(app)  # Enable CORS for React frontend
 
 # Register authentication blueprint
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
+
+# Serve uploaded files (including profile pictures)
+@app.route('/uploads/<path:filename>')
+def serve_uploads(filename):
+    return send_from_directory('uploads', filename)
 
 # In-memory job store with thread lock for thread safety
 jobs = {}
@@ -43,6 +50,35 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+def validate_media_file(file_path):
+    """
+    Validates media file integrity and returns metadata using ffprobe
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
+        audio_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'audio'), None)
+        
+        if not video_stream and not audio_stream:
+            return False, "File contains no video or audio streams"
+            
+        duration = float(probe['format']['duration'])
+        if duration < 10:
+            return False, "Media file is too short (less than 10 seconds)"
+            
+        return True, {
+            'duration': duration,
+            'format_name': probe['format']['format_name'],
+            'bit_rate': probe['format'].get('bit_rate'),
+            'video_codec': video_stream['codec_name'] if video_stream else None,
+            'audio_codec': audio_stream['codec_name'] if audio_stream else None
+        }
+    except ffmpeg.Error as e:
+        error_msg = e.stderr.decode() if hasattr(e, 'stderr') and e.stderr else str(e)
+        return False, f"Invalid or corrupt media file: {error_msg}"
+    except Exception as e:
+        return False, f"Validation error: {str(e)}"
+
 def update_job_status(job_id, status=None, step=None, **kwargs):
     """
     Thread-safe job status update
@@ -60,11 +96,24 @@ def update_job_status(job_id, status=None, step=None, **kwargs):
 def cleanup_old_files():
     """
     Cleanup files older than 1 hour from uploads directory
+    Excludes profile_pictures directory and video/audio files (permanent storage)
     """
     try:
         current_time = time.time()
         for filename in os.listdir('uploads'):
             filepath = os.path.join('uploads', filename)
+            
+            # Skip directories (like profile_pictures)
+            if os.path.isdir(filepath):
+                continue
+            
+            # Skip video/audio files (keep them permanently)
+            # These are the allowed extensions from upload_file
+            video_extensions = {'.mp4', '.avi', '.mov', '.mkv', '.mp3', '.wav', '.m4a', '.flac', '.ogg'}
+            file_ext = os.path.splitext(filename)[1].lower()
+            if file_ext in video_extensions:
+                continue
+                
             if os.path.isfile(filepath):
                 file_age = current_time - os.path.getmtime(filepath)
                 if file_age > 3600:  # 1 hour
@@ -164,20 +213,24 @@ def process_file(job_id, file_path, filename, user_id=None, video_id=None):
         logger.info(f"[Job {job_id}] Processing completed successfully in {processing_time:.2f}s")
         logger.info(f"[Job {job_id}] Transcript length: {len(result['text'])} characters")
         
-        # Cleanup: Remove uploaded file and processed audio after successful processing
+        # Cleanup: Only remove processed chunks, keep original video and main audio
         try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                logger.info(f"[Job {job_id}] Cleaned up uploaded file: {filename}")
+            # We keep the uploaded video file now
+            # if os.path.exists(file_path):
+            #     os.remove(file_path)
             
-            # Cleanup processed audio directory for this job
+            # Cleanup processed audio directory - only remove chunks
             job_audio_dir = os.path.join("processed_audio", f"job_{job_id}")
             if os.path.exists(job_audio_dir):
-                import shutil
-                shutil.rmtree(job_audio_dir)
-                logger.info(f"[Job {job_id}] Cleaned up processed audio directory")
+                chunks_dir = os.path.join(job_audio_dir, "chunks")
+                if os.path.exists(chunks_dir):
+                    import shutil
+                    shutil.rmtree(chunks_dir)
+                    logger.info(f"[Job {job_id}] Cleaned up audio chunks")
+                else:
+                    logger.info(f"[Job {job_id}] No chunks directory found to clean")
         except Exception as e:
-            logger.warning(f"[Job {job_id}] Failed to cleanup file: {str(e)}")
+            logger.warning(f"[Job {job_id}] Failed to cleanup chunks: {str(e)}")
         
         # Run periodic cleanup
         cleanup_old_files()
@@ -248,8 +301,16 @@ def upload_file():
         save_path = os.path.join('uploads', f"{job_id}{file_extension}")
         file.save(save_path)
         
+        # Validate media file integrity
+        is_valid, validation_result = validate_media_file(save_path)
+        if not is_valid:
+            os.remove(save_path)
+            logger.warning(f"Invalid media file uploaded: {validation_result}")
+            return jsonify({"error": validation_result}), 400
+            
         file_size = os.path.getsize(save_path)
-        logger.info(f"[Job {job_id}] File uploaded: {file.filename} ({file_size / (1024*1024):.2f} MB)")
+        logger.info(f"[Job {job_id}] File uploaded and validated: {file.filename} ({file_size / (1024*1024):.2f} MB)")
+        logger.info(f"[Job {job_id}] Media info: {validation_result}")
         
         # Create video record in database if user is authenticated
         if user_id:
@@ -273,6 +334,7 @@ def upload_file():
                 'filename': file.filename,
                 'file_size': file_size,
                 'file_extension': file_extension,
+                'media_info': validation_result,
                 'created_at': datetime.now().isoformat(),
                 'last_update': datetime.now().isoformat(),
                 'user_id': user_id,
