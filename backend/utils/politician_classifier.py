@@ -20,7 +20,7 @@ class PoliticianClassifier:
     Handles video frame extraction and politician classification using trained ResNet-18 model
     """
 
-    def __init__(self, model_path="best_politician_resnet.pth"):
+    def __init__(self, model_path=r"C:\Users\omerf\pak_politicians_cnn_v2.pth"):
         """
         Initialize the classifier with the trained model
 
@@ -30,11 +30,12 @@ class PoliticianClassifier:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model_path = model_path
         self.model = None
+        # 9 Classes based on the user's notebook configuration
         self.class_names = [
-            "Imran Khan", "Nawaz Sharif", "Asif Ali Zardari", "Bilawal Bhutto",
-            "Maryam Nawaz", "Shahbaz Sharif", "Fawad Chaudhry", "Pervez Musharraf",
-            "Benazir Bhutto", "Altaf Hussain"
-        ]  # Update these based on your actual classes
+            'Ahmed Sharif', 'Asif Zardari', 'Asim Munir', 
+            'Benazir Bhutto', 'Bilawal Bhutto', 'Imran Khan', 
+            'Nawaz Sharif', 'Shah Mehmood', 'Shahbaz Sharif'
+        ]
 
         # Image preprocessing transform (same as training)
         self.transform = transforms.Compose([
@@ -66,19 +67,19 @@ class PoliticianClassifier:
             logger.error(f"✗ Failed to load politician classification model: {str(e)}")
             raise e
 
-    def extract_frames(self, video_path, num_frames=10):
+    def extract_frames(self, video_path, interval_seconds=25):
         """
-        Extract evenly spaced frames from video
+        Extract 1 frame every `interval_seconds` from video
 
         Args:
             video_path: Path to the video file
-            num_frames: Number of frames to extract
+            interval_seconds: Interval in seconds between frames
 
         Returns:
-            list: List of (frame_image, timestamp) tuples
+            list: List of (frame_image, timestamp, frame_idx) tuples
         """
         try:
-            logger.info(f"Extracting {num_frames} frames from video: {video_path}")
+            logger.info(f"Extracting frames every {interval_seconds}s from video: {video_path}")
 
             # Open video
             cap = cv2.VideoCapture(video_path)
@@ -93,14 +94,17 @@ class PoliticianClassifier:
             logger.info(f"Video info: {total_frames} frames, {fps:.1f} FPS, {duration:.1f}s duration")
 
             frames_data = []
+            
+            if fps <= 0:
+                logger.warning("Invalid FPS, defaulting to 30")
+                fps = 30
 
-            # Calculate frame indices to extract (evenly spaced)
-            if total_frames <= num_frames:
-                # If video is short, take all frames
-                frame_indices = list(range(total_frames))
-            else:
-                # Evenly distribute frames across the video
-                frame_indices = [int(i * (total_frames - 1) / (num_frames - 1)) for i in range(num_frames)]
+            frame_interval = int(fps * interval_seconds)
+            if frame_interval == 0:
+                frame_interval = 1
+
+            # Calculate frame indices to extract
+            frame_indices = range(0, total_frames, frame_interval)
 
             for frame_idx in frame_indices:
                 # Seek to frame
@@ -115,18 +119,26 @@ class PoliticianClassifier:
                     pil_image = Image.fromarray(frame_rgb)
 
                     # Calculate timestamp
-                    timestamp = frame_idx / fps if fps > 0 else 0
+                    timestamp = frame_idx / fps
 
                     frames_data.append((pil_image, timestamp, frame_idx))
 
-                    logger.info(f"✓ Extracted frame {len(frames_data)}/{num_frames} at {timestamp:.1f}s")
+                    logger.info(f"✓ Extracted frame at {timestamp:.1f}s")
                 else:
                     logger.warning(f"✗ Failed to read frame {frame_idx}")
 
             cap.release()
 
             if len(frames_data) == 0:
-                raise ValueError("No frames could be extracted from the video")
+                logger.warning("No frames extracted, trying to extract at least one frame")
+                # Try to extract the first frame if nothing else worked
+                cap = cv2.VideoCapture(video_path)
+                ret, frame = cap.read()
+                if ret:
+                     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                     pil_image = Image.fromarray(frame_rgb)
+                     frames_data.append((pil_image, 0.0, 0))
+                cap.release()
 
             logger.info(f"✓ Successfully extracted {len(frames_data)} frames")
             return frames_data
@@ -173,15 +185,15 @@ class PoliticianClassifier:
             logger.error(f"✗ Failed to classify frame: {str(e)}")
             raise e
 
-    def classify_video(self, video_path, video_id, user_id, num_frames=10):
+    def classify_video(self, video_path, video_id, user_id):
         """
-        Extract frames from video and classify politicians in each frame
+        Extract frames from video and classify politicians in each frame.
+        Applies majority voting to identify the speaker.
 
         Args:
             video_path: Path to the video file
             video_id: UUID of the video in database
             user_id: UUID of the user
-            num_frames: Number of frames to analyze
 
         Returns:
             list: List of classification results
@@ -190,17 +202,21 @@ class PoliticianClassifier:
             logger.info(f"[Video {video_id}] Starting politician classification")
             logger.info(f"[Video {video_id}] Video path: {video_path}")
 
-            # Extract frames
-            frames_data = self.extract_frames(video_path, num_frames)
+            # Extract frames (1 every 10 seconds)
+            frames_data = self.extract_frames(video_path, interval_seconds=10)
 
             # Classify each frame
             classifications = []
+            results_for_voting = []
 
             for frame_num, (frame_image, timestamp, frame_idx) in enumerate(frames_data, 1):
                 logger.info(f"[Video {video_id}] Classifying frame {frame_num}/{len(frames_data)}")
 
                 # Classify the frame
                 result = self.classify_frame(frame_image)
+                
+                # Store for voting
+                results_for_voting.append(result)
 
                 # Create classification record
                 classification_data = {
@@ -221,10 +237,46 @@ class PoliticianClassifier:
                 }
 
                 # Save to database
-                classification = PoliticianClassification.create_classification(**classification_data)
-                classifications.append(classification)
+                classification_id = PoliticianClassification.create_classification(**classification_data)
+                if classification_id:
+                    # Add ID to the local dict for return
+                    classification_data['id'] = classification_id
+                    classifications.append(classification_data)
 
                 logger.info(f"[Video {video_id}] ✓ Saved classification for frame {frame_num}")
+
+            # --- Business Logic: Majority Voting & Threshold ---
+            if results_for_voting:
+                counts = {}
+                confidences = {}
+
+                for res in results_for_voting:
+                    name = res['politician_name']
+                    score = res['confidence_score']
+                    
+                    counts[name] = counts.get(name, 0) + 1
+                    if name not in confidences:
+                        confidences[name] = []
+                    confidences[name].append(score)
+                
+                # Find winner (Most frequent class)
+                winner = max(counts, key=counts.get)
+                
+                # Calculate average confidence for the winner
+                avg_confidence = sum(confidences[winner]) / len(confidences[winner])
+                
+                logger.info(f"[Video {video_id}] Winner: {winner} (Count: {counts[winner]}, Avg Conf: {avg_confidence:.2f})")
+
+                # Apply Confidence Threshold Rule
+                final_speaker = winner
+                if avg_confidence < 0.20: # 20% threshold
+                    final_speaker = "Unknown Speaker"
+                    logger.info(f"[Video {video_id}] Confidence too low (< 0.20). Marked as Unknown Speaker.")
+                
+                # Update Video Record
+                Video.update_video_speaker(video_id, final_speaker)
+            else:
+                logger.warning(f"[Video {video_id}] No frames classified. Cannot identify speaker.")
 
             logger.info(f"[Video {video_id}] ✓ Completed classification of {len(classifications)} frames")
             return classifications
@@ -325,7 +377,7 @@ class PoliticianClassifier:
 # Global classifier instance
 _classifier_instance = None
 
-def get_classifier(model_path="best_politician_resnet.pth"):
+def get_classifier(model_path="best_politician_resnet_v2.pth"):
     """
     Get or create the global classifier instance
 
@@ -340,7 +392,7 @@ def get_classifier(model_path="best_politician_resnet.pth"):
         _classifier_instance = PoliticianClassifier(model_path)
     return _classifier_instance
 
-def classify_video_politicians(video_path, video_id, user_id, model_path="best_politician_resnet.pth"):
+def classify_video_politicians(video_path, video_id, user_id, model_path=r"C:\Users\omerf\pak_politicians_cnn_v2.pth"):
     """
     Convenience function to classify politicians in a video
 

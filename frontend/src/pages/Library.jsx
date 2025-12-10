@@ -22,6 +22,8 @@ function Library() {
   const [editingVideoId, setEditingVideoId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [activeMenuId, setActiveMenuId] = useState(null);
+  const [editingSpeakerId, setEditingSpeakerId] = useState(null);
+  const [editSpeakerName, setEditSpeakerName] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -133,6 +135,55 @@ function Library() {
     } catch (error) {
       console.error('Error renaming video:', error);
       alert('Error renaming video');
+    }
+  };
+
+  const startEditingSpeaker = (video, e) => {
+    e.stopPropagation();
+    setEditingSpeakerId(video.id);
+    setEditSpeakerName(video.speaker || 'Unknown Speaker');
+  };
+
+  const cancelEditingSpeaker = (e) => {
+    if (e) e.stopPropagation();
+    setEditingSpeakerId(null);
+    setEditSpeakerName('');
+  };
+
+  const saveSpeaker = async (videoId, e) => {
+    e.stopPropagation();
+    
+    if (!editSpeakerName.trim()) {
+      alert('Speaker name cannot be empty');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/speaker`, {
+        method: 'PUT',
+        headers: {
+          ...getAuthHeader(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ speaker: editSpeakerName.trim() })
+      });
+
+      if (response.ok) {
+        setVideos(videos.map(v => 
+          v.id === videoId ? { ...v, speaker: editSpeakerName.trim() } : v
+        ));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo({ ...selectedVideo, speaker: editSpeakerName.trim() });
+        }
+        setEditingSpeakerId(null);
+        setEditSpeakerName('');
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to update speaker');
+      }
+    } catch (error) {
+      console.error('Error updating speaker:', error);
+      alert('Error updating speaker');
     }
   };
 
@@ -454,6 +505,35 @@ function Library() {
                         </div>
                       )}
                     </div>
+                  </div>
+
+                  {/* Speaker Info */}
+                  <div className="mb-3 flex items-center gap-2">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Speaker:</span>
+                      {editingSpeakerId === video.id ? (
+                          <div className="flex-1 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                  type="text"
+                                  value={editSpeakerName}
+                                  onChange={(e) => setEditSpeakerName(e.target.value)}
+                                  className="w-full bg-white/80 text-slate-900 px-2 py-1 rounded border border-amber-400 focus:ring-1 focus:ring-amber-400 outline-none text-sm"
+                                  autoFocus
+                                  onKeyDown={(e) => {
+                                      if (e.key === 'Enter') saveSpeaker(video.id, e);
+                                      if (e.key === 'Escape') cancelEditingSpeaker(e);
+                                  }}
+                              />
+                              <button onClick={(e) => saveSpeaker(video.id, e)} className="text-emerald-600 hover:bg-emerald-50 p-1 rounded"><FiCheck size={14} /></button>
+                              <button onClick={cancelEditingSpeaker} className="text-red-500 hover:bg-red-50 p-1 rounded"><FiX size={14} /></button>
+                          </div>
+                      ) : (
+                          <div className="flex items-center gap-2 group/speaker cursor-pointer" onClick={(e) => startEditingSpeaker(video, e)}>
+                              <span className={`text-sm font-medium ${video.speaker === 'Unknown Speaker' ? 'text-amber-600 italic' : 'text-slate-700'}`}>
+                                  {video.speaker || 'Unknown Speaker'}
+                              </span>
+                              <FiEdit2 className="w-3 h-3 text-slate-300 opacity-0 group-hover/speaker:opacity-100 transition-opacity" />
+                          </div>
+                      )}
                   </div>
 
                   {/* Metadata */}

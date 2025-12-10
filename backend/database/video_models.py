@@ -3,6 +3,7 @@ Video and Transcription database operations
 """
 from typing import Optional, Dict, Any, List
 import logging
+import json
 from database.db_config import get_db_cursor
 
 logger = logging.getLogger(__name__)
@@ -101,6 +102,23 @@ class Video:
                 return True
         except Exception as e:
             logger.error(f"✗ Failed to update video title: {e}")
+            return False
+
+    @staticmethod
+    def update_video_speaker(video_id: str, speaker: str) -> bool:
+        """Update video speaker"""
+        try:
+            with get_db_cursor() as cursor:
+                # Check if speaker column exists, if not, we might need to handle it or assume schema is updated
+                cursor.execute("""
+                    UPDATE videos 
+                    SET speaker = %s
+                    WHERE id = %s
+                """, (speaker, video_id))
+                logger.info(f"✓ Video speaker updated: {video_id} -> {speaker}")
+                return True
+        except Exception as e:
+            logger.error(f"✗ Failed to update video speaker: {e}")
             return False
     
     @staticmethod
@@ -215,6 +233,10 @@ class PoliticianClassification:
                              classification_data: dict = None, status: str = 'completed') -> Optional[str]:
         """Create a new politician classification record"""
         try:
+            # Ensure classification_data is JSON serialized
+            if classification_data and isinstance(classification_data, dict):
+                classification_data = json.dumps(classification_data)
+
             with get_db_cursor() as cursor:
                 cursor.execute("""
                     INSERT INTO politician_classifications

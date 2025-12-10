@@ -46,7 +46,8 @@ CREATE TABLE videos (
     status VARCHAR(20) DEFAULT 'uploaded' CHECK (status IN ('uploaded', 'processing', 'completed', 'failed')),
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     processed_date TIMESTAMP,
-    metadata JSONB
+    metadata JSONB,
+    speaker VARCHAR(100) DEFAULT 'Unknown Speaker'
 );
 
 -- Indexes for videos

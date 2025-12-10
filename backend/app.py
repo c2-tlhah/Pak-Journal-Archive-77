@@ -492,6 +492,40 @@ def get_logs():
         logger.error(f"Error reading logs: {str(e)}", exc_info=True)
         return jsonify({"error": f"Failed to retrieve logs: {str(e)}"}), 500
 
+@app.route('/api/videos/<video_id>/speaker', methods=['PUT'])
+@token_required
+def update_video_speaker(current_user, video_id):
+    """
+    Update the identified speaker for a video (Manual Override)
+    """
+    try:
+        data = request.get_json()
+        if not data or 'speaker' not in data:
+            return jsonify({"error": "Speaker name is required"}), 400
+            
+        speaker = data['speaker']
+        
+        # Verify video ownership
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        # Update speaker
+        success = Video.update_video_speaker(video_id, speaker)
+        
+        if success:
+            logger.info(f"User {current_user['username']} manually updated speaker for video {video_id} to '{speaker}'")
+            return jsonify({"message": "Speaker updated successfully", "speaker": speaker}), 200
+        else:
+            return jsonify({"error": "Failed to update speaker"}), 500
+
+    except Exception as e:
+        logger.error(f"Error updating video speaker: {str(e)}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
 @app.route('/api/videos/<video_id>/politicians', methods=['GET'])
 @token_required
 def get_video_politicians(current_user, video_id):
@@ -588,7 +622,8 @@ def get_user_videos(current_user):
                 'storage_path': storage_path,
                 'video_url': video_url,
                 'has_transcription': transcription is not None,
-                'transcription_count': int(video.get('transcription_count', 0))
+                'transcription_count': int(video.get('transcription_count', 0)),
+                'speaker': video.get('speaker', 'Unknown Speaker') # Add speaker field
             }
             
             # Add transcription preview if exists
