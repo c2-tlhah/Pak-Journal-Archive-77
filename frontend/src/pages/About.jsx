@@ -5,10 +5,10 @@ import Footer from '../components/Footer';
 
 const About = () => {
   const teamMembers = [
-    { name: "Dr. Ahmed Hassan", role: "CEO & Founder", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" },
-    { name: "Sara Khan", role: "CTO", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80" },
-    { name: "Ali Raza", role: "Head of AI", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80" },
-    { name: "Fatima Malik", role: "Chief Archivist", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=80" }
+    { name: "Omer Farooq Khan", role: "Researcher", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" },
+    { name: "Muhammad Talha Ramzan", role: "Researcher", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80" },
+    { name: "Zayyan Ahmad", role: "Researcher", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80" },
+    { name: "Mr. Ali Raza", role: "Supervisor", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=80" }
   ];
 
   return (

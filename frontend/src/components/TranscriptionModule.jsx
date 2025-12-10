@@ -18,8 +18,21 @@ const TranscriptionModule = () => {
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef(null);
 
+  // Load saved job ID on mount
+  useEffect(() => {
+    const savedJobId = localStorage.getItem('currentJobId');
+    if (savedJobId) {
+      setJobId(savedJobId);
+      setStatus('processing'); // Assume processing until verified
+      setLiveLogs(['Resuming job monitoring...']);
+    }
+  }, []);
+
   useEffect(() => {
     if (jobId && status === 'processing') {
+      // Save job ID to localStorage
+      localStorage.setItem('currentJobId', jobId);
+
       const interval = setInterval(async () => {
         try {
           const response = await fetch(`${API_URL}/status/${jobId}`, {
@@ -27,23 +40,51 @@ const TranscriptionModule = () => {
               ...getAuthHeader()
             }
           });
+
+          if (!response.ok) {
+            if (response.status === 404) {
+              // Job not found (server restarted?), reset to idle
+              console.warn("Job not found, resetting state");
+              localStorage.removeItem('currentJobId');
+              setJobId(null);
+              setStatus('idle');
+              setLiveLogs([]);
+              clearInterval(interval);
+              return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
           const data = await response.json();
           
-          setStatus(data.status);
+          if (data.status) {
+            setStatus(data.status);
+          }
+          
           setStep(data.step || '');
           
           if (data.step) {
-            setLiveLogs(prev => [...prev, `${data.step}`].slice(-4));
+            setLiveLogs(prev => {
+              const lastLog = prev[prev.length - 1];
+              if (lastLog !== data.step) {
+                return [...prev, data.step].slice(-4);
+              }
+              return prev;
+            });
           }
           
           if (data.status === 'completed') {
             setTranscript(data.transcript);
+            localStorage.removeItem('currentJobId'); // Clear saved job
             clearInterval(interval);
           } else if (data.status === 'failed') {
+            localStorage.removeItem('currentJobId'); // Clear saved job
             clearInterval(interval);
           }
         } catch (error) {
           console.error('Error polling status:', error);
+          // Don't reset on transient network errors, but maybe after X retries?
+          // For now, let it keep trying or user can refresh.
         }
       }, 2000);
       

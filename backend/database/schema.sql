@@ -83,6 +83,30 @@ CREATE INDEX idx_transcriptions_created_at ON transcriptions(created_at);
 CREATE INDEX idx_transcriptions_text_search ON transcriptions USING gin(to_tsvector('english', transcript_text));
 
 -- ============================================================
+-- POLITICIAN CLASSIFICATIONS TABLE
+-- ============================================================
+CREATE TABLE politician_classifications (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    video_id UUID NOT NULL REFERENCES videos(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    politician_name VARCHAR(100) NOT NULL,
+    confidence_score DECIMAL(5, 4) NOT NULL,
+    frame_number INTEGER NOT NULL,
+    frame_timestamp DECIMAL(10, 2),
+    model_version VARCHAR(50) DEFAULT 'resnet18-v1',
+    classification_data JSONB,
+    status VARCHAR(20) DEFAULT 'completed' CHECK (status IN ('processing', 'completed', 'failed')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for politician classifications
+CREATE INDEX idx_politician_classifications_video_id ON politician_classifications(video_id);
+CREATE INDEX idx_politician_classifications_user_id ON politician_classifications(user_id);
+CREATE INDEX idx_politician_classifications_politician_name ON politician_classifications(politician_name);
+CREATE INDEX idx_politician_classifications_created_at ON politician_classifications(created_at);
+
+-- ============================================================
 -- TRIGGERS
 -- ============================================================
 
@@ -99,6 +123,9 @@ CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_transcriptions_updated_at BEFORE UPDATE ON transcriptions
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_politician_classifications_updated_at BEFORE UPDATE ON politician_classifications
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================================
@@ -158,6 +185,8 @@ ORDER BY t.created_at DESC;
 COMMENT ON TABLE users IS 'User accounts with role-based access control';
 COMMENT ON TABLE videos IS 'Uploaded video files and metadata';
 COMMENT ON TABLE transcriptions IS 'Generated transcriptions from videos';
+COMMENT ON TABLE politician_classifications IS 'AI classifications of politicians appearing in videos';
 COMMENT ON COLUMN users.role IS 'User role: admin (full access), editor (can edit), user (view only)';
 COMMENT ON COLUMN videos.status IS 'Processing status of the video';
 COMMENT ON COLUMN transcriptions.segments IS 'JSON array of timestamped transcript segments';
+COMMENT ON COLUMN politician_classifications.classification_data IS 'Additional classification metadata and frame analysis';

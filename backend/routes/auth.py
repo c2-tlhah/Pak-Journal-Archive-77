@@ -61,6 +61,13 @@ def token_required(f):
         
         # Add user info to request
         request.user = payload
+        
+        # Pass current_user as a keyword argument if the function expects it
+        import inspect
+        sig = inspect.signature(f)
+        if 'current_user' in sig.parameters:
+            kwargs['current_user'] = payload
+            
         return f(*args, **kwargs)
     
     return decorated

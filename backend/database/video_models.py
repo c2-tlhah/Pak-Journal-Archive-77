@@ -87,6 +87,20 @@ class Video:
             logger.error(f"✗ Failed to get user videos: {e}")
             return []
 
+    @staticmethod
+    def delete_video(video_id: str) -> bool:
+        """Delete a video record"""
+        try:
+            with get_db_cursor() as cursor:
+                cursor.execute("""
+                    DELETE FROM videos WHERE id = %s
+                """, (video_id,))
+                logger.info(f"✓ Video record deleted: {video_id}")
+                return True
+        except Exception as e:
+            logger.error(f"✗ Failed to delete video record: {e}")
+            return False
+
 class Transcription:
     """Transcription model for database operations"""
     
@@ -174,3 +188,111 @@ class Transcription:
         except Exception as e:
             logger.error(f"✗ Failed to search transcriptions: {e}")
             return []
+
+class PoliticianClassification:
+    """Politician classification model for database operations"""
+
+    @staticmethod
+    def create_classification(video_id: str, user_id: str, politician_name: str,
+                             confidence_score: float, frame_number: int,
+                             frame_timestamp: float = None, model_version: str = None,
+                             classification_data: dict = None, status: str = 'completed') -> Optional[str]:
+        """Create a new politician classification record"""
+        try:
+            with get_db_cursor() as cursor:
+                cursor.execute("""
+                    INSERT INTO politician_classifications
+                    (video_id, user_id, politician_name, confidence_score, frame_number,
+                     frame_timestamp, model_version, classification_data, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    RETURNING id
+                """, (video_id, user_id, politician_name, confidence_score, frame_number,
+                      frame_timestamp, model_version, classification_data, status))
+
+                result = cursor.fetchone()
+                classification_id = str(result['id'])
+                logger.info(f"✓ Politician classification saved: {classification_id} ({politician_name} - {confidence_score:.1f}%)")
+                return classification_id
+        except Exception as e:
+            logger.error(f"✗ Failed to create politician classification: {e}")
+            return None
+
+    @staticmethod
+    def get_by_video_id(video_id: str) -> List[Dict[str, Any]]:
+        """Get all classifications for a video"""
+        try:
+            with get_db_cursor(commit=False) as cursor:
+                cursor.execute("""
+                    SELECT * FROM politician_classifications
+                    WHERE video_id = %s
+                    ORDER BY frame_number ASC
+                """, (video_id,))
+
+                classifications = cursor.fetchall()
+                return [dict(cls) for cls in classifications]
+        except Exception as e:
+            logger.error(f"✗ Failed to get classifications for video {video_id}: {e}")
+            return []
+
+    @staticmethod
+    def get_by_user_id(user_id: str, limit: int = 100) -> List[Dict[str, Any]]:
+        """Get all classifications for a user"""
+        try:
+            with get_db_cursor(commit=False) as cursor:
+                cursor.execute("""
+                    SELECT pc.*, v.original_filename
+                    FROM politician_classifications pc
+                    JOIN videos v ON pc.video_id = v.id
+                    WHERE pc.user_id = %s
+                    ORDER BY pc.created_at DESC
+                    LIMIT %s
+                """, (user_id, limit))
+
+                classifications = cursor.fetchall()
+                return [dict(cls) for cls in classifications]
+        except Exception as e:
+            logger.error(f"✗ Failed to get classifications for user {user_id}: {e}")
+            return []
+
+    @staticmethod
+    def get_politician_stats(video_id: str) -> Dict[str, Any]:
+        """Get politician detection statistics for a video"""
+        try:
+            with get_db_cursor(commit=False) as cursor:
+                cursor.execute("""
+                    SELECT
+                        politician_name,
+                        COUNT(*) as frame_count,
+                        AVG(confidence_score) as avg_confidence,
+                        MAX(confidence_score) as max_confidence,
+                        MIN(confidence_score) as min_confidence
+                    FROM politician_classifications
+                    WHERE video_id = %s AND status = 'completed'
+                    GROUP BY politician_name
+                    ORDER BY frame_count DESC, avg_confidence DESC
+                """, (video_id,))
+
+                stats = cursor.fetchall()
+                return {
+                    'politicians': [dict(stat) for stat in stats],
+                    'total_frames': sum(stat['frame_count'] for stat in stats)
+                }
+        except Exception as e:
+            logger.error(f"✗ Failed to get politician stats for video {video_id}: {e}")
+            return {'politicians': [], 'total_frames': 0}
+
+    @staticmethod
+    def delete_by_video_id(video_id: str) -> bool:
+        """Delete all classifications for a video"""
+        try:
+            with get_db_cursor() as cursor:
+                cursor.execute("""
+                    DELETE FROM politician_classifications
+                    WHERE video_id = %s
+                """, (video_id,))
+
+                logger.info(f"✓ Deleted classifications for video: {video_id}")
+                return True
+        except Exception as e:
+            logger.error(f"✗ Failed to delete classifications for video {video_id}: {e}")
+            return False

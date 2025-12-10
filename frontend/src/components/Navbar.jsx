@@ -13,6 +13,7 @@ const Navbar = () => {
   const navItems = [
     { name: 'Home', path: '/', icon: Radio },
     { name: 'Transcribe', path: '/transcribe', icon: FileText },
+    { name: 'Library', path: '/library', icon: FileText },
     { name: 'About', path: '/about', icon: Info },
   ];
 
