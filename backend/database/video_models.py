@@ -88,6 +88,22 @@ class Video:
             return []
 
     @staticmethod
+    def update_video_title(video_id: str, title: str) -> bool:
+        """Update video title"""
+        try:
+            with get_db_cursor() as cursor:
+                cursor.execute("""
+                    UPDATE videos 
+                    SET original_filename = %s
+                    WHERE id = %s
+                """, (title, video_id))
+                logger.info(f"✓ Video title updated: {video_id} -> {title}")
+                return True
+        except Exception as e:
+            logger.error(f"✗ Failed to update video title: {e}")
+            return False
+    
+    @staticmethod
     def delete_video(video_id: str) -> bool:
         """Delete a video record"""
         try:

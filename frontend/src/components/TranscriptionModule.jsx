@@ -184,7 +184,7 @@ const TranscriptionModule = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden pt-32 pb-12 px-4">
-      <GoldenBackground />
+      <GoldenBackground variant="library" />
       
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Hero Section */}
@@ -202,112 +202,28 @@ const TranscriptionModule = () => {
           </p>
         </motion.div>
 
-        {/* Feature Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
-        >
-          {/* Card 1 */}
-          <motion.div 
-            className="group relative overflow-hidden rounded-3xl p-1"
-            whileHover={{ y: -10, rotateX: 5, rotateY: 5 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            style={{ perspective: 1000 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="relative h-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-[22px] p-8 border border-blue-500/30 shadow-2xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              
-              <motion.div 
-                className="w-16 h-16 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/40 mb-6"
-                whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-                transition={{ duration: 0.5 }}
-              >
-                <FileAudio className="w-8 h-8 text-white" strokeWidth={2} />
-              </motion.div>
-              
-              <h3 className="text-2xl font-bold text-white mb-3">Multiple Formats</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Full support for MP4, AVI, MOV, MP3, WAV, and M4A file formats.
-              </p>
-            </div>
-          </motion.div>
-          
-          {/* Card 2 */}
-          <motion.div 
-            className="group relative overflow-hidden rounded-3xl p-1"
-            whileHover={{ y: -10, rotateX: 5, rotateY: 5 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
-            style={{ perspective: 1000 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="relative h-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-[22px] p-8 border border-emerald-500/30 shadow-2xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              
-              <motion.div 
-                className="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/40 mb-6"
-                whileHover={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 0.3, repeat: 3 }}
-              >
-                <Zap className="w-8 h-8 text-white" strokeWidth={2} />
-              </motion.div>
-              
-              <h3 className="text-2xl font-bold text-white mb-3">High Accuracy</h3>
-              <p className="text-slate-400 leading-relaxed">
-                State-of-the-art AI delivers 95%+ accuracy for Urdu transcription.
-              </p>
-            </div>
-          </motion.div>
-          
-          {/* Card 3 */}
-          <motion.div 
-            className="group relative overflow-hidden rounded-3xl p-1"
-            whileHover={{ y: -10, rotateX: 5, rotateY: 5 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
-            style={{ perspective: 1000 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-purple-600 rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="relative h-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-[22px] p-8 border border-purple-500/30 shadow-2xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              
-              <motion.div 
-                className="w-16 h-16 rounded-2xl bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/40 mb-6"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              >
-                <Clock className="w-8 h-8 text-white" strokeWidth={2} />
-              </motion.div>
-              
-              <h3 className="text-2xl font-bold text-white mb-3">Lightning Fast</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Get professional transcripts in minutes with optimized processing.
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
-
+        {/* Feature Cards - REMOVED */}
+        
         {/* Main Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative bg-slate-900 rounded-[32px] border border-slate-700 shadow-[0_0_50px_-12px_rgba(0,0,0,0.8)] overflow-hidden"
+          className="relative bg-white/10 backdrop-blur-md rounded-[32px] border border-white/20 shadow-[0_0_50px_-12px_rgba(0,0,0,0.3)] overflow-hidden"
           style={{
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-800/50 to-slate-900/50 pointer-events-none" />
+          <div className="absolute inset-0 bg-white/5 pointer-events-none" />
           
           {/* Window Controls */}
-          <div className="relative px-8 py-6 border-b border-slate-700/50 bg-slate-800/30 backdrop-blur-sm flex items-center justify-between">
+          <div className="relative px-8 py-6 border-b border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500/80 border border-red-600/50" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/80 border border-yellow-600/50" />
               <div className="w-3 h-3 rounded-full bg-green-500/80 border border-green-600/50" />
             </div>
-            <div className="text-slate-500 text-sm font-medium">Transcription Studio</div>
+            <div className="text-white/50 text-sm font-medium">Transcription Studio</div>
             <div className="w-16" /> {/* Spacer for centering */}
           </div>
 
@@ -329,8 +245,8 @@ const TranscriptionModule = () => {
                   style={{
                     background: isDragging 
                       ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%)'
-                      : 'linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%)',
-                    border: isDragging ? '3px dashed rgba(59, 130, 246, 0.6)' : '3px dashed rgba(100, 116, 139, 0.3)',
+                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                    border: isDragging ? '3px dashed rgba(59, 130, 246, 0.6)' : '3px dashed rgba(255, 255, 255, 0.2)',
                   }}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}

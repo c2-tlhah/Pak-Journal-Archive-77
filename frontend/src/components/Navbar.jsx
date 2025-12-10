@@ -13,7 +13,7 @@ const Navbar = () => {
   const navItems = [
     { name: 'Home', path: '/', icon: Radio },
     { name: 'Transcribe', path: '/transcribe', icon: FileText },
-    { name: 'Library', path: '/library', icon: FileText },
+    { name: 'Archive', path: '/library', icon: FileText },
     { name: 'About', path: '/about', icon: Info },
   ];
 
@@ -33,7 +33,7 @@ const Navbar = () => {
                 whileHover={{ scale: 1.03 }}
               >
                 <img 
-                  src="/Pak-Journal-Archive-77/logo.png" 
+                  src="/logo.png" 
                   alt="PAK NEWS JOURNAL" 
                   className="h-8 md:h-12 w-auto object-contain"
                 />

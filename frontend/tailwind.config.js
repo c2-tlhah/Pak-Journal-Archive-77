@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         'mono': ['Space Mono', 'JetBrains Mono', 'monospace'],
         'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'urdu': ['"Noto Nastaliq Urdu"', 'serif'],
       },
       animation: {
         'glow-pulse': 'glow-pulse 2s ease-in-out infinite',

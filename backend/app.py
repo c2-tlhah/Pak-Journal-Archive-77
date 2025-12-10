@@ -11,6 +11,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from utils.transcriber import initialize_model, transcribe_video
 from utils.politician_classifier import classify_video_politicians
+from utils.title_generator import generate_video_title
 from database.db_config import init_db_pool, test_db_connection, close_db_pool
 from database.video_models import Video, Transcription, PoliticianClassification
 from routes.auth import auth_bp, token_required
@@ -201,6 +202,21 @@ def process_file(job_id, file_path, filename, user_id=None, video_id=None):
                 )
                 
                 logger.info(f"[Job {job_id}] Saved to database - Video: {video_id}, Transcription: {transcription_id}")
+                
+                # Generate and update title based on transcript
+                try:
+                    update_job_status(job_id, step='Generating title...')
+                    logger.info(f"[Job {job_id}] Generating title from transcript...")
+                    
+                    generated_title = generate_video_title(result['text'])
+                    Video.update_video_title(video_id, generated_title)
+                    
+                    logger.info(f"[Job {job_id}] Title generated: {generated_title}")
+                    update_job_status(job_id, generated_title=generated_title)
+                except Exception as title_error:
+                    logger.error(f"[Job {job_id}] Title generation failed: {title_error}")
+                    # Don't fail if title generation fails
+                
             except Exception as db_error:
                 logger.error(f"[Job {job_id}] Database save failed: {db_error}")
         
@@ -563,6 +579,7 @@ def get_user_videos(current_user):
             video_data = {
                 'id': str(video['id']),
                 'filename': video.get('original_filename', 'Unknown'),
+                'original_filename': video.get('original_filename', 'Unknown'),
                 'file_size': int(video.get('file_size', 0)),
                 'duration': duration,
                 'status': video.get('status', 'uploaded'),
@@ -685,6 +702,47 @@ def delete_video(current_user, video_id):
 
     except Exception as e:
         logger.error(f"Error deleting video: {str(e)}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+@app.route('/api/videos/<video_id>/rename', methods=['PUT'])
+@token_required
+def rename_video(video_id, user_id=None):
+    """
+    Rename a video
+    """
+    try:
+        data = request.get_json()
+        new_title = data.get('title', '').strip()
+        
+        if not new_title:
+            return jsonify({"error": "Title is required"}), 400
+        
+        if len(new_title) > 200:
+            return jsonify({"error": "Title too long (max 200 characters)"}), 400
+        
+        # Verify video belongs to user
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        
+        if video['user_id'] != user_id:
+            return jsonify({"error": "Unauthorized"}), 403
+        
+        # Update title
+        success = Video.update_video_title(video_id, new_title)
+        
+        if success:
+            logger.info(f"Video renamed: {video_id} -> {new_title}")
+            return jsonify({
+                "message": "Video renamed successfully",
+                "video_id": video_id,
+                "new_title": new_title
+            }), 200
+        else:
+            return jsonify({"error": "Failed to rename video"}), 500
+
+    except Exception as e:
+        logger.error(f"Error renaming video: {str(e)}", exc_info=True)
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @app.route('/api/health', methods=['GET'])

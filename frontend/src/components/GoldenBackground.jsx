@@ -1,6 +1,7 @@
 import DigitalGlobe from './DigitalGlobe';
+import LibraryBackground3D from './LibraryBackground3D';
 
-const GoldenBackground = () => {
+const GoldenBackground = ({ variant = 'home' }) => {
   return (
     <>
       {/* Background - Lighter Cream to Dark Grayish Transition with Light Beam */}
@@ -44,7 +45,7 @@ const GoldenBackground = () => {
         />
       </div>
 
-      <DigitalGlobe />
+      {variant === 'home' ? <DigitalGlobe /> : <LibraryBackground3D />}
     </>
   );
 };

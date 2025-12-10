@@ -81,7 +81,7 @@ const Footer = () => {
                 whileHover={{ scale: 1.02 }}
               >
                 <img 
-                  src="/Pak-Journal-Archive-77/logo.png" 
+                  src="/logo.png" 
                   alt="PAK NEWS JOURNAL" 
                   className="h-8 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity"
                 />
