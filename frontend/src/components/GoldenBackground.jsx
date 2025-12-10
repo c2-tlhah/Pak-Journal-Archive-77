@@ -1,5 +1,6 @@
 import DigitalGlobe from './DigitalGlobe';
 import LibraryBackground3D from './LibraryBackground3D';
+import TranscriptionBackground3D from './TranscriptionBackground3D';
 
 const GoldenBackground = ({ variant = 'home' }) => {
   return (
@@ -45,7 +46,7 @@ const GoldenBackground = ({ variant = 'home' }) => {
         />
       </div>
 
-      {variant === 'home' ? <DigitalGlobe /> : <LibraryBackground3D />}
+      {variant === 'home' ? <DigitalGlobe /> : variant === 'library' ? <LibraryBackground3D /> : <TranscriptionBackground3D />}
     </>
   );
 };

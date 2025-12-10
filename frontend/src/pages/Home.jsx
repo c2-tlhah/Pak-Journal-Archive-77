@@ -26,8 +26,8 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-6xl md:text-[5.5rem] font-medium tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05] mb-8 md:mb-8 drop-shadow-sm"
           >
-            Pak News <br />
-            Journal Archive, <br />
+            Pak  Journal<br />
+            Archive 77, <br />
             Transcription System
           </motion.h1>
 

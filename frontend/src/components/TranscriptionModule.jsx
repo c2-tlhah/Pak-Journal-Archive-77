@@ -183,150 +183,67 @@ const TranscriptionModule = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden pt-32 pb-12 px-4">
-      <GoldenBackground variant="library" />
+    <div className="relative min-h-screen overflow-hidden pt-24 pb-12 px-4 flex flex-col items-center justify-center">
+      <GoldenBackground variant="transcription" />
       
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Hero Section */}
+      <div className="relative z-10 w-full max-w-3xl mx-auto">
+        {/* Hero Section - Minimalist */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
-            AI Transcription Studio
+          <h1 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight drop-shadow-sm">
+            Transcription Studio
           </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Transform audio and video into accurate Urdu text with cutting-edge AI technology
-          </p>
         </motion.div>
-
-        {/* Feature Cards - REMOVED */}
         
         {/* Main Card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative bg-white/10 backdrop-blur-md rounded-[32px] border border-white/20 shadow-[0_0_50px_-12px_rgba(0,0,0,0.3)] overflow-hidden"
-          style={{
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
-          }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative bg-white/20 backdrop-blur-3xl rounded-3xl shadow-2xl overflow-hidden border border-white/30"
         >
-          <div className="absolute inset-0 bg-white/5 pointer-events-none" />
           
-          {/* Window Controls */}
-          <div className="relative px-8 py-6 border-b border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/80 border border-red-600/50" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80 border border-yellow-600/50" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80 border border-green-600/50" />
-            </div>
-            <div className="text-white/50 text-sm font-medium">Transcription Studio</div>
-            <div className="w-16" /> {/* Spacer for centering */}
-          </div>
-
           {/* Main Content Area */}
-          <div className="relative p-8 md:p-12">
+          <div className="relative p-6 md:p-8">
             
             {/* Upload Section - Idle State */}
             {status === 'idle' && (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }} 
+                initial={{ opacity: 0, scale: 0.98 }} 
                 animate={{ opacity: 1, scale: 1 }} 
-                transition={{ duration: 0.5 }}
-                className="space-y-8"
+                transition={{ duration: 0.4 }}
+                className="w-full space-y-6"
               >
-                <motion.div
-                  className={`relative rounded-3xl p-16 transition-all duration-500 overflow-hidden cursor-pointer group ${
-                    isDragging ? 'scale-[1.02] shadow-2xl' : ''
+                <div
+                  className={`relative w-full h-64 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col items-center justify-center ${
+                    isDragging 
+                      ? 'bg-blue-500/5' 
+                      : 'bg-transparent hover:bg-white/10'
                   }`}
-                  style={{
-                    background: isDragging 
-                      ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%)'
-                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
-                    border: isDragging ? '3px dashed rgba(59, 130, 246, 0.6)' : '3px dashed rgba(255, 255, 255, 0.2)',
-                  }}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onClick={handleUploadClick}
-                  whileHover={{ scale: 1.01 }}
                 >
-                  <input ref={fileInputRef} type="file" accept="video/*,audio/*" onChange={handleFileSelect} className="hidden" />
+                  <input ref={fileInputRef} type="file" accept="video/*" onChange={handleFileSelect} className="hidden" />
                   
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100"
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  <div className="relative flex flex-col items-center gap-8">
-                    <motion.div
-                      animate={{ 
-                        y: isDragging ? [0, -12, 0] : [0, -6, 0],
-                        scale: isDragging ? 1.15 : 1
-                      }}
-                      transition={{ 
-                        duration: isDragging ? 0.8 : 2, 
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="relative"
-                    >
-                      <motion.div 
-                        className="absolute inset-0 bg-blue-500/30 rounded-3xl blur-2xl"
-                        animate={{ 
-                          scale: [1, 1.3, 1],
-                          opacity: [0.3, 0.6, 0.3]
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <div className="relative w-28 h-28 rounded-3xl bg-gradient-to-br from-blue-500/30 via-blue-600/20 to-purple-500/20 flex items-center justify-center border-2 border-blue-400/40 shadow-2xl shadow-blue-500/30">
-                        <Upload className="w-14 h-14 text-blue-200" strokeWidth={2} />
-                      </div>
-                    </motion.div>
-
-                    <div className="text-center space-y-3">
-                      <motion.h3 
-                        className="text-3xl text-white font-bold"
-                        animate={{ scale: isDragging ? [1, 1.05, 1] : 1 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {isDragging ? '✨ Drop your file here' : 'Upload Your Media'}
-                      </motion.h3>
-                      <p className="text-slate-300 text-lg">
-                        Drag and drop your file, or click to browse
-                      </p>
-                      <div className="flex flex-wrap justify-center gap-2 pt-2">
-                        {['MP4', 'AVI', 'MOV', 'MP3', 'WAV', 'M4A'].map((format, idx) => (
-                          <motion.span 
-                            key={format}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.6 + idx * 0.1 }}
-                            className="px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 text-xs font-medium border border-slate-600/50"
-                          >
-                            {format}
-                          </motion.span>
-                        ))}
-                      </div>
+                  <div className="flex flex-col items-center gap-6 p-6">
+                    
+                    <div className="text-center space-y-1">
+                        <p className="text-lg font-medium text-slate-800">Drag & drop or click to upload</p>
+                        <p className="text-xs text-slate-600 font-medium tracking-wide uppercase">Supports Video Files Only</p>
                     </div>
 
-                    <motion.button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleUploadClick();
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-2xl font-semibold transition-all duration-300 border border-blue-400/30 shadow-xl shadow-blue-500/30 flex items-center gap-3 group"
-                    >
-                      <FileAudio className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                      Choose File
-                    </motion.button>
+                    <button className="mt-2 px-8 py-3 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-black transition-all shadow-lg hover:shadow-slate-900/20 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 backdrop-blur-md">
+                        <Upload className="w-4 h-4" strokeWidth={2.5} />
+                        Browse Files
+                    </button>
                   </div>
-                </motion.div>
+                </div>
 
                 <AnimatePresence>
                   {file && (
@@ -336,7 +253,7 @@ const TranscriptionModule = () => {
                       exit={{ opacity: 0, y: -20, scale: 0.9 }} 
                       transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     >
-                      <div className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-800/70 via-slate-800/60 to-slate-900/70 rounded-2xl p-8 border border-slate-600/50 shadow-2xl backdrop-blur-xl gap-6">
+                      <div className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-800/70 via-slate-800/60 to-slate-900/70 rounded-2xl p-6 shadow-2xl backdrop-blur-xl gap-6">
                         <motion.div 
                           className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"
                           animate={{ 
@@ -346,11 +263,11 @@ const TranscriptionModule = () => {
                         />
                         <div className="relative flex items-center gap-5 flex-1">
                           <motion.div 
-                            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-600/30 flex items-center justify-center border-2 border-blue-400/40 shadow-xl shadow-blue-500/20"
+                            className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-600/30 flex items-center justify-center shadow-xl shadow-blue-500/20"
                             animate={{ rotate: [0, 5, -5, 0] }}
                             transition={{ duration: 2, repeat: Infinity }}
                           >
-                            <FileAudio className="w-8 h-8 text-blue-200" strokeWidth={2} />
+                            <FileAudio className="w-7 h-7 text-blue-200" strokeWidth={2} />
                           </motion.div>
                           <div className="flex-1">
                             <p className="text-white font-bold text-lg mb-1">{file.name}</p>
@@ -370,14 +287,9 @@ const TranscriptionModule = () => {
                           onClick={handleStartTranscription}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="relative px-10 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 hover:from-blue-500 hover:via-blue-400 hover:to-purple-500 text-white font-bold rounded-2xl transition-all duration-300 shadow-2xl shadow-blue-500/50 flex items-center gap-3 group overflow-hidden"
+                          className="relative px-8 py-3 bg-white text-black font-bold rounded-xl transition-all duration-300 shadow-lg flex items-center gap-2 group overflow-hidden"
                         >
-                          <motion.div 
-                            className="absolute inset-0 bg-white/20"
-                            animate={{ x: ['-100%', '100%'] }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                          />
-                          <Play className="relative w-5 h-5 fill-white group-hover:scale-110 transition-transform" />
+                          <Play className="relative w-4 h-4 fill-black group-hover:scale-110 transition-transform" />
                           <span className="relative">Start Transcription</span>
                         </motion.button>
                       </div>
@@ -410,7 +322,7 @@ const TranscriptionModule = () => {
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center border border-blue-400/30">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center">
                       <Loader2 className="w-8 h-8 text-blue-300" />
                     </div>
                   </motion.div>
