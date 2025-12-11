@@ -5,10 +5,10 @@ import Footer from '../components/Footer';
 
 const About = () => {
   const teamMembers = [
-    { name: "Omer Farooq Khan", role: "Researcher", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" },
-    { name: "Muhammad Talha Ramzan", role: "Researcher", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80" },
-    { name: "Zayyan Ahmad", role: "Researcher", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80" },
-    { name: "Mr. Ali Raza", role: "Supervisor", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=80" }
+    { name: "Omer Farooq Khan", role: "Researcher", img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" },
+    { name: "Muhammad Talha Ramzan", role: "Researcher", img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" },
+    { name: "Zayyan Ahmad", role: "Researcher", img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" },
+    { name: "Mr. Ali Raza", role: "Supervisor", img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" }
   ];
 
   return (
@@ -50,11 +50,11 @@ const About = () => {
           transition: transform 0.7s ease-out;
         }
       `}</style>
-      
+
       <GoldenBackground />
 
       <div className="relative z-10 w-full pb-20">
-        
+
         {/* 1. HERO SECTION */}
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 pt-24 md:pt-32 mb-24 animate-fadeInUp">
           <div className="max-w-3xl">
@@ -62,7 +62,7 @@ const About = () => {
               Our Mission
             </div>
             <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-slate-900 mb-8 leading-tight">
-              Preserving Pakistan's broadcast history <br/>
+              Preserving Pakistan's broadcast history <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-800">through AI-powered transcription.</span>
             </h2>
             <p className="text-xl text-slate-700 leading-relaxed max-w-2xl">
@@ -79,9 +79,9 @@ const About = () => {
           <div className="flex flex-col lg:flex-row items-start gap-12 mb-32 animate-fadeInUp delay-200">
             <div className="w-full lg:w-7/12">
               <div className="fluid-card h-[450px]">
-                <img 
-                  src="caset.jpg" 
-                  alt="Video Archives and Tapes" 
+                <img
+                  src="caset.jpg"
+                  alt="Video Archives and Tapes"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-0 left-0 bg-white px-6 py-3 rounded-tr-2xl text-xs font-bold tracking-widest text-slate-900">EST. 2020</div>
@@ -102,9 +102,9 @@ const About = () => {
           <div className="flex flex-col lg:flex-row-reverse items-center gap-16 mb-32 animate-fadeInUp delay-300">
             <div className="w-full lg:w-5/12">
               <div className="fluid-card h-[550px] w-full lg:w-4/5 mx-auto">
-                <img 
-                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80" 
-                  alt="Digital Technology and Data Processing" 
+                <img
+                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80"
+                  alt="Digital Technology and Data Processing"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -130,9 +130,9 @@ const About = () => {
           {/* Story 3: Full Width */}
           <div className="animate-fadeInUp delay-400">
             <div className="fluid-card h-[400px] w-full mb-8 relative group cursor-pointer">
-              <img 
-                src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=1200&auto=format&fit=crop&q=80" 
-                alt="AI and Machine Learning Technology" 
+              <img
+                src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=1200&auto=format&fit=crop&q=80"
+                alt="AI and Machine Learning Technology"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-transparent flex items-center p-12">
@@ -180,7 +180,7 @@ const About = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-amber-100 text-center mb-16 tracking-wide animate-fadeInUp">
               Core Values
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               {/* Security First Card */}
               <div className="relative pb-12 animate-fadeInUp delay-100">
@@ -219,7 +219,7 @@ const About = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Leadership Team</h2>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {teamMembers.map((member, i) => (
               <div key={i} className="group fluid-card p-0">
@@ -236,7 +236,7 @@ const About = () => {
         </div>
 
       </div>
-      
+
       <Footer />
     </div>
   );
