@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiVideo, FiClock, FiCalendar, FiDownload, FiEye, FiFileText, FiPlay, FiTrash2, FiEdit2, FiCheck, FiX, FiMoreVertical, FiSearch, FiFilter } from 'react-icons/fi';
+import { FiVideo, FiClock, FiCalendar, FiDownload, FiEye, FiFileText, FiPlay, FiTrash2, FiEdit2, FiCheck, FiX, FiMoreVertical, FiSearch, FiFilter, FiTag, FiPlus } from 'react-icons/fi';
 import GoldenBackground from '../components/GoldenBackground';
 
 const API_BASE_URL = import.meta.env.PROD 
@@ -24,6 +24,20 @@ function Library() {
   const [activeMenuId, setActiveMenuId] = useState(null);
   const [editingSpeakerId, setEditingSpeakerId] = useState(null);
   const [editSpeakerName, setEditSpeakerName] = useState('');
+
+  // Tag management state
+  const [editingTag, setEditingTag] = useState(null); // {videoId, oldTag}
+  const [editTagValue, setEditTagValue] = useState('');
+  const [addingTagVideoId, setAddingTagVideoId] = useState(null);
+  const [newTagValue, setNewTagValue] = useState('');
+
+  // Entity management state
+  const [editingEntity, setEditingEntity] = useState(null); // {videoId, oldText, oldType}
+  const [editEntityText, setEditEntityText] = useState('');
+  const [editEntityType, setEditEntityType] = useState('');
+  const [addingEntityVideoId, setAddingEntityVideoId] = useState(null);
+  const [newEntityText, setNewEntityText] = useState('');
+  const [newEntityType, setNewEntityType] = useState('PER');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -219,6 +233,174 @@ function Library() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ── Tag CRUD helpers ──
+
+  const deleteTag = async (videoId, tag, e) => {
+    if (e) e.stopPropagation();
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/tags`, {
+        method: 'DELETE',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tag }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, tags: data.tags } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, tags: data.tags }));
+        }
+      }
+    } catch (err) {
+      console.error('Error deleting tag:', err);
+    }
+  };
+
+  const startEditTag = (videoId, tag, e) => {
+    if (e) e.stopPropagation();
+    setEditingTag({ videoId, oldTag: tag });
+    setEditTagValue(tag);
+  };
+
+  const cancelEditTag = (e) => {
+    if (e) e.stopPropagation();
+    setEditingTag(null);
+    setEditTagValue('');
+  };
+
+  const saveEditTag = async (videoId, e) => {
+    if (e) e.stopPropagation();
+    if (!editTagValue.trim() || !editingTag) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/tags`, {
+        method: 'PUT',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ old_tag: editingTag.oldTag, new_tag: editTagValue.trim() }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, tags: data.tags } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, tags: data.tags }));
+        }
+      }
+    } catch (err) {
+      console.error('Error editing tag:', err);
+    }
+    setEditingTag(null);
+    setEditTagValue('');
+  };
+
+  const addTag = async (videoId, e) => {
+    if (e) e.stopPropagation();
+    if (!newTagValue.trim()) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/tags`, {
+        method: 'POST',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tag: newTagValue.trim() }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, tags: data.tags } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, tags: data.tags }));
+        }
+      }
+    } catch (err) {
+      console.error('Error adding tag:', err);
+    }
+    setNewTagValue('');
+    setAddingTagVideoId(null);
+  };
+
+  // ── Entity CRUD handlers ──
+  const deleteEntity = async (videoId, entityText, entityType, e) => {
+    if (e) e.stopPropagation();
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/entities`, {
+        method: 'DELETE',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entity_text: entityText, entity_type: entityType }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, entities: data.entities } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, entities: data.entities }));
+        }
+      }
+    } catch (err) {
+      console.error('Error deleting entity:', err);
+    }
+  };
+
+  const startEditEntity = (videoId, entityText, entityType, e) => {
+    if (e) e.stopPropagation();
+    setEditingEntity({ videoId, oldText: entityText, oldType: entityType });
+    setEditEntityText(entityText);
+    setEditEntityType(entityType);
+  };
+
+  const cancelEditEntity = (e) => {
+    if (e) e.stopPropagation();
+    setEditingEntity(null);
+    setEditEntityText('');
+    setEditEntityType('');
+  };
+
+  const saveEditEntity = async (videoId, e) => {
+    if (e) e.stopPropagation();
+    if (!editEntityText.trim() || !editingEntity) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/entities`, {
+        method: 'PUT',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          old_text: editingEntity.oldText,
+          old_type: editingEntity.oldType,
+          new_text: editEntityText.trim(),
+          new_type: editEntityType,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, entities: data.entities } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, entities: data.entities }));
+        }
+      }
+    } catch (err) {
+      console.error('Error editing entity:', err);
+    }
+    setEditingEntity(null);
+    setEditEntityText('');
+    setEditEntityType('');
+  };
+
+  const addEntity = async (videoId, e) => {
+    if (e) e.stopPropagation();
+    if (!newEntityText.trim()) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/videos/${videoId}/entities`, {
+        method: 'POST',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entity_text: newEntityText.trim(), entity_type: newEntityType }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setVideos(prev => prev.map(v => v.id === videoId ? { ...v, entities: data.entities } : v));
+        if (selectedVideo && selectedVideo.id === videoId) {
+          setSelectedVideo(prev => ({ ...prev, entities: data.entities }));
+        }
+      }
+    } catch (err) {
+      console.error('Error adding entity:', err);
+    }
+    setNewEntityText('');
+    setNewEntityType('PER');
+    setAddingEntityVideoId(null);
   };
 
   const openMediaModal = async (video, tab = 'video') => {
@@ -446,7 +628,7 @@ function Library() {
                         <button onClick={cancelEditing} className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 shadow-md"><FiX /></button>
                       </div>
                     ) : (
-                      <h3 className="text-lg font-bold text-slate-900 truncate flex-1 pr-4 leading-tight group-hover:text-amber-700 transition-colors font-urdu" title={video.original_filename || video.filename}>
+                      <h3 className="text-lg font-bold text-slate-900 flex-1 pr-4 leading-[2.2] group-hover:text-amber-700 transition-colors font-urdu line-clamp-2 pt-1 pb-2" dir="auto" title={video.original_filename || video.filename}>
                         {video.original_filename || video.filename || 'Untitled Video'}
                       </h3>
                     )}
@@ -536,6 +718,163 @@ function Library() {
                       )}
                   </div>
 
+                  {/* ── Category Badge ── */}
+                  {video.category && video.category !== 'unknown' && (
+                    <div className="mb-3">
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-400/40 text-amber-800 text-xs font-bold uppercase tracking-wider shadow-sm" dir="auto">
+                        {video.category}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* ── Individual Tag Chips ── */}
+                  <div className="flex flex-wrap gap-1.5 mb-4" onClick={(e) => e.stopPropagation()}>
+                    {Array.isArray(video.tags) && video.tags.filter(t => (t.tag || t) !== 'unknown').slice(0, 10).map((tagItem, idx) => {
+                        const tagText = tagItem.tag || tagItem;
+                        const isEditing = editingTag && editingTag.videoId === video.id && editingTag.oldTag === tagText;
+                        return isEditing ? (
+                          <span key={idx} className="inline-flex items-center gap-1 px-1 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[11px]">
+                            <input
+                              type="text"
+                              value={editTagValue}
+                              onChange={(e) => setEditTagValue(e.target.value)}
+                              className="w-20 bg-transparent outline-none text-[11px] text-slate-800"
+                              autoFocus
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') saveEditTag(video.id, e);
+                                if (e.key === 'Escape') cancelEditTag(e);
+                              }}
+                            />
+                            <button onClick={(e) => saveEditTag(video.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={10} /></button>
+                            <button onClick={cancelEditTag} className="text-red-500 hover:text-red-700"><FiX size={10} /></button>
+                          </span>
+                        ) : (
+                          <span
+                            key={idx}
+                            className="group/tag inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/50 border border-slate-200/70 text-slate-600 text-[11px] font-medium shadow-sm hover:border-amber-300 transition-colors"
+                            dir="auto"
+                          >
+                            {tagText}
+                            {tagItem.source === 'ocr' && <span className="text-[8px] text-blue-500 font-bold uppercase">OCR</span>}
+                            <button onClick={(e) => startEditTag(video.id, tagText, e)} className="opacity-0 group-hover/tag:opacity-100 text-amber-500 hover:text-amber-700 transition-opacity" title="Edit"><FiEdit2 size={9} /></button>
+                            <button onClick={(e) => deleteTag(video.id, tagText, e)} className="opacity-0 group-hover/tag:opacity-100 text-red-400 hover:text-red-600 transition-opacity" title="Delete"><FiX size={9} /></button>
+                          </span>
+                        );
+                      })}
+                      {/* Add tag button */}
+                      {addingTagVideoId === video.id ? (
+                        <span className="inline-flex items-center gap-1 px-1 py-0.5 rounded-md bg-emerald-50 border border-emerald-300 text-[11px]">
+                          <input
+                            type="text"
+                            value={newTagValue}
+                            onChange={(e) => setNewTagValue(e.target.value)}
+                            placeholder="new tag"
+                            className="w-16 bg-transparent outline-none text-[11px] text-slate-800 placeholder:text-slate-400"
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') addTag(video.id, e);
+                              if (e.key === 'Escape') { setAddingTagVideoId(null); setNewTagValue(''); }
+                            }}
+                          />
+                          <button onClick={(e) => addTag(video.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={10} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); setAddingTagVideoId(null); setNewTagValue(''); }} className="text-red-500 hover:text-red-700"><FiX size={10} /></button>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setAddingTagVideoId(video.id); }}
+                          className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-white/30 border border-dashed border-slate-300 text-slate-400 text-[11px] hover:border-amber-400 hover:text-amber-600 transition-colors"
+                        >
+                          <FiPlus size={9} /> tag
+                        </button>
+                      )}
+                    </div>
+
+                  {/* ── Named Entities (NER) ── */}
+                  {(Array.isArray(video.entities) && video.entities.length > 0 || addingEntityVideoId === video.id) && (
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {(video.entities || []).slice(0, 8).map((ent, idx) => {
+                        const colors = {
+                          PER: 'bg-blue-100 border-blue-300 text-blue-800',
+                          LOC: 'bg-green-100 border-green-300 text-green-800',
+                          ORG: 'bg-purple-100 border-purple-300 text-purple-800',
+                        };
+                        const cls = colors[ent.entity_type] || 'bg-slate-100 border-slate-300 text-slate-700';
+
+                        // Inline edit mode
+                        if (editingEntity && editingEntity.videoId === video.id && editingEntity.oldText === ent.entity_text && editingEntity.oldType === ent.entity_type) {
+                          return (
+                            <span key={idx} className="inline-flex items-center gap-1 px-1 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[11px]">
+                              <select value={editEntityType} onChange={(e) => setEditEntityType(e.target.value)} className="bg-transparent outline-none text-[9px] font-bold uppercase">
+                                <option value="PER">PER</option>
+                                <option value="ORG">ORG</option>
+                                <option value="LOC">LOC</option>
+                              </select>
+                              <input
+                                type="text"
+                                value={editEntityText}
+                                onChange={(e) => setEditEntityText(e.target.value)}
+                                className="w-20 bg-transparent outline-none text-[11px] text-slate-800"
+                                autoFocus
+                                dir="auto"
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') saveEditEntity(video.id, e);
+                                  if (e.key === 'Escape') cancelEditEntity(e);
+                                }}
+                              />
+                              <button onClick={(e) => saveEditEntity(video.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={10} /></button>
+                              <button onClick={cancelEditEntity} className="text-red-500 hover:text-red-700"><FiX size={10} /></button>
+                            </span>
+                          );
+                        }
+
+                        return (
+                          <span
+                            key={idx}
+                            className={`group/ent inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-medium shadow-sm ${cls}`}
+                            dir="auto"
+                          >
+                            <span className="opacity-60 text-[9px] uppercase font-bold">{ent.entity_type}</span>
+                            {ent.entity_text}
+                            <button onClick={(e) => startEditEntity(video.id, ent.entity_text, ent.entity_type, e)} className="opacity-0 group-hover/ent:opacity-100 text-amber-500 hover:text-amber-700 transition-opacity" title="Edit"><FiEdit2 size={9} /></button>
+                            <button onClick={(e) => deleteEntity(video.id, ent.entity_text, ent.entity_type, e)} className="opacity-0 group-hover/ent:opacity-100 text-red-400 hover:text-red-600 transition-opacity" title="Delete"><FiX size={9} /></button>
+                          </span>
+                        );
+                      })}
+                      {/* Add entity button */}
+                      {addingEntityVideoId === video.id ? (
+                        <span className="inline-flex items-center gap-1 px-1 py-0.5 rounded-md bg-emerald-50 border border-emerald-300 text-[11px]">
+                          <select value={newEntityType} onChange={(e) => setNewEntityType(e.target.value)} className="bg-transparent outline-none text-[9px] font-bold uppercase">
+                            <option value="PER">PER</option>
+                            <option value="ORG">ORG</option>
+                            <option value="LOC">LOC</option>
+                          </select>
+                          <input
+                            type="text"
+                            value={newEntityText}
+                            onChange={(e) => setNewEntityText(e.target.value)}
+                            placeholder="entity"
+                            className="w-16 bg-transparent outline-none text-[11px] text-slate-800 placeholder:text-slate-400"
+                            autoFocus
+                            dir="auto"
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') addEntity(video.id, e);
+                              if (e.key === 'Escape') { setAddingEntityVideoId(null); setNewEntityText(''); }
+                            }}
+                          />
+                          <button onClick={(e) => addEntity(video.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={10} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); setAddingEntityVideoId(null); setNewEntityText(''); }} className="text-red-500 hover:text-red-700"><FiX size={10} /></button>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setAddingEntityVideoId(video.id); }}
+                          className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-white/30 border border-dashed border-slate-300 text-slate-400 text-[11px] hover:border-blue-400 hover:text-blue-600 transition-colors"
+                        >
+                          <FiPlus size={9} /> entity
+                        </button>
+                      )}
+                    </div>
+                  )}
+
                   {/* Metadata */}
                   <div className="flex items-center gap-4 text-xs font-medium text-slate-500 mb-5">
                     <div className="flex items-center bg-white/40 px-2 py-1 rounded-md border border-white/30">
@@ -548,10 +887,10 @@ function Library() {
                     </div>
                   </div>
 
-                  {/* Transcript Preview (Compact) */}
+                  {/* ── Transcript Preview ── */}
                   {video.has_transcription && video.transcript_preview ? (
                     <div className="bg-white/30 rounded-xl p-4 mt-auto border border-white/40 group-hover:bg-white/50 transition-colors relative overflow-hidden">
-                      <p className="text-slate-600 text-xs leading-relaxed line-clamp-3 font-urdu" dir="auto">
+                      <p className="text-slate-600 text-xs leading-[2] line-clamp-3 font-urdu pt-0.5 pb-1.5" dir="auto">
                         "{video.transcript_preview}"
                       </p>
                     </div>
@@ -605,7 +944,7 @@ function Library() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3 flex-1 overflow-hidden">
-                  <h2 className="text-xl md:text-2xl font-bold text-slate-900 truncate max-w-2xl">
+                  <h2 className="text-xl md:text-2xl font-bold text-slate-900 max-w-2xl break-words font-urdu line-clamp-3 leading-[2.2] pt-1 pb-2" dir="auto">
                     {selectedVideo.original_filename || selectedVideo.filename || 'Untitled Video'}
                   </h2>
                   <button
@@ -688,8 +1027,173 @@ function Library() {
                   )}
                 </div>
 
+                {/* ── Category & Tags Section in Modal ── */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="p-5 border-b border-slate-100 bg-white/80 space-y-3">
+                  {/* Category */}
+                  {selectedVideo.category && selectedVideo.category !== 'unknown' && (
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Category</span>
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-400/40 text-amber-800 text-xs font-bold uppercase tracking-wider shadow-sm" dir="auto">
+                        {selectedVideo.category}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Tags */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      <FiTag className="inline w-3 h-3 mr-1" />Tags
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {Array.isArray(selectedVideo.tags) && selectedVideo.tags.filter(t => (t.tag || t) !== 'unknown').map((tagItem, idx) => {
+                        const tagText = tagItem.tag || tagItem;
+                        const isEditing = editingTag && editingTag.videoId === selectedVideo.id && editingTag.oldTag === tagText;
+                        return isEditing ? (
+                          <span key={idx} className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-50 border border-amber-300 text-xs">
+                            <input
+                              type="text"
+                              value={editTagValue}
+                              onChange={(e) => setEditTagValue(e.target.value)}
+                              className="w-24 bg-transparent outline-none text-xs text-slate-800"
+                              autoFocus
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') saveEditTag(selectedVideo.id, e);
+                                if (e.key === 'Escape') cancelEditTag(e);
+                              }}
+                            />
+                            <button onClick={(e) => saveEditTag(selectedVideo.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={12} /></button>
+                            <button onClick={cancelEditTag} className="text-red-500 hover:text-red-700"><FiX size={12} /></button>
+                          </span>
+                        ) : (
+                          <span
+                            key={idx}
+                            className="group/mtag inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium hover:border-amber-300 transition-colors"
+                            dir="auto"
+                          >
+                            {tagText}
+                            {tagItem.source === 'ocr' && <span className="text-[8px] text-blue-500 font-bold uppercase">OCR</span>}
+                            <button onClick={(e) => startEditTag(selectedVideo.id, tagText, e)} className="opacity-0 group-hover/mtag:opacity-100 text-amber-500 hover:text-amber-700 transition-opacity" title="Edit"><FiEdit2 size={11} /></button>
+                            <button onClick={(e) => deleteTag(selectedVideo.id, tagText, e)} className="opacity-0 group-hover/mtag:opacity-100 text-red-400 hover:text-red-600 transition-opacity" title="Delete"><FiX size={11} /></button>
+                          </span>
+                        );
+                      })}
+                      {/* Add tag inline */}
+                      {addingTagVideoId === selectedVideo.id ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-xs">
+                          <input
+                            type="text"
+                            value={newTagValue}
+                            onChange={(e) => setNewTagValue(e.target.value)}
+                            placeholder="new tag"
+                            className="w-20 bg-transparent outline-none text-xs text-slate-800 placeholder:text-slate-400"
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') addTag(selectedVideo.id, e);
+                              if (e.key === 'Escape') { setAddingTagVideoId(null); setNewTagValue(''); }
+                            }}
+                          />
+                          <button onClick={(e) => addTag(selectedVideo.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={12} /></button>
+                          <button onClick={() => { setAddingTagVideoId(null); setNewTagValue(''); }} className="text-red-500 hover:text-red-700"><FiX size={12} /></button>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => setAddingTagVideoId(selectedVideo.id)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/50 border border-dashed border-slate-300 text-slate-400 text-xs hover:border-amber-400 hover:text-amber-600 transition-colors"
+                        >
+                          <FiPlus size={11} /> Add Tag
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Entities in modal */}
+                  {(Array.isArray(selectedVideo.entities) && selectedVideo.entities.length > 0 || addingEntityVideoId === selectedVideo.id) && (
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Named Entities</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(selectedVideo.entities || []).map((ent, idx) => {
+                          const colors = {
+                            PER: 'bg-blue-100 border-blue-300 text-blue-800',
+                            LOC: 'bg-green-100 border-green-300 text-green-800',
+                            ORG: 'bg-purple-100 border-purple-300 text-purple-800',
+                          };
+                          const cls = colors[ent.entity_type] || 'bg-slate-100 border-slate-300 text-slate-700';
+
+                          if (editingEntity && editingEntity.videoId === selectedVideo.id && editingEntity.oldText === ent.entity_text && editingEntity.oldType === ent.entity_type) {
+                            return (
+                              <span key={idx} className="inline-flex items-center gap-1 px-1.5 py-1 rounded-lg bg-amber-50 border border-amber-300 text-xs">
+                                <select value={editEntityType} onChange={(e) => setEditEntityType(e.target.value)} className="bg-transparent outline-none text-[9px] font-bold uppercase">
+                                  <option value="PER">PER</option>
+                                  <option value="ORG">ORG</option>
+                                  <option value="LOC">LOC</option>
+                                </select>
+                                <input
+                                  type="text"
+                                  value={editEntityText}
+                                  onChange={(e) => setEditEntityText(e.target.value)}
+                                  className="w-24 bg-transparent outline-none text-xs text-slate-800"
+                                  autoFocus
+                                  dir="auto"
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') saveEditEntity(selectedVideo.id, e);
+                                    if (e.key === 'Escape') cancelEditEntity(e);
+                                  }}
+                                />
+                                <button onClick={(e) => saveEditEntity(selectedVideo.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={11} /></button>
+                                <button onClick={cancelEditEntity} className="text-red-500 hover:text-red-700"><FiX size={11} /></button>
+                              </span>
+                            );
+                          }
+
+                          return (
+                            <span key={idx} className={`group/ent inline-flex items-center gap-1 px-2 py-1 rounded-lg border text-xs font-medium ${cls}`} dir="auto">
+                              <span className="opacity-60 text-[8px] uppercase font-bold">{ent.entity_type}</span>
+                              {ent.entity_text}
+                              <button onClick={(e) => startEditEntity(selectedVideo.id, ent.entity_text, ent.entity_type, e)} className="opacity-0 group-hover/ent:opacity-100 text-amber-500 hover:text-amber-700 transition-opacity" title="Edit"><FiEdit2 size={10} /></button>
+                              <button onClick={(e) => deleteEntity(selectedVideo.id, ent.entity_text, ent.entity_type, e)} className="opacity-0 group-hover/ent:opacity-100 text-red-400 hover:text-red-600 transition-opacity" title="Delete"><FiX size={10} /></button>
+                            </span>
+                          );
+                        })}
+                        {/* Add entity button in modal */}
+                        {addingEntityVideoId === selectedVideo.id ? (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-xs">
+                            <select value={newEntityType} onChange={(e) => setNewEntityType(e.target.value)} className="bg-transparent outline-none text-[9px] font-bold uppercase">
+                              <option value="PER">PER</option>
+                              <option value="ORG">ORG</option>
+                              <option value="LOC">LOC</option>
+                            </select>
+                            <input
+                              type="text"
+                              value={newEntityText}
+                              onChange={(e) => setNewEntityText(e.target.value)}
+                              placeholder="entity"
+                              className="w-20 bg-transparent outline-none text-xs text-slate-800 placeholder:text-slate-400"
+                              autoFocus
+                              dir="auto"
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') addEntity(selectedVideo.id, e);
+                                if (e.key === 'Escape') { setAddingEntityVideoId(null); setNewEntityText(''); }
+                              }}
+                            />
+                            <button onClick={(e) => addEntity(selectedVideo.id, e)} className="text-emerald-600 hover:text-emerald-800"><FiCheck size={11} /></button>
+                            <button onClick={(e) => { e.stopPropagation(); setAddingEntityVideoId(null); setNewEntityText(''); }} className="text-red-500 hover:text-red-700"><FiX size={11} /></button>
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => setAddingEntityVideoId(selectedVideo.id)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/50 border border-dashed border-slate-300 text-slate-400 text-xs hover:border-blue-400 hover:text-blue-600 transition-colors"
+                          >
+                            <FiPlus size={11} /> Add Entity
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Transcript Text */}
-                <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-50/50">
+                <div className="p-6 bg-slate-50/50">
                   {fullTranscript ? (
                     <div className="space-y-6">
                       <div className="text-xs font-medium text-slate-400 flex justify-between uppercase tracking-wider">
@@ -730,6 +1234,7 @@ function Library() {
                       )}
                     </div>
                   )}
+                </div>
                 </div>
               </div>
             </div>

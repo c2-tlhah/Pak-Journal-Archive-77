@@ -1,10 +1,11 @@
 """
-Title Generator using Translation + MiniLM
+Title Generator using Translation + LaBSE
 1. Translates Urdu transcript to English
-2. Uses MiniLM to find the most central/representative sentence
+2. Uses LaBSE to find the most central/representative sentence
 3. Translates the result back to Urdu
 """
 import logging
+import torch
 from sentence_transformers import SentenceTransformer
 from deep_translator import GoogleTranslator
 from sklearn.metrics.pairwise import cosine_similarity
@@ -17,16 +18,19 @@ class TitleGenerator:
     def __init__(self):
         self.model = None
         self.initialized = False
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
     def initialize(self):
         """Initialize the sentence embedding model"""
         try:
-            logger.info("Loading title generation model (MiniLM-L6-v2)...")
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+            logger.info("Loading title generation model (LaBSE)...")
+            self.model = SentenceTransformer('sentence-transformers/LaBSE')
+            self.model.half()
+            self.model.to(self.device)
             self.initialized = True
-            logger.info("✓ Title generation model loaded successfully")
+            logger.info(f"[OK] Title generation model loaded on {self.device}")
         except Exception as e:
-            logger.error(f"✗ Failed to load title generation model: {e}")
+            logger.error(f"[FAIL] Failed to load title generation model: {e}")
             self.initialized = False
     
     def generate_title(self, transcript: str, max_length: int = 100) -> str:
@@ -63,7 +67,7 @@ class TitleGenerator:
             if not sentences:
                 return self._fallback_title(transcript)
             
-            # 3. Find the most representative sentence using MiniLM
+            # 3. Find the most representative sentence using LaBSE
             # Encode all sentences
             sentence_embeddings = self.model.encode(sentences)
             
@@ -86,11 +90,11 @@ class TitleGenerator:
             # 5. Cleanup and truncate
             final_title = self._clean_title(urdu_title, max_length)
             
-            logger.info(f"✓ Generated Urdu title: {final_title}")
+            logger.info(f"[OK] Generated Urdu title: {final_title}")
             return final_title
             
         except Exception as e:
-            logger.error(f"✗ Title generation failed: {e}")
+            logger.error(f"[FAIL] Title generation failed: {e}")
             return self._fallback_title(transcript)
     
     def _clean_title(self, title: str, max_length: int) -> str:
@@ -173,7 +177,7 @@ class TitleGenerator:
             return title
             
         except Exception as e:
-            logger.error(f"✗ Fallback title generation failed: {e}")
+            logger.error(f"[FAIL] Fallback title generation failed: {e}")
             return "Untitled Video"
 
 # Global instance

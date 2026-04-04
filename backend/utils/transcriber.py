@@ -57,13 +57,28 @@ def initialize_model(model_name="openai/whisper-large-v3"):
             "loaded": True
         }
         
-        logger.info(f"✓ Whisper model loaded successfully")
+        logger.info(f"[OK] Whisper model loaded successfully")
         return True
         
     except Exception as e:
-        logger.error(f"✗ Failed to load Whisper model: {str(e)}")
+        logger.error(f"[FAIL] Failed to load Whisper model: {str(e)}")
         model_info["loaded"] = False
         raise e
+
+def unload_model():
+    """Free Whisper model from GPU to reclaim VRAM."""
+    global model, processor, model_info
+    if model is not None:
+        del model
+        model = None
+    if processor is not None:
+        del processor
+        processor = None
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    model_info["loaded"] = False
+    logger.info("Whisper model unloaded from VRAM")
 
 def get_model_info():
     return model_info
@@ -130,12 +145,82 @@ def smart_chunk_audio(audio, sr=16000, min_duration=15, max_duration=30):
         
     return chunks, timestamps
 
+def _dedup_segment_text(text):
+    """Remove repeated consecutive words/phrases within a single segment."""
+    words = text.split()
+    if len(words) < 2:
+        return text
+
+    # Pass 1: Remove consecutive duplicate words (e.g., "کہ کہ کہ" → "کہ")
+    deduped = [words[0]]
+    for w in words[1:]:
+        if w != deduped[-1]:
+            deduped.append(w)
+    words = deduped
+
+    # Pass 2: Remove repeated phrases (2-6 word n-grams repeated consecutively)
+    for n in range(6, 1, -1):
+        if len(words) < n * 2:
+            continue
+        cleaned = []
+        i = 0
+        while i < len(words):
+            if i + n * 2 <= len(words) and words[i:i+n] == words[i+n:i+n*2]:
+                # Found a repeated n-gram, keep one copy and skip all repeats
+                cleaned.extend(words[i:i+n])
+                i += n
+                while i + n <= len(words) and words[i:i+n] == cleaned[-n:]:
+                    i += n
+            else:
+                cleaned.append(words[i])
+                i += 1
+        words = cleaned
+
+    return " ".join(words)
+
+
+def _dedup_consecutive_segments(segments):
+    """Remove overlapping text between consecutive segments."""
+    if len(segments) < 2:
+        return segments
+
+    cleaned = [segments[0].copy()]
+    cleaned[0]["text"] = _dedup_segment_text(cleaned[0]["text"])
+
+    for seg in segments[1:]:
+        prev_words = cleaned[-1]["text"].split()
+        cur_words = seg["text"].split()
+
+        if not cur_words:
+            continue
+
+        # Find longest suffix of prev that matches prefix of cur (up to 15 words)
+        max_check = min(15, len(prev_words), len(cur_words))
+        overlap = 0
+        for length in range(1, max_check + 1):
+            if prev_words[-length:] == cur_words[:length]:
+                overlap = length
+
+        new_seg = seg.copy()
+        if overlap > 0:
+            new_seg["text"] = " ".join(cur_words[overlap:])
+
+        # Also dedup within the segment
+        new_seg["text"] = _dedup_segment_text(new_seg["text"])
+
+        if new_seg["text"].strip():
+            cleaned.append(new_seg)
+
+    return cleaned
+
+
 def transcribe_video(file_path, job_id, update_status_callback=None):
     """
     Transcribe using manual batch processing with smart chunking.
     """
     if model is None:
-        raise RuntimeError("Whisper model not initialized")
+        logger.info(f"[Job {job_id}] Whisper model not loaded, reinitializing...")
+        initialize_model()
         
     try:
         logger.info(f"[Job {job_id}] Starting optimized transcription (Smart Batch Mode)")
@@ -241,6 +326,11 @@ def transcribe_video(file_path, job_id, update_status_callback=None):
                 torch.cuda.empty_cache()
                 
         logger.info(f"[Job {job_id}] Transcription complete. Length: {len(full_text)} chars")
+
+        # Post-process: remove repeated words/phrases and cross-segment overlaps
+        segments = _dedup_consecutive_segments(segments)
+        full_text = " ".join(seg["text"] for seg in segments)
+        logger.info(f"[Job {job_id}] After dedup: {len(full_text)} chars, {len(segments)} segments")
         
         return {
             "text": full_text.strip(),

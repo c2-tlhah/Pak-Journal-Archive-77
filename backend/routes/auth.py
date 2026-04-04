@@ -144,7 +144,7 @@ def signup():
         # Generate token
         token = User.generate_token(user)
         
-        logger.info(f"✓ New user registered: {username} ({email})")
+        logger.info(f"[OK] New user registered: {username} ({email})")
         
         return jsonify({
             'message': 'User registered successfully',
@@ -159,7 +159,7 @@ def signup():
         }), 201
         
     except Exception as e:
-        logger.error(f"✗ Signup error: {e}")
+        logger.error(f"[FAIL] Signup error: {e}")
         return jsonify({'error': 'Registration failed'}), 500
 
 @auth_bp.route('/login', methods=['POST'])
@@ -184,7 +184,7 @@ def login():
         # Generate token
         token = User.generate_token(user)
         
-        logger.info(f"✓ User logged in: {email}")
+        logger.info(f"[OK] User logged in: {email}")
         
         return jsonify({
             'message': 'Login successful',
@@ -199,7 +199,7 @@ def login():
         }), 200
         
     except Exception as e:
-        logger.error(f"✗ Login error: {e}")
+        logger.error(f"[FAIL] Login error: {e}")
         return jsonify({'error': 'Login failed'}), 500
 
 @auth_bp.route('/me', methods=['GET'])
@@ -217,7 +217,7 @@ def get_current_user():
         }), 200
         
     except Exception as e:
-        logger.error(f"✗ Get current user error: {e}")
+        logger.error(f"[FAIL] Get current user error: {e}")
         return jsonify({'error': 'Failed to get user profile'}), 500
 
 import os
@@ -240,7 +240,21 @@ def update_profile():
     try:
         data = request.get_json()
         user_id = request.user['user_id']
-        
+
+        # Validate username if provided
+        if 'username' in data:
+            new_username = data['username'].strip()
+            is_valid, username_error = validate_username(new_username)
+            if not is_valid:
+                return jsonify({'error': username_error}), 400
+
+            # Check uniqueness (skip if unchanged)
+            existing = User.get_user_by_username(new_username)
+            if existing and str(existing['id']) != user_id:
+                return jsonify({'error': 'Username already taken'}), 409
+
+            data['username'] = new_username
+
         updated_user = User.update_user(user_id, data)
         
         if not updated_user:
@@ -252,7 +266,7 @@ def update_profile():
         }), 200
         
     except Exception as e:
-        logger.error(f"✗ Update profile error: {e}")
+        logger.error(f"[FAIL] Update profile error: {e}")
         return jsonify({'error': 'Failed to update profile'}), 500
 
 @auth_bp.route('/verify', methods=['GET'])
@@ -328,5 +342,5 @@ def upload_profile_picture():
         return jsonify({'error': 'File type not allowed'}), 400
         
     except Exception as e:
-        logger.error(f"✗ Upload profile picture error: {e}")
+        logger.error(f"[FAIL] Upload profile picture error: {e}")
         return jsonify({'error': 'Failed to upload profile picture'}), 500

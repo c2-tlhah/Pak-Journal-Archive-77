@@ -25,10 +25,10 @@ def test_signup():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 201:
-        print("✓ PASS: User registered successfully")
+        print("[OK] PASS: User registered successfully")
         return response.json()['token']
     else:
-        print("✗ FAIL: Registration failed")
+        print("[FAIL] FAIL: Registration failed")
         return None
 
 def test_duplicate_signup():
@@ -48,9 +48,9 @@ def test_duplicate_signup():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 409:
-        print("✓ PASS: Duplicate registration properly rejected")
+        print("[OK] PASS: Duplicate registration properly rejected")
     else:
-        print("✗ FAIL: Should have rejected duplicate registration")
+        print("[FAIL] FAIL: Should have rejected duplicate registration")
 
 def test_login():
     """Test user login"""
@@ -68,10 +68,10 @@ def test_login():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 200:
-        print("✓ PASS: Login successful")
+        print("[OK] PASS: Login successful")
         return response.json()['token']
     else:
-        print("✗ FAIL: Login failed")
+        print("[FAIL] FAIL: Login failed")
         return None
 
 def test_invalid_login():
@@ -90,9 +90,9 @@ def test_invalid_login():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 401:
-        print("✓ PASS: Invalid login properly rejected")
+        print("[OK] PASS: Invalid login properly rejected")
     else:
-        print("✗ FAIL: Should have rejected invalid credentials")
+        print("[FAIL] FAIL: Should have rejected invalid credentials")
 
 def test_verify_token(token):
     """Test token verification"""
@@ -106,9 +106,9 @@ def test_verify_token(token):
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 200:
-        print("✓ PASS: Token verified successfully")
+        print("[OK] PASS: Token verified successfully")
     else:
-        print("✗ FAIL: Token verification failed")
+        print("[FAIL] FAIL: Token verification failed")
 
 def test_get_current_user(token):
     """Test getting current user profile"""
@@ -122,9 +122,9 @@ def test_get_current_user(token):
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 200:
-        print("✓ PASS: Profile retrieved successfully")
+        print("[OK] PASS: Profile retrieved successfully")
     else:
-        print("✗ FAIL: Failed to get profile")
+        print("[FAIL] FAIL: Failed to get profile")
 
 def test_protected_route_without_token():
     """Test accessing protected route without token"""
@@ -137,9 +137,9 @@ def test_protected_route_without_token():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 401:
-        print("✓ PASS: Properly rejected access without token")
+        print("[OK] PASS: Properly rejected access without token")
     else:
-        print("✗ FAIL: Should have rejected access without token")
+        print("[FAIL] FAIL: Should have rejected access without token")
 
 def test_admin_login():
     """Test admin login"""
@@ -157,10 +157,10 @@ def test_admin_login():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     
     if response.status_code == 200 and response.json()['user']['role'] == 'admin':
-        print("✓ PASS: Admin login successful")
+        print("[OK] PASS: Admin login successful")
         return response.json()['token']
     else:
-        print("✗ FAIL: Admin login failed")
+        print("[FAIL] FAIL: Admin login failed")
         return None
 
 def main():
@@ -197,14 +197,14 @@ def main():
         admin_token = test_admin_login()
         
         print("\n" + "="*60)
-        print("✓ All Tests Completed!")
+        print("[OK] All Tests Completed!")
         print("="*60)
         
     except requests.exceptions.ConnectionError:
-        print("\n✗ ERROR: Cannot connect to backend server")
+        print("\n[FAIL] ERROR: Cannot connect to backend server")
         print("Make sure the server is running on http://localhost:5000")
     except Exception as e:
-        print(f"\n✗ ERROR: {e}")
+        print(f"\n[FAIL] ERROR: {e}")
 
 if __name__ == '__main__':
     main()

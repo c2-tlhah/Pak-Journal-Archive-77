@@ -51,10 +51,10 @@ class User:
                 if user and user.get('created_at'):
                     user['created_at'] = str(user['created_at'])
                     
-                logger.info(f"✓ User created: {username} ({email})")
+                logger.info(f"[OK] User created: {username} ({email})")
                 return dict(user)
         except Exception as e:
-            logger.error(f"✗ Failed to create user: {e}")
+            logger.error(f"[FAIL] Failed to create user: {e}")
             return None
     
     @staticmethod
@@ -77,7 +77,7 @@ class User:
                     
                 return dict(user) if user else None
         except Exception as e:
-            logger.error(f"✗ Failed to get user by email: {e}")
+            logger.error(f"[FAIL] Failed to get user by email: {e}")
             return None
     
     @staticmethod
@@ -100,7 +100,7 @@ class User:
                     
                 return dict(user) if user else None
         except Exception as e:
-            logger.error(f"✗ Failed to get user by username: {e}")
+            logger.error(f"[FAIL] Failed to get user by username: {e}")
             return None
     
     @staticmethod
@@ -125,14 +125,14 @@ class User:
                     
                 return dict(user) if user else None
         except Exception as e:
-            logger.error(f"✗ Failed to get user by ID: {e}")
+            logger.error(f"[FAIL] Failed to get user by ID: {e}")
             return None
 
     @staticmethod
     def update_user(user_id: str, data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Update user profile"""
         try:
-            allowed_fields = ['full_name', 'birth_date', 'country', 'phone_number', 'bio', 'profile_picture']
+            allowed_fields = ['username', 'full_name', 'birth_date', 'country', 'phone_number', 'bio', 'profile_picture']
             updates = []
             values = []
             
@@ -159,10 +159,10 @@ class User:
                 if user and user.get('birth_date'):
                     user['birth_date'] = str(user['birth_date'])
                 
-                logger.info(f"✓ User updated: {user_id}")
+                logger.info(f"[OK] User updated: {user_id}")
                 return dict(user) if user else None
         except Exception as e:
-            logger.error(f"✗ Failed to update user: {e}")
+            logger.error(f"[FAIL] Failed to update user: {e}")
             return None
     
     @staticmethod
@@ -174,9 +174,9 @@ class User:
                     UPDATE users SET last_login = CURRENT_TIMESTAMP
                     WHERE id = %s
                 """, (user_id,))
-                logger.info(f"✓ Updated last login for user: {user_id}")
+                logger.info(f"[OK] Updated last login for user: {user_id}")
         except Exception as e:
-            logger.error(f"✗ Failed to update last login: {e}")
+            logger.error(f"[FAIL] Failed to update last login: {e}")
     
     @staticmethod
     def authenticate(email: str, password: str) -> Optional[Dict[str, Any]]:
@@ -184,15 +184,15 @@ class User:
         user = User.get_user_by_email(email)
         
         if not user:
-            logger.warning(f"✗ Authentication failed: User not found ({email})")
+            logger.warning(f"[FAIL] Authentication failed: User not found ({email})")
             return None
         
         if not user['is_active']:
-            logger.warning(f"✗ Authentication failed: User inactive ({email})")
+            logger.warning(f"[FAIL] Authentication failed: User inactive ({email})")
             return None
         
         if not User.verify_password(password, user['password_hash']):
-            logger.warning(f"✗ Authentication failed: Invalid password ({email})")
+            logger.warning(f"[FAIL] Authentication failed: Invalid password ({email})")
             return None
         
         # Update last login
@@ -200,7 +200,7 @@ class User:
         
         # Remove password hash from response
         user.pop('password_hash', None)
-        logger.info(f"✓ User authenticated: {email}")
+        logger.info(f"[OK] User authenticated: {email}")
         return user
     
     @staticmethod
@@ -224,8 +224,8 @@ class User:
             payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
             return payload
         except jwt.ExpiredSignatureError:
-            logger.warning("✗ Token expired")
+            logger.warning("[FAIL] Token expired")
             return None
         except jwt.InvalidTokenError:
-            logger.warning("✗ Invalid token")
+            logger.warning("[FAIL] Invalid token")
             return None

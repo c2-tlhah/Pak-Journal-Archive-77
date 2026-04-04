@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Play, FileAudio, Copy, CheckCircle, XCircle, Loader2, FileText, Download, RefreshCw, Sparkles, Zap, Clock } from 'lucide-react';
+import { Upload, Play, FileAudio, Copy, CheckCircle, XCircle, Loader2, FileText, Download, RefreshCw, Sparkles, Zap, Clock, Globe } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GoldenBackground from './GoldenBackground';
 
@@ -221,7 +221,7 @@ const TranscriptionModule = () => {
                 <div
                   className={`relative w-full h-64 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col items-center justify-center ${
                     isDragging 
-                      ? 'bg-blue-500/5' 
+                      ? 'bg-amber-500/5' 
                       : 'bg-transparent hover:bg-white/10'
                   }`}
                   onDrop={handleDrop}
@@ -255,7 +255,7 @@ const TranscriptionModule = () => {
                     >
                       <div className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-800/70 via-slate-800/60 to-slate-900/70 rounded-2xl p-6 shadow-2xl backdrop-blur-xl gap-6">
                         <motion.div 
-                          className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"
+                          className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-slate-500/10"
                           animate={{ 
                             x: ['0%', '100%', '0%'],
                           }}
@@ -263,11 +263,11 @@ const TranscriptionModule = () => {
                         />
                         <div className="relative flex items-center gap-5 flex-1">
                           <motion.div 
-                            className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-600/30 flex items-center justify-center shadow-xl shadow-blue-500/20"
+                            className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/30 to-amber-700/30 flex items-center justify-center shadow-xl shadow-amber-500/20"
                             animate={{ rotate: [0, 5, -5, 0] }}
                             transition={{ duration: 2, repeat: Infinity }}
                           >
-                            <FileAudio className="w-7 h-7 text-blue-200" strokeWidth={2} />
+                            <FileAudio className="w-7 h-7 text-amber-200" strokeWidth={2} />
                           </motion.div>
                           <div className="flex-1">
                             <p className="text-white font-bold text-lg mb-1">{file.name}</p>
@@ -277,7 +277,7 @@ const TranscriptionModule = () => {
                                 {(file.size / 1024 / 1024).toFixed(2)} MB
                               </span>
                               <span className="text-slate-500">•</span>
-                              <span className="px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 text-xs font-medium">
+                              <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-xs font-medium">
                                 Ready
                               </span>
                             </div>
@@ -310,24 +310,24 @@ const TranscriptionModule = () => {
                   <motion.div 
                     animate={{ rotate: 360 }} 
                     transition={{ duration: 2, repeat: Infinity, ease: 'linear' }} 
-                    className="w-32 h-32 rounded-full border-4 border-slate-700/50 border-t-blue-500 border-r-purple-500"
+                    className="w-32 h-32 rounded-full border-4 border-slate-700/50 border-t-amber-400 border-r-amber-600"
                   />
                   <motion.div 
                     animate={{ rotate: -360 }} 
                     transition={{ duration: 3, repeat: Infinity, ease: 'linear' }} 
-                    className="absolute inset-2 rounded-full border-4 border-slate-700/30 border-b-emerald-500"
+                    className="absolute inset-2 rounded-full border-4 border-slate-700/30 border-b-amber-300"
                   />
                   <motion.div 
                     className="absolute inset-0 flex items-center justify-center"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center">
-                      <Loader2 className="w-8 h-8 text-blue-300" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-700/30 flex items-center justify-center">
+                      <Globe className="w-8 h-8 text-amber-200" />
                     </div>
                   </motion.div>
                   <motion.div 
-                    className="absolute -inset-4 bg-blue-500/20 rounded-full blur-2xl"
+                    className="absolute -inset-4 bg-amber-500/20 rounded-full blur-2xl"
                     animate={{ 
                       scale: [1, 1.3, 1],
                       opacity: [0.3, 0.6, 0.3]
@@ -354,17 +354,17 @@ const TranscriptionModule = () => {
                   </motion.p>
                   <div className="flex items-center justify-center gap-2 pt-2">
                     <motion.div 
-                      className="w-2 h-2 rounded-full bg-blue-500"
+                      className="w-2 h-2 rounded-full bg-amber-400"
                       animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0 }}
                     />
                     <motion.div 
-                      className="w-2 h-2 rounded-full bg-purple-500"
+                      className="w-2 h-2 rounded-full bg-amber-500"
                       animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
                     />
                     <motion.div 
-                      className="w-2 h-2 rounded-full bg-emerald-500"
+                      className="w-2 h-2 rounded-full bg-amber-600"
                       animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
                     />
@@ -378,7 +378,7 @@ const TranscriptionModule = () => {
                     className="w-full max-w-3xl bg-slate-950/70 rounded-2xl p-6 border border-slate-600/50 backdrop-blur-xl shadow-2xl"
                   >
                     <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-700/50">
-                      <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                      <div className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
                       <span className="text-slate-300 font-semibold text-sm">Live Progress</span>
                     </div>
                     <div className="space-y-3 font-mono text-sm">
@@ -388,9 +388,9 @@ const TranscriptionModule = () => {
                           initial={{ opacity: 0, x: -20 }} 
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="flex items-start gap-3 text-blue-300 bg-slate-900/50 rounded-lg px-4 py-3 border border-slate-700/30"
+                          className="flex items-start gap-3 text-amber-200 bg-slate-900/50 rounded-lg px-4 py-3 border border-slate-700/30"
                         >
-                          <Zap className="w-4 h-4 mt-0.5 flex-shrink-0 text-blue-400" />
+                          <Zap className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-400" />
                           <span className="flex-1">{log}</span>
                         </motion.div>
                       ))}
@@ -415,20 +415,20 @@ const TranscriptionModule = () => {
                   className="flex flex-col items-center gap-4"
                 >
                   <motion.div 
-                    className="relative w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/30 to-green-600/30 flex items-center justify-center border-2 border-emerald-400/50 shadow-2xl shadow-emerald-500/30"
+                    className="relative w-20 h-20 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-700/30 flex items-center justify-center border-2 border-amber-400/50 shadow-2xl shadow-amber-500/30"
                     animate={{ 
                       boxShadow: [
-                        '0 0 20px rgba(16, 185, 129, 0.3)',
-                        '0 0 40px rgba(16, 185, 129, 0.5)',
-                        '0 0 20px rgba(16, 185, 129, 0.3)'
+                        '0 0 20px rgba(245, 158, 11, 0.3)',
+                        '0 0 40px rgba(245, 158, 11, 0.5)',
+                        '0 0 20px rgba(245, 158, 11, 0.3)'
                       ]
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <CheckCircle className="w-10 h-10 text-emerald-300" strokeWidth={2.5} />
+                    <CheckCircle className="w-10 h-10 text-amber-300" strokeWidth={2.5} />
                   </motion.div>
                   <div className="text-center">
-                    <h3 className="text-3xl font-bold text-white mb-2">Transcription Complete! 🎉</h3>
+                    <h3 className="text-3xl font-bold text-white mb-2">Transcription Complete!</h3>
                     <p className="text-slate-300">Your transcript is ready to download or copy</p>
                   </div>
                 </motion.div>
@@ -439,12 +439,12 @@ const TranscriptionModule = () => {
                   transition={{ delay: 0.3 }}
                   className="relative bg-slate-950/60 rounded-2xl border border-slate-600/50 overflow-hidden backdrop-blur-xl shadow-2xl"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-slate-500/5" />
                   
                   <div className="relative flex flex-wrap items-center justify-between px-8 py-5 border-b border-slate-600/50 bg-slate-900/50 gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center border border-blue-400/30">
-                        <FileText className="w-5 h-5 text-blue-200" />
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/30 to-amber-700/30 flex items-center justify-center border border-amber-400/30">
+                        <FileText className="w-5 h-5 text-amber-200" />
                       </div>
                       <div>
                         <h4 className="text-white font-bold text-lg">Your Transcript</h4>
@@ -460,7 +460,7 @@ const TranscriptionModule = () => {
                       >
                         {copied ? (
                           <>
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-amber-400" />
                             Copied!
                           </>
                         ) : (
@@ -474,7 +474,7 @@ const TranscriptionModule = () => {
                         onClick={downloadTranscript}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl transition-all duration-300 text-sm font-medium border border-blue-400/30 shadow-xl shadow-blue-500/30"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-xl transition-all duration-300 text-sm font-medium border border-amber-400/30 shadow-xl shadow-amber-500/30"
                       >
                         <Download className="w-4 h-4" />
                         Download

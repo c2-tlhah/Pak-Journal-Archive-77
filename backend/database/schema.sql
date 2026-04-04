@@ -47,7 +47,10 @@ CREATE TABLE videos (
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     processed_date TIMESTAMP,
     metadata JSONB,
-    speaker VARCHAR(100) DEFAULT 'Unknown Speaker'
+    speaker VARCHAR(100) DEFAULT 'Unknown Speaker',
+    category VARCHAR(100),
+    tags JSONB,
+    frontend_payload JSONB
 );
 
 -- Indexes for videos
@@ -106,6 +109,100 @@ CREATE INDEX idx_politician_classifications_video_id ON politician_classificatio
 CREATE INDEX idx_politician_classifications_user_id ON politician_classifications(user_id);
 CREATE INDEX idx_politician_classifications_politician_name ON politician_classifications(politician_name);
 CREATE INDEX idx_politician_classifications_created_at ON politician_classifications(created_at);
+
+-- ============================================================
+-- FUSION TAGS TABLE (Tagging Pipeline)
+-- ============================================================
+CREATE TABLE fusion_tags (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    video_id UUID NOT NULL REFERENCES videos(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    segment_id INTEGER NOT NULL,
+    segment_text TEXT,
+    speaker_id VARCHAR(100),
+    speaker_role VARCHAR(50),
+    bertopic_tag VARCHAR(100),
+    keyword_tag VARCHAR(100),
+    vocab_tag VARCHAR(100),
+    modules_agreed INTEGER DEFAULT 0,
+    final_tags JSONB,
+    low_confidence BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(video_id, segment_id)
+);
+
+CREATE INDEX idx_fusion_tags_video_id ON fusion_tags(video_id);
+CREATE INDEX idx_fusion_tags_user_id ON fusion_tags(user_id);
+
+-- ============================================================
+-- ENTITIES TABLE (Tagging Pipeline — NER)
+-- ============================================================
+CREATE TABLE entities (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    video_id UUID NOT NULL REFERENCES videos(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    entity_text VARCHAR(255) NOT NULL,
+    entity_type VARCHAR(20) NOT NULL,
+    mention_count INTEGER DEFAULT 1,
+    mentioned_by_speakers JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(video_id, entity_text, entity_type)
+);
+
+CREATE INDEX idx_entities_video_id ON entities(video_id);
+CREATE INDEX idx_entities_user_id ON entities(user_id);
+CREATE INDEX idx_entities_entity_type ON entities(entity_type);
+
+-- ============================================================
+-- SUMMARIES TABLE (Tagging Pipeline)
+-- ============================================================
+CREATE TABLE summaries (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    video_id UUID NOT NULL REFERENCES videos(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    summary_id INTEGER NOT NULL,
+    summary_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(video_id, summary_id)
+);
+
+CREATE INDEX idx_summaries_video_id ON summaries(video_id);
+CREATE INDEX idx_summaries_user_id ON summaries(user_id);
+
+-- ============================================================
+-- TOPICS TABLE (Tagging Pipeline)
+-- ============================================================
+CREATE TABLE topics (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    video_id UUID NOT NULL REFERENCES videos(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    topic_id INTEGER NOT NULL,
+    topic_keywords JSONB,
+    num_documents INTEGER DEFAULT 0,
+    representative_sentences JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(video_id, topic_id)
+);
+
+CREATE INDEX idx_topics_video_id ON topics(video_id);
+CREATE INDEX idx_topics_user_id ON topics(user_id);
+
+-- Triggers for tagging pipeline tables
+CREATE TRIGGER update_fusion_tags_updated_at BEFORE UPDATE ON fusion_tags
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_entities_updated_at BEFORE UPDATE ON entities
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_summaries_updated_at BEFORE UPDATE ON summaries
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_topics_updated_at BEFORE UPDATE ON topics
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================================
 -- TRIGGERS

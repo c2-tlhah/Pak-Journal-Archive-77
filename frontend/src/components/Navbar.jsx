@@ -39,10 +39,10 @@ const Navbar = () => {
                 />
                 <div>
                   <div className="text-lg md:text-xl font-bold text-white tracking-tight">
-                    Pak Journal Archive 77
+                    PAK Journal Archive 77
                   </div>
                   <div className="text-[8px] md:text-[10px] text-slate-400 tracking-wider uppercase hidden sm:block">
-                    Archive Transcription System
+                    AI Powered Archiving & Retrieval System
                   </div>
                 </div>
               </motion.div>

@@ -24,10 +24,10 @@ def test_classifier_initialization():
     try:
         # Test with default model path
         classifier = get_classifier()
-        logger.info("✓ Classifier initialized successfully")
+        logger.info("[OK] Classifier initialized successfully")
         return True
     except Exception as e:
-        logger.error(f"✗ Classifier initialization failed: {e}")
+        logger.error(f"[FAIL] Classifier initialization failed: {e}")
         return False
 
 def test_database_connection():
@@ -36,13 +36,13 @@ def test_database_connection():
 
     try:
         if init_db_pool() and test_db_connection():
-            logger.info("✓ Database connected successfully")
+            logger.info("[OK] Database connected successfully")
             return True
         else:
-            logger.error("✗ Database connection failed")
+            logger.error("[FAIL] Database connection failed")
             return False
     except Exception as e:
-        logger.error(f"✗ Database connection error: {e}")
+        logger.error(f"[FAIL] Database connection error: {e}")
         return False
 
 def test_video_processing():
@@ -65,17 +65,17 @@ def test_video_processing():
 
         # Test frame extraction
         frames = classifier.extract_frames(video_path, num_frames=5)
-        logger.info(f"✓ Extracted {len(frames)} frames")
+        logger.info(f"[OK] Extracted {len(frames)} frames")
 
         # Test classification on first frame
         if frames:
             result = classifier.classify_frame(frames[0][0])
-            logger.info(f"✓ Classification result: {result['politician_name']} ({result['confidence_score']:.1f}%)")
+            logger.info(f"[OK] Classification result: {result['politician_name']} ({result['confidence_score']:.1f}%)")
 
         return True
 
     except Exception as e:
-        logger.error(f"✗ Video processing test failed: {e}")
+        logger.error(f"[FAIL] Video processing test failed: {e}")
         return False
 
 def test_database_operations():
@@ -100,27 +100,27 @@ def test_database_operations():
         )
 
         if classification_id:
-            logger.info(f"✓ Created test classification: {classification_id}")
+            logger.info(f"[OK] Created test classification: {classification_id}")
 
             # Test retrieving classifications
             classifications = PoliticianClassification.get_by_video_id(test_video_id)
-            logger.info(f"✓ Retrieved {len(classifications)} classifications")
+            logger.info(f"[OK] Retrieved {len(classifications)} classifications")
 
             # Test getting stats
             stats = PoliticianClassification.get_politician_stats(test_video_id)
-            logger.info(f"✓ Got stats: {stats}")
+            logger.info(f"[OK] Got stats: {stats}")
 
             # Clean up test data
             PoliticianClassification.delete_by_video_id(test_video_id)
-            logger.info("✓ Cleaned up test data")
+            logger.info("[OK] Cleaned up test data")
 
             return True
         else:
-            logger.error("✗ Failed to create test classification")
+            logger.error("[FAIL] Failed to create test classification")
             return False
 
     except Exception as e:
-        logger.error(f"✗ Database operations test failed: {e}")
+        logger.error(f"[FAIL] Database operations test failed: {e}")
         return False
 
 def main():
@@ -148,17 +148,17 @@ def main():
 
     all_passed = True
     for test_name, success in results:
-        status = "✓ PASS" if success else "✗ FAIL"
+        status = "[OK] PASS" if success else "[FAIL] FAIL"
         logger.info(f"{status} - {test_name}")
         if not success:
             all_passed = False
 
     logger.info("="*60)
     if all_passed:
-        logger.info("🎉 ALL TESTS PASSED!")
+        logger.info("ALL TESTS PASSED!")
         return 0
     else:
-        logger.error("❌ SOME TESTS FAILED!")
+        logger.error("[ERROR] SOME TESTS FAILED!")
         return 1
 
 if __name__ == "__main__":

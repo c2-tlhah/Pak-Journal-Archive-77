@@ -35,16 +35,16 @@ def create_database():
         
         if not exists:
             cursor.execute(f'CREATE DATABASE {DB_NAME}')
-            print(f"✓ Database '{DB_NAME}' created successfully")
+            print(f"[OK] Database '{DB_NAME}' created successfully")
         else:
-            print(f"✓ Database '{DB_NAME}' already exists")
+            print(f"[OK] Database '{DB_NAME}' already exists")
         
         cursor.close()
         conn.close()
         return True
         
     except Exception as e:
-        print(f"✗ Failed to create database: {e}")
+        print(f"[FAIL] Failed to create database: {e}")
         return False
 
 def initialize_schema():
@@ -68,15 +68,15 @@ def initialize_schema():
         cursor.execute(schema_sql)
         conn.commit()
         
-        print("✓ Database schema initialized successfully")
-        print("✓ Default admin user created (username: admin, password: admin123)")
+        print("[OK] Database schema initialized successfully")
+        print("[OK] Default admin user created (username: admin, password: admin123)")
         
         cursor.close()
         conn.close()
         return True
         
     except Exception as e:
-        print(f"✗ Failed to initialize schema: {e}")
+        print(f"[FAIL] Failed to initialize schema: {e}")
         return False
 
 def main():
@@ -100,7 +100,7 @@ def main():
         sys.exit(1)
     
     print("\n" + "=" * 60)
-    print("✓ Database setup completed successfully!")
+    print("[OK] Database setup completed successfully!")
     print("=" * 60)
     print("\nYou can now start the backend server with: python3 app.py")
     print("\nDefault admin credentials:")

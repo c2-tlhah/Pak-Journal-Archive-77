@@ -48,7 +48,7 @@ def update_schema():
                 logger.info(f"Attempting to add column {col_name}...")
                 cur.execute(f"ALTER TABLE users ADD COLUMN IF NOT EXISTS {col_name} {col_type};")
                 conn.commit()
-                logger.info(f"✓ Column {col_name} added or already exists")
+                logger.info(f"[OK] Column {col_name} added or already exists")
             except Exception as e:
                 conn.rollback()
                 logger.error(f"Error adding column {col_name}: {e}")

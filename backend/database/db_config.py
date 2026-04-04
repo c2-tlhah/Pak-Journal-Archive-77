@@ -27,10 +27,10 @@ def init_db_pool(minconn=1, maxconn=10):
     global connection_pool
     try:
         connection_pool = SimpleConnectionPool(minconn, maxconn, **DB_CONFIG)
-        logger.info("✓ Database connection pool initialized")
+        logger.info("[OK] Database connection pool initialized")
         return True
     except Exception as e:
-        logger.error(f"✗ Failed to initialize database pool: {e}")
+        logger.error(f"[FAIL] Failed to initialize database pool: {e}")
         return False
 
 @contextmanager
@@ -71,10 +71,10 @@ def test_db_connection():
         with get_db_cursor() as cursor:
             cursor.execute("SELECT version();")
             version = cursor.fetchone()
-            logger.info(f"✓ Database connection successful: {version['version']}")
+            logger.info(f"[OK] Database connection successful: {version['version']}")
             return True
     except Exception as e:
-        logger.error(f"✗ Database connection failed: {e}")
+        logger.error(f"[FAIL] Database connection failed: {e}")
         return False
 
 def close_db_pool():
@@ -82,4 +82,4 @@ def close_db_pool():
     global connection_pool
     if connection_pool:
         connection_pool.closeall()
-        logger.info("✓ Database connection pool closed")
+        logger.info("[OK] Database connection pool closed")

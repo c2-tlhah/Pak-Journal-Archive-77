@@ -9,12 +9,18 @@ from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
-from utils.transcriber import initialize_model, transcribe_video
-from utils.politician_classifier import classify_video_politicians
-from utils.title_generator import generate_video_title
+from utils.transcriber import initialize_model, transcribe_video, unload_model as unload_whisper
+from utils.politician_classifier import classify_video_politicians, unload_classifier
 from database.db_config import init_db_pool, test_db_connection, close_db_pool
-from database.video_models import Video, Transcription, PoliticianClassification
+from database.video_models import Video, Transcription, PoliticianClassification, Entity
 from routes.auth import auth_bp, token_required
+try:
+    from tagging import run_tagging_pipeline
+    _TAGGING_AVAILABLE = True
+except ImportError as _e:
+    logger_bootstrap = logging.getLogger(__name__)
+    logger_bootstrap.warning(f"tagging module unavailable — skipping tagging step: {_e}")
+    _TAGGING_AVAILABLE = False
 
 # Load environment variables
 load_dotenv()
@@ -203,20 +209,6 @@ def process_file(job_id, file_path, filename, user_id=None, video_id=None):
                 
                 logger.info(f"[Job {job_id}] Saved to database - Video: {video_id}, Transcription: {transcription_id}")
                 
-                # Generate and update title based on transcript
-                try:
-                    update_job_status(job_id, step='Generating title...')
-                    logger.info(f"[Job {job_id}] Generating title from transcript...")
-                    
-                    generated_title = generate_video_title(result['text'])
-                    Video.update_video_title(video_id, generated_title)
-                    
-                    logger.info(f"[Job {job_id}] Title generated: {generated_title}")
-                    update_job_status(job_id, generated_title=generated_title)
-                except Exception as title_error:
-                    logger.error(f"[Job {job_id}] Title generation failed: {title_error}")
-                    # Don't fail if title generation fails
-                
             except Exception as db_error:
                 logger.error(f"[Job {job_id}] Database save failed: {db_error}")
         
@@ -242,6 +234,70 @@ def process_file(job_id, file_path, filename, user_id=None, video_id=None):
                 logger.error(f"[Job {job_id}] Politician classification failed: {cls_error}")
                 # Don't fail the entire job if classification fails
                 update_job_status(job_id, step='Politician analysis failed, but transcription completed')
+
+        # Offload Whisper + classifier from VRAM before heavy tagging models
+        if _TAGGING_AVAILABLE:
+            try:
+                logger.info(f"[Job {job_id}] Offloading models to free VRAM for tagging...")
+                unload_whisper()
+                unload_classifier()
+            except Exception as ul_err:
+                logger.warning(f"[Job {job_id}] Model offload issue: {ul_err}")
+
+        # Step 6: Tagging Pipeline
+        if user_id and video_id and _TAGGING_AVAILABLE:
+            try:
+                update_job_status(job_id, step='Running NLP tagging pipeline...')
+                logger.info(f"[Job {job_id}] Starting tagging pipeline...")
+
+                segments_raw = result.get('segments', [])
+                speaker_name = Video.get_video_by_id(video_id).get('speaker', 'Unknown Speaker') if video_id else 'Unknown Speaker'
+
+                tagging_outputs = run_tagging_pipeline(
+                    transcript_segments=segments_raw,
+                    speaker_name=speaker_name,
+                    video_id=video_id,
+                    user_id=user_id,
+                    video_path=file_path,
+                )
+
+                # Extract VIDEO_TITLE from first summary sentence
+                video_title = tagging_outputs.get('VIDEO_TITLE', '').strip()
+                if not video_title:
+                    summary_list = tagging_outputs.get('SUMMARY_LIST', [])
+                    if summary_list:
+                        video_title = summary_list[0].get('text', '').strip()
+                if video_title:
+                    Video.update_video_title(video_id, video_title)
+                    update_job_status(job_id, generated_title=video_title)
+                    logger.info(f"[Job {job_id}] Video title from summary: {video_title}")
+
+                # Extract FINAL_CATEGORY and FINAL_TAGS_FLAT (already computed by pipeline)
+                final_category = tagging_outputs.get('FINAL_CATEGORY', 'unknown')
+                final_tags_flat = tagging_outputs.get('FINAL_TAGS_FLAT', [])
+
+                # Compose frontend_payload — use the in-memory title, no extra DB query
+                transcript_text = result.get('text', '')
+                frontend_payload = {
+                    'video_title': video_title,
+                    'category': final_category,
+                    'tags': final_tags_flat,
+                    'transcript': transcript_text,
+                }
+
+                Video.update_video_tagging(
+                    video_id=video_id,
+                    category=final_category,
+                    tags=final_tags_flat,
+                    frontend_payload=frontend_payload,
+                )
+
+                logger.info(f"[Job {job_id}] Tagging pipeline complete. Category={final_category}, Tags={len(final_tags_flat)}")
+                update_job_status(job_id, step='Tagging pipeline completed')
+
+            except Exception as tag_error:
+                logger.error(f"[Job {job_id}] Tagging pipeline failed: {tag_error}")
+                update_job_status(job_id, step='Tagging failed, transcription still available')
         
         # Store results with metadata (including audio processing stats)
         update_job_status(
@@ -623,7 +679,11 @@ def get_user_videos(current_user):
                 'video_url': video_url,
                 'has_transcription': transcription is not None,
                 'transcription_count': int(video.get('transcription_count', 0)),
-                'speaker': video.get('speaker', 'Unknown Speaker') # Add speaker field
+                'speaker': video.get('speaker', 'Unknown Speaker'), # Add speaker field
+                'category': video.get('category'),
+                'tags': video.get('tags') or [],
+                'entities': Entity.get_by_video_id(str(video['id'])),
+                'frontend_payload': video.get('frontend_payload') or {},
             }
             
             # Add transcription preview if exists
@@ -780,6 +840,242 @@ def rename_video(video_id, user_id=None):
         logger.error(f"Error renaming video: {str(e)}", exc_info=True)
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
+# ── Tag CRUD Endpoints ──────────────────────────────────────────────
+
+@app.route('/api/videos/<video_id>/tags', methods=['GET'])
+@token_required
+def get_video_tags(current_user, video_id):
+    """Get tags for a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+        tags = Video.get_video_tags(video_id)
+        return jsonify({"video_id": video_id, "tags": tags}), 200
+    except Exception as e:
+        logger.error(f"Error getting video tags: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/tags', methods=['POST'])
+@token_required
+def add_video_tag(current_user, video_id):
+    """Add a new tag to a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        tag = (data or {}).get('tag', '').strip()
+        if not tag:
+            return jsonify({"error": "Tag text is required"}), 400
+        if len(tag) > 200:
+            return jsonify({"error": "Tag too long"}), 400
+
+        success = Video.add_video_tag(video_id, tag, source="manual")
+        if success:
+            return jsonify({"message": "Tag added", "tags": Video.get_video_tags(video_id)}), 200
+        return jsonify({"error": "Failed to add tag"}), 500
+    except Exception as e:
+        logger.error(f"Error adding video tag: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/tags', methods=['PUT'])
+@token_required
+def edit_video_tag(current_user, video_id):
+    """Edit (rename) a tag on a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        old_tag = (data or {}).get('old_tag', '').strip()
+        new_tag = (data or {}).get('new_tag', '').strip()
+        if not old_tag or not new_tag:
+            return jsonify({"error": "old_tag and new_tag are required"}), 400
+        if len(new_tag) > 200:
+            return jsonify({"error": "Tag too long"}), 400
+
+        success = Video.edit_video_tag(video_id, old_tag, new_tag)
+        if success:
+            return jsonify({"message": "Tag updated", "tags": Video.get_video_tags(video_id)}), 200
+        return jsonify({"error": "Failed to update tag"}), 500
+    except Exception as e:
+        logger.error(f"Error editing video tag: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/tags', methods=['DELETE'])
+@token_required
+def delete_video_tag(current_user, video_id):
+    """Delete a specific tag from a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        tag = (data or {}).get('tag', '').strip()
+        if not tag:
+            return jsonify({"error": "Tag text is required"}), 400
+
+        success = Video.delete_video_tag(video_id, tag)
+        if success:
+            return jsonify({"message": "Tag deleted", "tags": Video.get_video_tags(video_id)}), 200
+        return jsonify({"error": "Failed to delete tag"}), 500
+    except Exception as e:
+        logger.error(f"Error deleting video tag: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/category', methods=['PUT'])
+@token_required
+def update_video_category(current_user, video_id):
+    """Update the category for a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        category = (data or {}).get('category', '').strip()
+        if not category:
+            return jsonify({"error": "Category is required"}), 400
+
+        success = Video.update_video_category(video_id, category)
+        if success:
+            return jsonify({"message": "Category updated", "category": category}), 200
+        return jsonify({"error": "Failed to update category"}), 500
+    except Exception as e:
+        logger.error(f"Error updating video category: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+# ── End Tag CRUD ────────────────────────────────────────────────────
+
+# ── Entity CRUD ─────────────────────────────────────────────────────
+
+@app.route('/api/videos/<video_id>/entities', methods=['GET'])
+@token_required
+def get_video_entities(current_user, video_id):
+    """Get entities for a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+        entities = Entity.get_by_video_id(video_id)
+        return jsonify({"video_id": video_id, "entities": entities}), 200
+    except Exception as e:
+        logger.error(f"Error getting video entities: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/entities', methods=['POST'])
+@token_required
+def add_video_entity(current_user, video_id):
+    """Add a new entity to a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        entity_text = (data or {}).get('entity_text', '').strip()
+        entity_type = (data or {}).get('entity_type', '').strip().upper()
+        if not entity_text or not entity_type:
+            return jsonify({"error": "entity_text and entity_type are required"}), 400
+        if entity_type not in ('PER', 'ORG', 'LOC'):
+            return jsonify({"error": "entity_type must be PER, ORG, or LOC"}), 400
+        if len(entity_text) > 255:
+            return jsonify({"error": "Entity text too long"}), 400
+
+        success = Entity.add_entity(video_id, current_user['user_id'], entity_text, entity_type)
+        if success:
+            entities = Entity.get_by_video_id(video_id)
+            return jsonify({"message": "Entity added", "entities": entities}), 200
+        return jsonify({"error": "Failed to add entity"}), 500
+    except Exception as e:
+        logger.error(f"Error adding video entity: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/entities', methods=['PUT'])
+@token_required
+def edit_video_entity(current_user, video_id):
+    """Edit (rename) an entity on a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        old_text = (data or {}).get('old_text', '').strip()
+        old_type = (data or {}).get('old_type', '').strip().upper()
+        new_text = (data or {}).get('new_text', '').strip()
+        new_type = (data or {}).get('new_type', '').strip().upper()
+        if not old_text or not old_type or not new_text or not new_type:
+            return jsonify({"error": "old_text, old_type, new_text, new_type are required"}), 400
+        if new_type not in ('PER', 'ORG', 'LOC'):
+            return jsonify({"error": "new_type must be PER, ORG, or LOC"}), 400
+        if len(new_text) > 255:
+            return jsonify({"error": "Entity text too long"}), 400
+
+        success = Entity.edit_entity(video_id, old_text, old_type, new_text, new_type)
+        if success:
+            entities = Entity.get_by_video_id(video_id)
+            return jsonify({"message": "Entity updated", "entities": entities}), 200
+        return jsonify({"error": "Failed to update entity"}), 500
+    except Exception as e:
+        logger.error(f"Error editing video entity: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+
+@app.route('/api/videos/<video_id>/entities', methods=['DELETE'])
+@token_required
+def delete_video_entity(current_user, video_id):
+    """Delete a specific entity from a video"""
+    try:
+        video = Video.get_video_by_id(video_id)
+        if not video:
+            return jsonify({"error": "Video not found"}), 404
+        if str(video['user_id']) != current_user['user_id']:
+            return jsonify({"error": "Access denied"}), 403
+
+        data = request.get_json()
+        entity_text = (data or {}).get('entity_text', '').strip()
+        entity_type = (data or {}).get('entity_type', '').strip().upper()
+        if not entity_text or not entity_type:
+            return jsonify({"error": "entity_text and entity_type are required"}), 400
+
+        success = Entity.delete_entity(video_id, entity_text, entity_type)
+        if success:
+            entities = Entity.get_by_video_id(video_id)
+            return jsonify({"message": "Entity deleted", "entities": entities}), 200
+        return jsonify({"error": "Failed to delete entity"}), 500
+    except Exception as e:
+        logger.error(f"Error deleting video entity: {e}", exc_info=True)
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+# ── End Entity CRUD ─────────────────────────────────────────────────
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """
@@ -871,11 +1167,11 @@ if __name__ == '__main__':
         logger.info("Initializing database connection pool...")
         if init_db_pool():
             if test_db_connection():
-                logger.info("✓ Database connected successfully")
+                logger.info("[OK] Database connected successfully")
             else:
-                logger.warning("⚠ Database connection test failed - Auth features may not work")
+                logger.warning("[WARN] Database connection test failed - Auth features may not work")
         else:
-            logger.warning("⚠ Database pool initialization failed - Auth features may not work")
+            logger.warning("[WARN] Database pool initialization failed - Auth features may not work")
         
         # Initialize Whisper model
         initialize_model()
@@ -884,16 +1180,16 @@ if __name__ == '__main__':
         logger.info("="*60)
         
         # Start Flask app
-        print("\n🚀 Server starting on http://0.0.0.0:5000")
-        print("📝 Logs available at: logs/system.log")
-        print("🎤 Ready for Urdu transcription")
-        print("🔐 Authentication enabled\n")
+        print("\nServer starting on http://0.0.0.0:5000")
+        print("Logs available at: logs/system.log")
+        print("Ready for Urdu transcription")
+        print("Authentication enabled\n")
         
         app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
         
     except Exception as e:
         logger.error(f"Failed to start backend: {str(e)}", exc_info=True)
-        print(f"\n❌ Error: {str(e)}")
+        print(f"\n[ERROR] Error: {str(e)}")
         print("Please check logs/system.log for details\n")
         exit(1)
     finally:

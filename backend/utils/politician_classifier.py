@@ -4,6 +4,7 @@ Uses ResNet-18 CNN model trained on Pakistani politicians dataset
 """
 import torch
 import torch.nn as nn
+import gc
 from torchvision import models, transforms
 from PIL import Image
 import cv2
@@ -59,12 +60,12 @@ class PoliticianClassifier:
             self.model.to(self.device)
             self.model.eval()
 
-            logger.info("✓ Politician classification model loaded successfully")
-            logger.info(f"✓ Using device: {self.device}")
-            logger.info(f"✓ Classes: {self.class_names}")
+            logger.info("[OK] Politician classification model loaded successfully")
+            logger.info(f"[OK] Using device: {self.device}")
+            logger.info(f"[OK] Classes: {self.class_names}")
 
         except Exception as e:
-            logger.error(f"✗ Failed to load politician classification model: {str(e)}")
+            logger.error(f"[FAIL] Failed to load politician classification model: {str(e)}")
             raise e
 
     def extract_frames(self, video_path, interval_seconds=25):
@@ -123,9 +124,9 @@ class PoliticianClassifier:
 
                     frames_data.append((pil_image, timestamp, frame_idx))
 
-                    logger.info(f"✓ Extracted frame at {timestamp:.1f}s")
+                    logger.info(f"[OK] Extracted frame at {timestamp:.1f}s")
                 else:
-                    logger.warning(f"✗ Failed to read frame {frame_idx}")
+                    logger.warning(f"[FAIL] Failed to read frame {frame_idx}")
 
             cap.release()
 
@@ -140,11 +141,11 @@ class PoliticianClassifier:
                      frames_data.append((pil_image, 0.0, 0))
                 cap.release()
 
-            logger.info(f"✓ Successfully extracted {len(frames_data)} frames")
+            logger.info(f"[OK] Successfully extracted {len(frames_data)} frames")
             return frames_data
 
         except Exception as e:
-            logger.error(f"✗ Failed to extract frames: {str(e)}")
+            logger.error(f"[FAIL] Failed to extract frames: {str(e)}")
             raise e
 
     def classify_frame(self, frame_image):
@@ -172,7 +173,7 @@ class PoliticianClassifier:
             politician_name = self.class_names[predicted_idx.item()]
             confidence_score = confidence.item()
 
-            logger.info(f"✓ Classified: {politician_name} ({confidence_score:.1f}%)")
+            logger.info(f"[OK] Classified: {politician_name} ({confidence_score:.1f}%)")
 
             return {
                 'politician_name': politician_name,
@@ -182,7 +183,7 @@ class PoliticianClassifier:
             }
 
         except Exception as e:
-            logger.error(f"✗ Failed to classify frame: {str(e)}")
+            logger.error(f"[FAIL] Failed to classify frame: {str(e)}")
             raise e
 
     def classify_video(self, video_path, video_id, user_id):
@@ -243,7 +244,7 @@ class PoliticianClassifier:
                     classification_data['id'] = classification_id
                     classifications.append(classification_data)
 
-                logger.info(f"[Video {video_id}] ✓ Saved classification for frame {frame_num}")
+                logger.info(f"[Video {video_id}] [OK] Saved classification for frame {frame_num}")
 
             # --- Business Logic: Majority Voting & Threshold ---
             if results_for_voting:
@@ -278,11 +279,11 @@ class PoliticianClassifier:
             else:
                 logger.warning(f"[Video {video_id}] No frames classified. Cannot identify speaker.")
 
-            logger.info(f"[Video {video_id}] ✓ Completed classification of {len(classifications)} frames")
+            logger.info(f"[Video {video_id}] [OK] Completed classification of {len(classifications)} frames")
             return classifications
 
         except Exception as e:
-            logger.error(f"[Video {video_id}] ✗ Classification failed: {str(e)}")
+            logger.error(f"[Video {video_id}] [FAIL] Classification failed: {str(e)}")
 
             # Create failed classification record
             try:
@@ -296,7 +297,7 @@ class PoliticianClassifier:
                     classification_data={'error': str(e)}
                 )
             except Exception as db_error:
-                logger.error(f"[Video {video_id}] ✗ Failed to save error record: {str(db_error)}")
+                logger.error(f"[Video {video_id}] [FAIL] Failed to save error record: {str(db_error)}")
 
             raise e
 
@@ -376,6 +377,20 @@ class PoliticianClassifier:
 
 # Global classifier instance
 _classifier_instance = None
+
+def unload_classifier():
+    """Free politician classifier from GPU to reclaim VRAM."""
+    global _classifier_instance
+    if _classifier_instance is not None:
+        if _classifier_instance.model is not None:
+            del _classifier_instance.model
+            _classifier_instance.model = None
+        del _classifier_instance
+        _classifier_instance = None
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    logger.info("Politician classifier unloaded from VRAM")
 
 def get_classifier(model_path="best_politician_resnet_v2.pth"):
     """

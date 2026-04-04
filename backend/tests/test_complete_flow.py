@@ -24,24 +24,24 @@ def test_complete_flow():
     })
     
     if login_response.status_code != 200:
-        print(f"✗ Login failed: {login_response.status_code}")
+        print(f"[FAIL] Login failed: {login_response.status_code}")
         return False
     
     token = login_response.json()['token']
     user_id = login_response.json()['user']['id']
     username = login_response.json()['user']['username']
-    print(f"✓ Logged in as: {username}")
+    print(f"[OK] Logged in as: {username}")
     print(f"  User ID: {user_id}")
     print(f"  Token: {token[:50]}...")
     
     # Step 2: Check video file
     print(f"\n2. Checking video file...")
     if not os.path.exists(VIDEO_PATH):
-        print(f"✗ Video file not found: {VIDEO_PATH}")
+        print(f"[FAIL] Video file not found: {VIDEO_PATH}")
         return False
     
     file_size = os.path.getsize(VIDEO_PATH)
-    print(f"✓ Video found: {VIDEO_PATH}")
+    print(f"[OK] Video found: {VIDEO_PATH}")
     print(f"  Size: {file_size / 1024 / 1024:.2f} MB")
     
     # Step 3: Upload video for transcription
@@ -54,13 +54,13 @@ def test_complete_flow():
         )
     
     if upload_response.status_code != 200:
-        print(f"✗ Upload failed: {upload_response.status_code}")
+        print(f"[FAIL] Upload failed: {upload_response.status_code}")
         print(f"  Response: {upload_response.text}")
         return False
     
     job_data = upload_response.json()
     job_id = job_data['job_id']
-    print(f"✓ Video uploaded successfully")
+    print(f"[OK] Video uploaded successfully")
     print(f"  Job ID: {job_id}")
     print(f"  Filename: {job_data['filename']}")
     
@@ -74,7 +74,7 @@ def test_complete_flow():
         status_response = requests.get(f'{BASE_URL}/api/status/{job_id}')
         
         if status_response.status_code != 200:
-            print(f"✗ Status check failed")
+            print(f"[FAIL] Status check failed")
             return False
         
         status_data = status_response.json()
@@ -84,7 +84,7 @@ def test_complete_flow():
         print(f"  [{attempt+1}] Status: {current_status} - {current_step}")
         
         if current_status == 'completed':
-            print(f"\n✓ Transcription completed!")
+            print(f"\n[OK] Transcription completed!")
             print(f"  Processing time: {status_data.get('processing_time', 'N/A')}s")
             print(f"  Transcript length: {len(status_data.get('transcript', ''))} characters")
             print(f"  Language: {status_data.get('language', 'N/A')}")
@@ -108,14 +108,14 @@ def test_complete_flow():
             break
         
         elif current_status == 'failed':
-            print(f"\n✗ Transcription failed")
+            print(f"\n[FAIL] Transcription failed")
             print(f"  Error: {status_data.get('error', 'Unknown error')}")
             return False
         
         attempt += 1
     
     if attempt >= max_attempts:
-        print(f"\n✗ Timeout: Transcription took too long")
+        print(f"\n[FAIL] Timeout: Transcription took too long")
         return False
     
     # Step 5: Verify database records (using direct Python import)
@@ -130,7 +130,7 @@ def test_complete_flow():
     
     # Get user's videos
     user_videos = Video.get_user_videos(user_id)
-    print(f"✓ Found {len(user_videos)} video(s) in database")
+    print(f"[OK] Found {len(user_videos)} video(s) in database")
     
     if user_videos:
         latest_video = user_videos[0]
@@ -142,7 +142,7 @@ def test_complete_flow():
     
     # Get user's transcriptions
     user_transcriptions = Transcription.get_user_transcriptions(user_id)
-    print(f"\n✓ Found {len(user_transcriptions)} transcription(s) in database")
+    print(f"\n[OK] Found {len(user_transcriptions)} transcription(s) in database")
     
     if user_transcriptions:
         latest_trans = user_transcriptions[0]
@@ -156,18 +156,18 @@ def test_complete_flow():
     close_db_pool()
     
     print("\n" + "="*70)
-    print("✓ COMPLETE END-TO-END TEST PASSED!")
+    print("[OK] COMPLETE END-TO-END TEST PASSED!")
     print("="*70)
     
     print("\nVerified:")
-    print("✓ User authentication")
-    print("✓ Video upload")
-    print("✓ Audio processing (noise reduction, normalization)")
-    print("✓ Whisper transcription")
-    print("✓ Status polling")
-    print("✓ Database storage (videos table)")
-    print("✓ Database storage (transcriptions table)")
-    print("✓ Complete workflow integration")
+    print("[OK] User authentication")
+    print("[OK] Video upload")
+    print("[OK] Audio processing (noise reduction, normalization)")
+    print("[OK] Whisper transcription")
+    print("[OK] Status polling")
+    print("[OK] Database storage (videos table)")
+    print("[OK] Database storage (transcriptions table)")
+    print("[OK] Complete workflow integration")
     
     return True
 
@@ -175,6 +175,6 @@ if __name__ == '__main__':
     try:
         test_complete_flow()
     except Exception as e:
-        print(f"\n✗ Test failed with exception: {e}")
+        print(f"\n[FAIL] Test failed with exception: {e}")
         import traceback
         traceback.print_exc()

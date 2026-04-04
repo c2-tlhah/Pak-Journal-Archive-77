@@ -14,6 +14,7 @@ const Profile = () => {
   const [message, setMessage] = useState({ type: '', text: '' });
   const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
+    username: '',
     full_name: '',
     birth_date: '',
     country: '',
@@ -24,6 +25,7 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       setFormData({
+        username: user.username || '',
         full_name: user.full_name || '',
         birth_date: user.birth_date || '',
         country: user.country || '',
@@ -226,6 +228,28 @@ const Profile = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Username */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider">
+                    <User size={16} className="text-amber-500" />
+                    Username
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
+                      placeholder="Enter your username"
+                    />
+                  ) : (
+                    <p className="text-lg text-slate-900 font-medium border-b border-slate-100 pb-2">
+                      {user.username || <span className="text-slate-400 italic">Not set</span>}
+                    </p>
+                  )}
+                </div>
+
                 {/* Full Name */}
                 <div className="space-y-2">
                   <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider">
@@ -343,6 +367,7 @@ const Profile = () => {
                     onClick={() => {
                       setIsEditing(false);
                       setFormData({
+                        username: user.username || '',
                         full_name: user.full_name || '',
                         birth_date: user.birth_date || '',
                         country: user.country || '',
