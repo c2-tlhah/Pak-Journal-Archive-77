@@ -16,3 +16,14 @@ dist/
 *.wav
 backend/uploads/
 backend/processed_audio/
+
+# Debug / temp files
+backend/_debug_*.py
+backend/debug_*.py
+backend/debug_*.txt
+backend/clean_tags.py
+backend/reprocess_categories.py
+backend/outputs/
+outputs/
+logs/
+*.log
