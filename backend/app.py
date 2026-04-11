@@ -14,6 +14,8 @@ from utils.politician_classifier import classify_video_politicians, unload_class
 from database.db_config import init_db_pool, test_db_connection, close_db_pool
 from database.video_models import Video, Transcription, PoliticianClassification, Entity
 from routes.auth import auth_bp, token_required
+from routes.search import search_bp
+from search.search_engine import filter_entities
 try:
     from tagging import run_tagging_pipeline
     _TAGGING_AVAILABLE = True
@@ -31,6 +33,9 @@ CORS(app)  # Enable CORS for React frontend
 
 # Register authentication blueprint
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
+
+# Register search blueprint
+app.register_blueprint(search_bp)
 
 # Serve uploaded files (including profile pictures)
 @app.route('/uploads/<path:filename>')
@@ -682,7 +687,7 @@ def get_user_videos(current_user):
                 'speaker': video.get('speaker', 'Unknown Speaker'), # Add speaker field
                 'category': video.get('category'),
                 'tags': video.get('tags') or [],
-                'entities': Entity.get_by_video_id(str(video['id'])),
+                'entities': filter_entities(Entity.get_by_video_id(str(video['id']))),
                 'frontend_payload': video.get('frontend_payload') or {},
             }
             
@@ -1176,6 +1181,15 @@ if __name__ == '__main__':
         # Initialize Whisper model
         initialize_model()
         logger.info("Whisper model initialized successfully")
+
+        # Initialize FAISS search index (non-blocking, graceful fallback)
+        try:
+            from search.embeddings import init_faiss_index
+            n = init_faiss_index()
+            logger.info(f"[OK] FAISS search index ready ({n} vectors)")
+        except Exception as faiss_err:
+            logger.warning(f"[WARN] FAISS init failed — search will use DB-only mode: {faiss_err}")
+
         logger.info("Backend ready to accept requests")
         logger.info("="*60)
         

@@ -46,7 +46,7 @@ const GoldenBackground = ({ variant = 'home' }) => {
         />
       </div>
 
-      {variant === 'home' ? <DigitalGlobe /> : variant === 'library' ? <LibraryBackground3D /> : <TranscriptionBackground3D />}
+      {variant === 'home' ? <DigitalGlobe /> : variant === 'library' ? <LibraryBackground3D /> : (variant !== 'transcription-noart' && variant !== 'search') && <TranscriptionBackground3D />}
     </>
   );
 };

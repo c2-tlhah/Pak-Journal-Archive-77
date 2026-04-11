@@ -289,9 +289,7 @@ def step2_summarise(segments: List[Dict]) -> Tuple[List[Dict], List[Dict], str]:
     return transcript_chunks, chunk_summaries, video_title
 
 
-# ===================================================================
-# STEP 3 — Embeddings  (LaBSE)
-# ===================================================================
+ 
 def step3_embeddings(segments: List[Dict]):
     """Return (embeddings: np.ndarray, labse) — caller must free labse after step 6."""
     logger.info("[Step 3] Loading LaBSE for embeddings …")
@@ -668,9 +666,7 @@ def step7_vocab_match(segments: List[Dict]
     return matches_list, metrics
 
 
-# ===================================================================
-# STEP 8 — Named Entity Recognition  (WikiANN Urdu)
-# ===================================================================
+ 
 def step8_ner(segments: List[Dict]) -> List[Dict]:
     """Returns ENTITIES_LIST.
 
@@ -1546,6 +1542,37 @@ def run_tagging_pipeline(
     # Step 11
     if video_id and user_id:
         step11_export(ALL_PIPELINE_OUTPUTS, video_id, user_id)
+
+        # Step 11b — Generate & store search embedding, update FAISS index
+        try:
+            from search.embeddings import (
+                build_embedding_input, generate_embedding,
+                save_embedding, get_faiss_index,
+            )
+            summaries_text = [s.get("text", "") for s in summary_list]
+            topic_kws = []
+            for t in topics_list:
+                kws = t.get("topic_keywords", [])
+                if isinstance(kws, list):
+                    topic_kws.extend(str(k) for k in kws)
+            entity_names = [e.get("entity_text", "") for e in entities_list]
+
+            emb_input = build_embedding_input(
+                summaries=summaries_text,
+                topics=topic_kws,
+                entities=entity_names,
+                category=final_category,
+            )
+            if emb_input:
+                emb_vec = generate_embedding(emb_input)
+                save_embedding(video_id, emb_vec, emb_input)
+                get_faiss_index().add(video_id, emb_vec)
+                logger.info(f"[Step 11b] Search embedding saved + indexed for video {video_id}")
+            else:
+                logger.warning("[Step 11b] Empty embedding input — skipping search index")
+        except Exception as emb_err:
+            logger.warning(f"[Step 11b] Search embedding failed (non-fatal): {emb_err}")
+
     else:
         logger.warning("[Step 11] Skipping DB export — no video_id/user_id provided")
         out_dir = Path("outputs")

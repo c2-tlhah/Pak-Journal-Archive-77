@@ -29,3 +29,5 @@ rapidfuzz>=3.0.0
 # OCR dependencies
 paddlepaddle>=2.6.0
 paddleocr>=2.7.0
+# Search dependencies
+faiss-cpu>=1.7.0

@@ -9,6 +9,7 @@ import TranscriptionModule from './components/TranscriptionModule';
 import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './pages/Profile';
 import Library from './pages/Library';
+import Search from './pages/Search';
 
 function App() {
   const basename = import.meta.env.PROD ? '/Pak-Journal-Archive-77' : '';
@@ -48,6 +49,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Library />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/search" 
+                element={
+                  <ProtectedRoute>
+                    <Search />
                   </ProtectedRoute>
                 } 
               />

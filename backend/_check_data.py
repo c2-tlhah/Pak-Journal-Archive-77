@@ -1,0 +1,13 @@
+import psycopg2
+conn = psycopg2.connect(host='localhost', port='5432', dbname='pak_journal_archive', user='postgres', password='postgres')
+cur = conn.cursor()
+cur.execute("SELECT COUNT(*) FROM videos WHERE status = 'completed'")
+print(f"Completed videos: {cur.fetchone()[0]}")
+cur.execute("SELECT COUNT(*) FROM summaries")
+print(f"Summaries: {cur.fetchone()[0]}")
+cur.execute("SELECT COUNT(*) FROM entities")
+print(f"Entities: {cur.fetchone()[0]}")
+cur.execute("SELECT COUNT(*) FROM topics")
+print(f"Topics: {cur.fetchone()[0]}")
+cur.close()
+conn.close()

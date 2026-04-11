@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Radio, FileText, Info, LogIn, UserPlus, User, LogOut, Menu, X } from 'lucide-react';
+import { Radio, FileText, Info, LogIn, UserPlus, User, LogOut, Menu, X, Search, BookOpen } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react';
 
@@ -12,9 +12,10 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/', icon: Radio },
-    { name: 'Transcribe', path: '/transcribe', icon: FileText },
-    { name: 'Archive', path: '/library', icon: FileText },
-    { name: 'About', path: '/about', icon: Info },
+    { name: 'Archive', path: '/transcribe', icon: FileText },
+    { name: 'Library', path: '/library', icon: BookOpen },
+    { name: 'Search', path: '/search', icon: Search },
+    { name: 'About', path: '/about', icon: Info, iconOnly: true },
   ];
 
   return (
@@ -24,7 +25,7 @@ const Navbar = () => {
       className="fixed top-0 left-0 right-0 z-50"
     >
       <div className="w-full backdrop-blur-2xl bg-slate-950/60 border-b border-slate-800/50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-2 md:px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo with News Icon */}
             <Link to="/" className="z-50">
@@ -56,16 +57,17 @@ const Navbar = () => {
                 return (
                   <Link key={item.path} to={item.path}>
                     <motion.div
-                      className={`px-5 py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 ${
+                      className={`${item.iconOnly ? 'px-3' : 'px-4'} py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 ${
                         isActive
                           ? 'bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-lg shadow-slate-300/50 border border-slate-200'
                           : 'text-slate-300 hover:text-white bg-slate-800/40 hover:bg-slate-800/60'
                       }`}
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.98 }}
+                      title={item.iconOnly ? item.name : undefined}
                     >
                       <Icon className="w-4 h-4" />
-                      {item.name}
+                      {!item.iconOnly && item.name}
                     </motion.div>
                   </Link>
                 );

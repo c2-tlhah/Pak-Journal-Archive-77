@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Play, FileAudio, Copy, CheckCircle, XCircle, Loader2, FileText, Download, RefreshCw, Sparkles, Zap, Clock, Globe } from 'lucide-react';
+import { Upload, Play, FileAudio, Copy, CheckCircle, XCircle, Loader2, FileText, Download, RefreshCw, Sparkles, Zap, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GoldenBackground from './GoldenBackground';
 
@@ -184,7 +184,7 @@ const TranscriptionModule = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden pt-24 pb-12 px-4 flex flex-col items-center justify-center">
-      <GoldenBackground variant="transcription" />
+      <GoldenBackground variant="transcription-noart" />
       
       <div className="relative z-10 w-full max-w-3xl mx-auto">
         {/* Hero Section - Minimalist */}
@@ -319,21 +319,11 @@ const TranscriptionModule = () => {
                   />
                   <motion.div 
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
                   >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-700/30 flex items-center justify-center">
-                      <Globe className="w-8 h-8 text-amber-200" />
-                    </div>
+                    <div className="w-12 h-12 rounded-full border-4 border-transparent border-t-amber-400 border-r-amber-300" />
                   </motion.div>
-                  <motion.div 
-                    className="absolute -inset-4 bg-amber-500/20 rounded-full blur-2xl"
-                    animate={{ 
-                      scale: [1, 1.3, 1],
-                      opacity: [0.3, 0.6, 0.3]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
                 </div>
                 
                 <div className="text-center space-y-3">
