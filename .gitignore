@@ -14,8 +14,8 @@ dist/
 *.mp4
 *.mp3
 *.wav
-# backend/uploads/
-# backend/processed_audio/
+backend/uploads/
+backend/processed_audio/
 
 # Debug / temp files
 backend/_debug_*.py
